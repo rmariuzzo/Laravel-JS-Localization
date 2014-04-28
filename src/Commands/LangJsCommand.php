@@ -34,7 +34,7 @@ class LangJsCommand extends Command
     protected function getArguments()
     {
         return array(
-            array('target', InputArgument::OPTIONAL, 'Target path.', public_path() . '/lang.js'),
+            array('target', InputArgument::OPTIONAL, 'Target path.', public_path() . '/messages.js'),
         );
     }
 
