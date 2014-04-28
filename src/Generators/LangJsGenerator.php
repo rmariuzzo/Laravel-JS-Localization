@@ -14,6 +14,7 @@ class LangJsGenerator
     public function make($target)
     {
         $messages = $this->getMessages();
+        $this->prepareTarget($target);
         return $this->file->put($target, json_encode($messages));
     }
 
@@ -39,5 +40,15 @@ class LangJsGenerator
         }
 
         return $messages;
+    }
+
+    protected function prepareTarget($target)
+    {
+        $dirname = dirname($target);
+
+        if ( ! $this->file->exists($dirname) )
+        {
+            $this->file->makeDirectory($dirname);
+        }
     }
 }

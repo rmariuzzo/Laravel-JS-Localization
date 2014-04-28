@@ -15,7 +15,7 @@ class LangJsCommandTest extends PHPUnit_Framework_TestCase
 
         $app = $app->shouldReceive('make')
             ->with('path.public')
-            ->andReturn('/tmp');
+            ->andReturn('tmp');
 
         $app = $app->shouldReceive('make')
             ->with('path')
