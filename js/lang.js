@@ -108,6 +108,9 @@
      * @return {object} A key object with main and sub properties.
      */
     Lang.prototype.parseKey = function(key) {
+        if (typeof key !== 'string') {
+            return null;
+        }
         var segments = key.split('.');
         var subKey = segments.pop();
         segments.unshift(this.getLocale());
