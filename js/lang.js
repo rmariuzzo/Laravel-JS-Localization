@@ -1,6 +1,7 @@
 /*!
  *  Lang.js for Laravel localization in JavaScript.
  *
+ *  @version 1.0.0
  *  @license MIT
  *  @site    https://github.com/rmariuzzo/Laravel-JS-Localization
  *  @author  rmariuzzo
@@ -9,6 +10,7 @@
 'use strict';
 
 (function(root, factory) {
+
     if (typeof define === 'function' && define.amd) {
         // AMD support.
         define([], factory);
@@ -19,6 +21,7 @@
         // Browser global support.
         root.Lang = factory();
     }
+
 }(this, function() {
 
     // Default options //
@@ -70,7 +73,7 @@
      * @return {boolean} true if the given key is defined on the messages source, otherwise false.
      */
     Lang.prototype.has = function(key) {
-        if (!this.messages) {
+        if (typeof key !== 'string' || !this.messages) {
             return false;
         }
         key = this.parseKey(key);
