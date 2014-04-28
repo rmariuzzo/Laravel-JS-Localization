@@ -25,10 +25,10 @@ class LangJsCommand extends Command
 
         if ($this->generator->make($target))
         {
-            return $this->info("Created {$target}");
+            return $this->info("Created: {$target}");
         }
 
-        $this->error("Could not create {$target}");
+        $this->error("Could not create: {$target}");
     }
 
     protected function getArguments()

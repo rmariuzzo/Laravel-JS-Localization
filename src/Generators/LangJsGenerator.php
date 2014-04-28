@@ -13,14 +13,31 @@ class LangJsGenerator
 
     public function make($target)
     {
+        $messages = $this->getMessages();
+        return $this->file->put($target, json_encode($messages));
+    }
+
+    protected function getMessages()
+    {
+        $messages = array();
         $path = app_path().'/lang';
 
         if ( ! $this->file->exists($path))
         {
-            throw new Exception("${path} doesn't exists!");
+            throw new \Exception("${path} doesn't exists!");
         }
 
-        $files = $this->file->allFiles($path);
-        var_dump($files);
+        foreach ($this->file->allFiles($path) as $file) {
+
+            $pathName = $file->getRelativePathName();
+
+            if ( $this->file->extension($pathName) !== 'php' ) continue;
+
+            $key = str_replace('/', '.', substr($pathName, 0, -4));
+
+            $messages[ $key ] = include "${path}/${pathName}";
+        }
+
+        return $messages;
     }
 }

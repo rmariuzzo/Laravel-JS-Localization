@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Facade;
 use Illuminate\Filesystem\Filesystem as File;
 use Mariuzzo\LaravelJsLocalization\Commands\LangJsCommand;
 use Mariuzzo\LaravelJsLocalization\Generators\LangJsGenerator;
@@ -21,7 +22,8 @@ class LangJsCommandTest extends PHPUnit_Framework_TestCase
             ->andReturn('tests');
 
         $app = $app->mock();
-        Illuminate\Support\Facades\Facade::setFacadeApplication($app);
+
+        Facade::setFacadeApplication($app);
     }
 
     public function tearDown($value='')
