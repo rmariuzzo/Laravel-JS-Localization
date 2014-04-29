@@ -15,7 +15,14 @@ class LangJsGenerator
     {
         $messages = $this->getMessages();
         $this->prepareTarget($target);
-        return $this->file->put($target, json_encode($messages));
+
+        $template = $this->file->get(__DIR__ . '/Templates/langjs_with_messages.js');
+        $langjs = $this->file->get(__DIR__ . '/../../js/lang.js');
+
+        $template = str_replace('\'{ messages }\'', json_encode($messages), $template);
+        $template = str_replace('\'{ langjs }\';', $langjs, $template);
+
+        return $this->file->put($target, $template);
     }
 
     protected function getMessages()

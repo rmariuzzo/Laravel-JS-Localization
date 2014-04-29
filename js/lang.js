@@ -16,10 +16,10 @@
         define([], factory);
     } else if (typeof exports === 'object') {
         // NodeJS support.
-        module.exports = factory();
+        module.exports = new (factory())();
     } else {
         // Browser global support.
-        root.Lang = factory();
+        root.Lang = new (factory())();
     }
 
 }(this, function() {
