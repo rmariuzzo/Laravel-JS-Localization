@@ -1,4 +1,3 @@
-
 '{ langjs }';
 
 (function(root) {
