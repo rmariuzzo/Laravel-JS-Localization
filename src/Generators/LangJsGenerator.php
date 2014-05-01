@@ -1,6 +1,7 @@
 <?php namespace Mariuzzo\LaravelJsLocalization\Generators;
 
 use Illuminate\Filesystem\Filesystem as File;
+use JShrink\Minifier;
 
 class LangJsGenerator
 {
@@ -11,7 +12,7 @@ class LangJsGenerator
         $this->file = $file;
     }
 
-    public function make($target)
+    public function make($target, $options)
     {
         $messages = $this->getMessages();
         $this->prepareTarget($target);
@@ -21,6 +22,11 @@ class LangJsGenerator
 
         $template = str_replace('\'{ messages }\'', json_encode($messages), $template);
         $template = str_replace('\'{ langjs }\';', $langjs, $template);
+
+        if ($options['compress'])
+        {
+            $template = Minifier::minify($template);
+        }
 
         return $this->file->put($target, $template);
     }

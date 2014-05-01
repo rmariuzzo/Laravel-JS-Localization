@@ -22,8 +22,11 @@ class LangJsCommand extends Command
     public function fire()
     {
         $target = $this->argument('target');
+        $options = array(
+            'compress' => $this->option('compress')
+        );
 
-        if ($this->generator->make($target))
+        if ($this->generator->make($target, $options))
         {
             return $this->info("Created: {$target}");
         }
@@ -40,6 +43,8 @@ class LangJsCommand extends Command
 
     protected function getOptions()
     {
-        return array();
+        return array(
+            array('compress', 'c', InputOption::VALUE_NONE, 'Compress the JavaScript file.', null),
+        );
     }
 }
