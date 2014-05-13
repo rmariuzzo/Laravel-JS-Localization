@@ -76,8 +76,9 @@
         if (typeof key !== 'string' || !this.messages) {
             return false;
         }
-        key = this.parseKey(key);
-        return !!(this.messages[key.main] && this.messages[key.main][key.sub] !== undefined);
+        var message = this._getMessage(key);
+
+        return message !== undefined && typeof message === "string";
     };
 
     /**
@@ -112,11 +113,11 @@
             return null;
         }
         var segments = key.split('.');
-        var subKey = segments.pop();
-        segments.unshift(this.getLocale());
+        var main = this.getLocale() + '\\' + segments.shift();
+
         return {
-            main: segments.join('.'),
-            sub: subKey
+            main: main,
+            sub: segments
         };
     };
 
@@ -129,11 +130,33 @@
      * @return {string} The translation message for the given key.
      */
     Lang.prototype.getMessage = function(key, replacements) {
-        key = this.parseKey(key);
-        var message = this.messages[key.main][key.sub];
+        var message = this._getMessage(key);
+
         for (var replace in replacements) {
             message = message.split(':' + replace).join(replacements[replace]);
         }
+
+        return message;
+    };
+    
+     /**
+     * Get nested message.
+     *
+     * @param key
+     * @returns {*}
+     * @private
+     */
+    Lang.prototype._getMessage = function (key) {
+        key = this.parseKey(key);
+
+        var length = key.sub.length,
+            message = this.messages[key.main],
+            i;
+
+        for ( i = 0; i < length; i++ ) {
+            message = message[key.sub[i]];
+        }
+
         return message;
     };
 
