@@ -72,3 +72,36 @@ Want to contribute?
  1. Fork this repository and clone it.
  2. Create a branch from develop: `git checkout -b feature-foo`.
  3. Push your commits and create a pull request.
+
+Setting up development environment
+----------------------------------
+
+**Prerequisites:**
+
+You need to have installed the following softwares.
+
+ - Composer.
+ - NodeJS.
+ - NPM.
+ - PHP 5.4+.
+
+After getting all the required softwares you may run the following commands to get everything ready:
+
+ 1. Install PHP dependencies:
+
+        composer install
+
+ 2. Install NPM dependences:
+
+        npm install
+
+Now you are good to go! Happy coding!
+
+Unit testing
+------------
+
+This project use Node-Jasmine as the test runner. All tests are stored at `tests/spec` directory.
+
+To run all tests type in you terminal:
+
+    npm test
