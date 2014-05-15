@@ -127,7 +127,7 @@
                 explicitRules.push(messageSpaceSplit.shift());
                 messageParts[i] = messageSpaceSplit.join(' ');
             }
-        };
+        }
 
         // Check if there's only one message
         if (messageParts.length === 1) {
@@ -140,7 +140,7 @@
             if (this._testInterval(count, explicitRules[i])) {
                 return messageParts[i];
             }
-        };
+        }
 
         // Standard rules
         if (count > 1) {
