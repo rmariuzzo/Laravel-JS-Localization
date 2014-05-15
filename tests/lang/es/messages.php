@@ -35,5 +35,5 @@ return array(
     'save' => 'Guardar',
     'language' => 'Idioma',
     'settingsSaved' => 'Configuración guardada satisfactoriamente!',
-
+    'messagePlural' => 'Una manzana|Muchas manzanas'
 );

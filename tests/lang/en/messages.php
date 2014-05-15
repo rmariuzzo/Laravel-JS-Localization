@@ -35,7 +35,6 @@ return array(
     'save' => 'Save',
     'language' => 'Language',
     'settingsSaved' => 'Settings saved successfully!',
-
     'family' => array(
             'father' => 'John',
             'mother' => 'Susan',
@@ -43,5 +42,5 @@ return array(
                  'son' => 'Jimmy',
             ),
     ),
-
+    'plural' => 'one apple|a million apples'
 );

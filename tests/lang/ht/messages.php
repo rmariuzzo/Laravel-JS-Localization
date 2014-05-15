@@ -35,5 +35,5 @@ return array(
     'save' => 'Sere',
     'language' => 'Langaj',
     'settingsSaved' => 'Paramet sere!',
-
+    'messagePlural' => 'singular apple|plural apples' // don't know the language
 );
