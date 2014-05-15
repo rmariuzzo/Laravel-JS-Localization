@@ -195,11 +195,32 @@
         // Separate the plural from the singular, if any
         var messageParts = message.split('|');
 
+        // Get the explicit rules, If any
+        var explicitRules = [];
+        var regex = /{\d+}\s(.+)|\[\d+,\d+\]\s(.+)|\[\d+,Inf\]\s(.+)/;
+
+        for (var i = 0; i < messageParts.length; i++) {
+            messageParts[i] = messageParts[i].trim();
+
+            if(regex.test(messageParts[i])){
+                var messageSpaceSplit = messageParts[i].split(/\s/);
+                explicitRules.push(messageSpaceSplit.shift());
+                messageParts[i] = messageSpaceSplit.join(' ');
+            }
+        };
+
         // Check if there's only one message
         if(messageParts.length === 1){
             // Nothing to do here
             return message;
         }
+
+        // Check the explicit rules
+        for (var i = 0; i < explicitRules.length; i++) {
+            if(this.testInterval(count, explicitRules[i])){
+                return messageParts[i];
+            }
+        };
 
         // Standard rules
         if(count > 1){
@@ -207,7 +228,29 @@
         }else{
             return messageParts[0];
         }
-    }
+    };
+
+    /**
+     * Checks if the given `count` is within the interval defined by the {string} `interval`
+     * 
+     * @param  {int} count          The amount of items
+     * @param  {string} interval    The interval to be compared with the count
+     * @return {boolean}            Returns true if count is within interval; false otherwise
+     */
+    Lang.prototype.testInterval = function(count, interval) {
+        /**
+        * From the Synfony\Component\Translation\Interval Docs
+        *
+        * Tests if a given number belongs to a given math interval.
+        * An interval can represent a finite set of numbers: {1,2,3,4}
+        * An interval can represent numbers between two numbers: [1, +Inf] ]-1,2[
+        * The left delimiter can be [ (inclusive) or ] (exclusive). 
+        * The right delimiter can be [ (exclusive) or ] (inclusive). 
+        * Beside numbers, you can use -Inf and +Inf for the infinite.
+        */
+
+        return false;
+    };
 
     return Lang;
 
