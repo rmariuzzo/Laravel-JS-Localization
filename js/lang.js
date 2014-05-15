@@ -169,6 +169,46 @@
         return message;
     };
 
+    /**
+     * Gets the plural or singular form of the message specified based on an integer value.
+     * 
+     * @param key {string} The key of the message.
+     * @param count {integer} The number of elements.
+     * @param replacements {object} The replacements to be done in the message.
+     * @param locale {string} Language to be used when getting the message.
+     *
+     * @return {string} The translation message according to an integer value.
+     */
+    Lang.prototype.choice = function(key,count,replacements,locale){
+        // Set default values for parameters replace and locale
+        replacements = typeof replacements !== 'undefined' ? replacements : [];
+        locale = typeof locale !== 'undefined' ? locale : this.getLocale();
+
+        // Message to get the plural or singular
+        var message = this.get(key, replacements);
+
+        // Check if message is not null or undefined
+        if(message === null || message === undefined){
+            return message;
+        }
+
+        // Separate the plural from the singular, if any
+        var messageParts = message.split('|');
+
+        // Check if there's only one message
+        if(messageParts.length === 1){
+            // Nothing to do here
+            return message;
+        }
+
+        // Standard rules
+        if(count > 1){
+            return messageParts[1];
+        }else{
+            return messageParts[0];
+        }
+    }
+
     return Lang;
 
 }));
