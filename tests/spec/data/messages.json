@@ -97,7 +97,8 @@
         "settings": "Settings",
         "save": "Save",
         "language": "Language",
-        "settingsSaved": "Settings saved successfully!"
+        "settingsSaved": "Settings saved successfully!",
+        "plural": "one apple|a million apples"
     },
     "en.pagination": {
         "previous": "&laquo; Previous",

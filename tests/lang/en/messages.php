@@ -35,5 +35,5 @@ return array(
     'save' => 'Save',
     'language' => 'Language',
     'settingsSaved' => 'Settings saved successfully!',
-
+    'plural' => 'one apple|a million apples'
 );
