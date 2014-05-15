@@ -217,7 +217,7 @@
 
         // Check the explicit rules
         for (var i = 0; i < explicitRules.length; i++) {
-            if(this.testInterval(count, explicitRules[i])){
+            if(this._testInterval(count, explicitRules[i])){
                 return messageParts[i];
             }
         };
@@ -233,11 +233,11 @@
     /**
      * Checks if the given `count` is within the interval defined by the {string} `interval`
      * 
-     * @param  {int} count          The amount of items
-     * @param  {string} interval    The interval to be compared with the count
-     * @return {boolean}            Returns true if count is within interval; false otherwise
+     * @param  count {int}  The amount of items.
+     * @param  interval {string}    The interval to be compared with the count.
+     * @return {boolean}    Returns true if count is within interval; false otherwise.
      */
-    Lang.prototype.testInterval = function(count, interval) {
+    Lang.prototype._testInterval = function(count, interval) {
         /**
         * From the Synfony\Component\Translation\Interval Docs
         *
