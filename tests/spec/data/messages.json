@@ -97,7 +97,14 @@
         "settings": "Settings",
         "save": "Save",
         "language": "Language",
-        "settingsSaved": "Settings saved successfully!"
+        "settingsSaved": "Settings saved successfully!",
+        "family": {
+            "father": "John",
+            "mother": "Susan",
+            "children": {
+                "son": "Jimmy"
+            }
+        }
     },
     "en.pagination": {
         "previous": "&laquo; Previous",

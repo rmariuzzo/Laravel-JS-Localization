@@ -25,6 +25,16 @@ describe('The Lang.get() method', function() {
         expect(Lang.get('messages.home')).toBe('Home');
     });
 
+    it('should return the expected nested message', function() {
+        expect(Lang.get('messages.family.father')).toBe('John');
+        expect(Lang.get('messages.family.children.son')).toBe('Jimmy');
+    });
+
+    it('should return the passed key when nested message does not point to a message', function() {
+        expect(Lang.get('messages.family.children')).toBe('messages.family.children');
+        expect(Lang.get('a.b.c.d.f.g.h.i.j.k')).toBe('a.b.c.d.f.g.h.i.j.k');
+    });
+
     it('should return the expected message with replacements', function() {
         expect(Lang.get('validation.accepted')).toBe('The :attribute must be accepted.');
         expect(Lang.get('validation.accepted', {

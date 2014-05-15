@@ -16,10 +16,10 @@
         define([], factory);
     } else if (typeof exports === 'object') {
         // NodeJS support.
-        module.exports = new (factory())();
+        module.exports = new(factory())();
     } else {
         // Browser global support.
-        root.Lang = new (factory())();
+        root.Lang = new(factory())();
     }
 
 }(this, function() {
@@ -28,7 +28,7 @@
 
     var defaults = {
         defaultLocale: 'en' /** The default locale if not set. */
-    }
+    };
 
     // Constructor //
 
@@ -59,10 +59,20 @@
      * @return {string} The translation message, if not found the given key.
      */
     Lang.prototype.get = function(key, replacements) {
-        if (typeof key !== 'string' || !this.has(key)) {
+        if (!this.has(key)) {
             return key;
         }
-        return this.getMessage(key, replacements);
+
+        var message = this._getMessage(key, replacements);
+        if (message === null) {
+            return key;
+        }
+
+        if (replacements) {
+            message = this._applyReplacements(message, replacements);
+        }
+
+        return message;
     };
 
     /**
@@ -76,9 +86,7 @@
         if (typeof key !== 'string' || !this.messages) {
             return false;
         }
-        var message = this._getMessage(key);
-
-        return message !== undefined && typeof message === "string";
+        return this._getMessage(key) !== null;
     };
 
     /**
@@ -106,18 +114,16 @@
      *
      * @param key {string} The message key to parse.
      *
-     * @return {object} A key object with main and sub properties.
+     * @return {object} A key object with source and entries properties.
      */
-    Lang.prototype.parseKey = function(key) {
+    Lang.prototype._parseKey = function(key) {
         if (typeof key !== 'string') {
             return null;
         }
         var segments = key.split('.');
-        var main = this.getLocale() + '\\' + segments.shift();
-
         return {
-            main: main,
-            sub: segments
+            source: this.getLocale() + '.' + segments[0],
+            entries: segments.slice(1)
         };
     };
 
@@ -125,38 +131,41 @@
      * Returns a translation message. Use `Lang.get()` method instead, this methods assumes the key exists.
      *
      * @param key {string} The key of the message.
-     * @param replacements {object} The replacements to be done in the message.
      *
      * @return {string} The translation message for the given key.
      */
-    Lang.prototype.getMessage = function(key, replacements) {
-        var message = this._getMessage(key);
+    Lang.prototype._getMessage = function(key) {
 
-        for (var replace in replacements) {
-            message = message.split(':' + replace).join(replacements[replace]);
+        key = this._parseKey(key);
+
+        // Ensure message source exists.
+        if (this.messages[key.source] === undefined) {
+            return null;
+        }
+
+        // Get message text.
+        var message = this.messages[key.source];
+        while (key.entries.length && (message = message[key.entries.shift()]));
+
+        if (typeof message !== 'string') {
+            return null;
         }
 
         return message;
     };
-    
-     /**
-     * Get nested message.
+
+    /**
+     * Apply replacements to a string message containing placeholders.
      *
-     * @param key
-     * @returns {*}
-     * @private
+     * @param message {string} The text message.
+     * @param replacements {object} The replacements to be done in the message.
+     *
+     * @return {string} The string message with replacements applied.
      */
-    Lang.prototype._getMessage = function (key) {
-        key = this.parseKey(key);
-
-        var length = key.sub.length,
-            message = this.messages[key.main],
-            i;
-
-        for ( i = 0; i < length; i++ ) {
-            message = message[key.sub[i]];
+    Lang.prototype._applyReplacements = function(message, replacements) {
+        for (var replace in replacements) {
+            message = message.split(':' + replace).join(replacements[replace]);
         }
-
         return message;
     };
 

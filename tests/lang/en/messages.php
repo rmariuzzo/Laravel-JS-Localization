@@ -36,4 +36,12 @@ return array(
     'language' => 'Language',
     'settingsSaved' => 'Settings saved successfully!',
 
+    'family' => array(
+            'father' => 'John',
+            'mother' => 'Susan',
+            'children'  => array(
+                 'son' => 'Jimmy',
+            ),
+    ),
+
 );
