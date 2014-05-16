@@ -64,6 +64,14 @@ This is the documentation regarding the thin JavaScript library. The library hig
 
     Lang.has('messages.foo');
 
+**Support for singular and plural message based on a count**
+
+    Lang.choice('messages.apples', 10);
+
+**Calling the `choice` method with replacements**
+
+    Lang.choice('messages.apples', 10, { name: 'Joe' });    
+
 For more detailed information, take a look at the source: [Lang.js](https://github.com/rmariuzzo/Laravel-JS-Localization/blob/develop/js/lang.js).
 
 Want to contribute?
