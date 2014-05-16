@@ -100,7 +100,10 @@
      */
     Lang.prototype.choice = function(key, count, replacements) {
         // Set default values for parameters replace and locale
-        replacements = typeof replacements !== 'undefined' ? replacements : [];
+        replacements = typeof replacements !== 'undefined' ? replacements : {};
+
+        // The count must be replaced if found in the message
+        replacements['count'] = count;
 
         // Message to get the plural or singular
         var message = this.get(key, replacements);
