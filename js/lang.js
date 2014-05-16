@@ -95,14 +95,12 @@
      * @param key {string} The key of the message.
      * @param count {integer} The number of elements.
      * @param replacements {object} The replacements to be done in the message.
-     * @param locale {string} Language to be used when getting the message.
      *
      * @return {string} The translation message according to an integer value.
      */
-    Lang.prototype.choice = function(key, count, replacements, locale) {
+    Lang.prototype.choice = function(key, count, replacements) {
         // Set default values for parameters replace and locale
         replacements = typeof replacements !== 'undefined' ? replacements : [];
-        locale = typeof locale !== 'undefined' ? locale : this.getLocale();
 
         // Message to get the plural or singular
         var message = this.get(key, replacements);
