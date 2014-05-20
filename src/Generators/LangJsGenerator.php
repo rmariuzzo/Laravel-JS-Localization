@@ -47,7 +47,9 @@ class LangJsGenerator
 
             if ( $this->file->extension($pathName) !== 'php' ) continue;
 
-            $key = str_replace('/', '.', substr($pathName, 0, -4));
+            $key = substr($pathName, 0, -4);
+            $key = str_replace('\\', '.', $key);
+            $key = str_replace('/', '.', $key);
 
             $messages[ $key ] = include "${path}/${pathName}";
         }
