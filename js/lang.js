@@ -1,7 +1,7 @@
 /*!
  *  Lang.js for Laravel localization in JavaScript.
  *
- *  @version 1.0.0
+ *  @version 1.0.2
  *  @license MIT
  *  @site    https://github.com/rmariuzzo/Laravel-JS-Localization
  *  @author  rmariuzzo
@@ -237,7 +237,7 @@
      */
     Lang.prototype._testInterval = function(count, interval) {
         /**
-         * From the Synfony\Component\Translation\Interval Docs
+         * From the Symfony\Component\Translation\Interval Docs
          *
          * Tests if a given number belongs to a given math interval.
          * An interval can represent a finite set of numbers: {1,2,3,4}
