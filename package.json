@@ -12,12 +12,12 @@
     },
     "repository": {
         "type": "git",
-        "url": "git://github.com/rmariuzzo/Laravel-JS-Localization.git"
+        "url": "git://github.com/xAockd/Laravel-JS-Localization.git"
     },
-    "author": "rmariuzzo",
+    "author": "xAockd",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/rmariuzzo/Laravel-JS-Localization/issues"
+        "url": "https://github.com/xAockd/Laravel-JS-Localization/issues"
     },
     "devDependencies": {
         "jasmine-node": "~1.14.3"
