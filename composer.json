@@ -1,10 +1,10 @@
 {
-    "name": "mariuzzo/laravel-js-localization",
+    "name": "xAockd/laravel-js-localization",
     "description": "Laravel Localization in JavaScript",
     "version": "1.0.2",
     "type": "library",
     "keywords": ["laravel", "localization", "i18n", "javascript", "js", "lang"],
-    "homepage": "https://github.com/rmariuzzo/laravel-js-localization",
+    "homepage": "https://github.com/xAockd/laravel-js-localization",
     "license": "MIT",
     "authors": [{
         "name": "Rubens Mariuzzo",
@@ -16,10 +16,14 @@
         "email": "me@gpopoteur.com",
         "homepage": "https://github.com/gpopoteur",
         "role": "Developer"
+    }, {
+        "name": "Dmitriy Galievskiy",
+        "homepage": "https://github.com/xAockd",
+        "role": "Developer"
     }],
     "support": {
-        "issues": "https://github.com/rmariuzzo/laravel-js-localization/issues",
-        "source": "https://github.com/rmariuzzo/laravel-js-localization"
+        "issues": "https://github.com/xAockd/laravel-js-localization/issues",
+        "source": "https://github.com/xAockd/laravel-js-localization"
     },
     "require": {
         "php": ">=5.3.0",
