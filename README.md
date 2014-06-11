@@ -10,7 +10,7 @@ Installation
 
 Add the following line to you `composer.json` file under `require`.
 
-    "mariuzzo/laravel-js-localization": "1.0.*"
+    "xaoc/laravel-js-localization": "dev-master"
 
 Run:
 
