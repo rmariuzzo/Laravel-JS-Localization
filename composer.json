@@ -4,7 +4,7 @@
     "version": "1.0.2",
     "type": "library",
     "keywords": ["laravel", "localization", "i18n", "javascript", "js", "lang"],
-    "homepage": "https://github.com/rmariuzzo/laravel-js-localization",
+    "homepage": "https://github.com/xAockd/laravel-js-localization",
     "license": "MIT",
     "authors": [{
         "name": "Rubens Mariuzzo",
@@ -19,7 +19,7 @@
     }],
     "support": {
         "issues": "https://github.com/rmariuzzo/laravel-js-localization/issues",
-        "source": "https://github.com/rmariuzzo/laravel-js-localization"
+        "source": "https://github.com/xAockd/laravel-js-localization"
     },
     "require": {
         "php": ">=5.3.0",
