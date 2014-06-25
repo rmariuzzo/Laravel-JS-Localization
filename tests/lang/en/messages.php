@@ -42,5 +42,6 @@ return array(
                  'son' => 'Jimmy',
             ),
     ),
-    'plural' => 'one apple|a million apples'
+    'plural' => 'one apple|a million apples',
+    'plural' => ':count apple|:count apples'
 );
