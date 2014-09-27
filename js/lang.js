@@ -223,7 +223,7 @@
      */
     Lang.prototype._applyReplacements = function(message, replacements) {
         for (var replace in replacements) {
-            message = message.split(':' + replace).join(replacements[replace]);
+            message = message.split(new RegExp(":"+replace+"\\b")).join(replacements[replace]);
         }
         return message;
     };
