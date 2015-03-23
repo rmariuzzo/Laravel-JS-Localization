@@ -38,7 +38,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Mariuzzo\\LaravelJsLocalization\\": "src/"
+            "Mariuzzo\\LaravelJsLocalization\\": "src/Mariuzzo/LaravelJsLocalization/"
         }
     },
     "minimum-stability": "stable"
