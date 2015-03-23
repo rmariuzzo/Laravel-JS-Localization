@@ -18,7 +18,7 @@ class LangJsGenerator
         $this->prepareTarget($target);
 
         $template = $this->file->get(__DIR__ . '/Templates/langjs_with_messages.js');
-        $langjs = $this->file->get(__DIR__ . '/../../js/lang.js');
+        $langjs = $this->file->get(__DIR__ . '/../../../js/lang.js');
 
         $template = str_replace('\'{ messages }\'', json_encode($messages), $template);
         $template = str_replace('\'{ langjs }\';', $langjs, $template);
@@ -34,7 +34,7 @@ class LangJsGenerator
     protected function getMessages()
     {
         $messages = array();
-        $path = app_path().'/lang';
+        $path = base_path().'/resources/lang';
 
         if ( ! $this->file->exists($path))
         {
