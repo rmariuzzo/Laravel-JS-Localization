@@ -5,12 +5,14 @@ Laravel JS Localization
 
 This is a simple package that convert all your localization messages of your Laravel app to JavaScript, and provides a small JavaScript library to interact with those messages.
 
+Support Laravel 4.2.
+
 Installation
 ------------
 
 Add the following line to you `composer.json` file under `require`.
 
-    "mariuzzo/laravel-js-localization": "1.0.*"
+    "xaoc/laravel-js-localization": "dev-master"
 
 Run:
 
