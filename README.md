@@ -3,6 +3,8 @@ Laravel JS Localization
 
 > Laravel Localization in JavaScript.
 
+[![Latest Stable Version](https://poser.pugx.org/mariuzzo/laravel-js-localization/v/stable.svg)](https://packagist.org/packages/mariuzzo/laravel-js-localization) [![Total Downloads](https://poser.pugx.org/mariuzzo/laravel-js-localization/downloads.svg)](https://packagist.org/packages/mariuzzo/laravel-js-localization) [![Latest Unstable Version](https://poser.pugx.org/mariuzzo/laravel-js-localization/v/unstable.svg)](https://packagist.org/packages/mariuzzo/laravel-js-localization) [![License](https://poser.pugx.org/mariuzzo/laravel-js-localization/license.svg)](https://packagist.org/packages/mariuzzo/laravel-js-localization)
+
 This is a simple package that convert all your localization messages of your Laravel app to JavaScript, and provides a small JavaScript library to interact with those messages.
 
 Support Laravel 4.2.x and Laravel 5.
