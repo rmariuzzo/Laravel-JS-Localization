@@ -1,7 +1,7 @@
 'use strict';
 
 var util = require('util');
-var Lang = require('../../js/lang.js');
+var Lang = require('../../src/js/lang.js');
 var messages = require('./data/messages');
 
 Lang.setMessages(messages);

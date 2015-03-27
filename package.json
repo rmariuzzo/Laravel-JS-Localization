@@ -2,7 +2,7 @@
     "name": "laravel-js-localization",
     "version": "1.0.2",
     "description": "Laravel Localization in JavaScript",
-    "main": "js/lang.js",
+    "main": "src/js/lang.js",
     "directories": {
         "test": "tests"
     },
@@ -12,7 +12,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git://github.com/xAockd/Laravel-JS-Localization.git"
+        "url": "git://github.com/rmariuzzo/Laravel-JS-Localization.git"
     },
     "author": "rmariuzzo",
     "license": "MIT",

@@ -12,7 +12,7 @@ Installation
 
 Add the following line to you `composer.json` file under `require`.
 
-    "xaoc/laravel-js-localization": "dev-master"
+    "rmariuzzo/laravel-js-localization": "dev-master"
 
 Run:
 
