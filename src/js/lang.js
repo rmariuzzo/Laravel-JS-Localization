@@ -250,6 +250,31 @@
          * Beside numbers, you can use -Inf and +Inf for the infinite.
          */
 
+        var numbers = [];
+        var strCount = ""+count;
+
+
+        if(/\{(.+)}/.test(interval)){
+            numbers = interval.replace('{', '').replace('}', '').split(',');
+
+            if(numbers.indexOf(strCount) >= 0){
+                return true
+            }
+        }
+
+        if(/(\[|\()(.+)(\]|\))/.test(interval)){
+            var linc = interval.indexOf("(") >= 0;
+            var rinc = interval.indexOf(")") >= 0;
+
+            numbers = interval.replace(/(\[|\(|\]|\))/g, '').split(/,\s*/);
+
+            if((numbers[0]=='-Inf' ||(linc && count > Number.parseInt(numbers[0])) || (!linc && count >= Number.parseInt(numbers[0])))
+               ||
+               ((numbers[1]=='Inf' || numbers[1]=='+Inf') || (rinc && count > Number.parseInt(numbers[0])) || (!rinc && count >= Number.parseInt(numbers[0])))){
+                return true;
+            }
+        }
+
         return false;
     };
 
