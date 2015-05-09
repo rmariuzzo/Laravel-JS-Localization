@@ -268,9 +268,15 @@
 
             numbers = interval.replace(/(\[|\(|\]|\))/g, '').split(/,\s*/);
 
-            if((numbers[0]=='-Inf' ||(linc && count > Number.parseInt(numbers[0])) || (!linc && count >= Number.parseInt(numbers[0])))
-               ||
-               ((numbers[1]=='Inf' || numbers[1]=='+Inf') || (rinc && count > Number.parseInt(numbers[0])) || (!rinc && count >= Number.parseInt(numbers[0])))){
+            if(!/Inf|-Inf|\+Inf/.test(numbers[0])){
+                var n0 = Number.parseInt(numbers[0]);
+            }
+
+            if(!/Inf|-Inf|\+Inf/.test(numbers[1])){
+                var n1 = Number.parseInt(numbers[1]);
+            }
+
+            if((n0=='-Inf' ||(linc && count > n0) || (!linc && count >= n0)) && ((n1=='Inf' || n1=='+Inf') || (rinc && count < n1) || (!rinc && count <= n1))){
                 return true;
             }
         }
