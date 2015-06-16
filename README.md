@@ -7,7 +7,7 @@ Laravel JS Localization
 
 This is a simple package that convert all your localization messages of your Laravel app to JavaScript, and provides a small JavaScript library to interact with those messages.
 
-Support Laravel 4.2.x and Laravel 5.
+Support Laravel 4.2.x, Laravel 5 and Laravel 5.1.x.
 
 Installation
 ------------
@@ -33,7 +33,7 @@ That's it!
 Usage
 -----
 
-This project comes with a command that generate the JavaScript version of all your messages found at: `app/lang` directory. The resulting JavaScript file will have the whole bunch of messages and a thin library similar to Laravel's `Lang` class.
+This project comes with a command that generate the JavaScript version of all your messages found at: `app/lang` or `resources/lang` directory. The resulting JavaScript file will have the whole bunch of messages and a thin library similar to Laravel's `Lang` class.
 
 **Generating JS messages**
 
@@ -74,7 +74,7 @@ This is the documentation regarding the thin JavaScript library. The library hig
 
 **Calling the `choice` method with replacements**
 
-    Lang.choice('messages.apples', 10, { name: 'Joe' });    
+    Lang.choice('messages.apples', 10, { name: 'Joe' });
 
 For more detailed information, take a look at the source: [Lang.js](https://github.com/rmariuzzo/Laravel-JS-Localization/blob/develop/js/lang.js).
 
@@ -101,19 +101,31 @@ After getting all the required softwares you may run the following commands to g
 
  1. Install PHP dependencies:
 
+    ```shell
         composer install
+    ```
 
  2. Install NPM dependences:
 
+    ```shell
         npm install
+    ```
 
 Now you are good to go! Happy coding!
 
 Unit testing
 ------------
 
-This project use Node-Jasmine as the test runner. All tests are stored at `tests/spec` directory.
+This project use Node-Jasmine and PHPUnit. All tests are stored at `tests` directory.
 
-To run all tests type in you terminal:
+To run all JS tests type in you terminal:
 
+```shell
     npm test
+```
+
+To run all PHP tests type in your terminal:
+
+```shell
+    phpunit
+```
