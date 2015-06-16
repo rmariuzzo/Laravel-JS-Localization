@@ -3,7 +3,12 @@ Laravel JS Localization
 
 > Laravel Localization in JavaScript.
 
-[![Latest Stable Version](https://poser.pugx.org/mariuzzo/laravel-js-localization/v/stable.svg)](https://packagist.org/packages/mariuzzo/laravel-js-localization) [![Total Downloads](https://poser.pugx.org/mariuzzo/laravel-js-localization/downloads.svg)](https://packagist.org/packages/mariuzzo/laravel-js-localization) [![Latest Unstable Version](https://poser.pugx.org/mariuzzo/laravel-js-localization/v/unstable.svg)](https://packagist.org/packages/mariuzzo/laravel-js-localization) [![License](https://poser.pugx.org/mariuzzo/laravel-js-localization/license.svg)](https://packagist.org/packages/mariuzzo/laravel-js-localization)
+![Laravel 5.1](https://img.shields.io/badge/Laravel-5.1-f4645f.svg)
+![Laravel 5.0](https://img.shields.io/badge/Laravel-5.0-f4645f.svg)
+![Laravel 4.2](https://img.shields.io/badge/Laravel-4.2-f4645f.svg)
+[![Latest Stable Version](https://poser.pugx.org/mariuzzo/laravel-js-localization/v/stable.svg)](https://packagist.org/packages/mariuzzo/laravel-js-localization)
+[![Total Downloads](https://poser.pugx.org/mariuzzo/laravel-js-localization/downloads.svg)](https://packagist.org/packages/mariuzzo/laravel-js-localization)
+[![License](https://poser.pugx.org/mariuzzo/laravel-js-localization/license.svg)](https://packagist.org/packages/mariuzzo/laravel-js-localization)
 
 This is a simple package that convert all your localization messages of your Laravel app to JavaScript, and provides a small JavaScript library to interact with those messages.
 
