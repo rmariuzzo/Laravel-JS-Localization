@@ -1,48 +1,34 @@
 <?php
 
-use Illuminate\Support\Facades\Facade;
+use Illuminate\Foundation\Application;
 use Illuminate\Filesystem\Filesystem as File;
+
 use Mariuzzo\LaravelJsLocalization\Commands\LangJsCommand;
 use Mariuzzo\LaravelJsLocalization\Generators\LangJsGenerator;
-use Symfony\Component\Console\Tester\CommandTester;
-use Mockery as M;
 
+/**
+ * The LangJsCommandTest class.
+ *
+ * @author Rubens Mariuzzo <rubens@mariuzzo.com>
+ */
 class LangJsCommandTest extends PHPUnit_Framework_TestCase
 {
-    public function setUp()
+    /**
+     * Test the command.
+     */
+    public function testCommand()
     {
-        $app = M::mock('Application');
-
-        $app = $app->shouldReceive('make')
-            ->with('path.public')
-            ->andReturn('tmp');
-
-        $app = $app->shouldReceive('make')
-            ->with('path')
-            ->andReturn('tests');
-
-        $app = $app->mock();
-
-        Facade::setFacadeApplication($app);
-    }
-
-    public function tearDown($value='')
-    {
-        M::close();
-    }
-
-    public function testInstance()
-    {
-        $generator = new LangJsGenerator(new File);
+        $generator = new LangJsGenerator(new File, './tests/fixtures/lang');
         $command = new LangJsCommand($generator);
+        $command->setLaravel(new Application);
+        $this->runCommand($command, ['target' => './tests/output/lang.js']);
     }
 
-    public function testFireCommand()
+    /**
+     * Run the command.
+     */
+    protected function runCommand($command, $input = [])
     {
-        $generator = new LangJsGenerator(new File);
-        $command = new LangJsCommand($generator);
-
-        $tester = new CommandTester($command);
-        $tester->execute(array());
+        return $command->run(new Symfony\Component\Console\Input\ArrayInput($input), new Symfony\Component\Console\Output\NullOutput);
     }
 }

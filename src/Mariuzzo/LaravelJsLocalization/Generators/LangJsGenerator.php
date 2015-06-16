@@ -3,16 +3,42 @@
 use Illuminate\Filesystem\Filesystem as File;
 use JShrink\Minifier;
 
+/**
+ * The LangJsGenerator class.
+ *
+ * @author Rubens Mariuzzo <rubens@mariuzzo.com>
+ */
 class LangJsGenerator
 {
+    /**
+     * The file service.
+     */
     protected $file;
 
-    public function __construct(File $file)
+    /**
+     * The source path of the language files.
+     */
+    protected $sourcePath;
+
+    /**
+     * Construct a new LangJsGenerator instance.
+     *
+     * @param Illuminate\Filesystem\File $file       The file service instance.
+     * @param string                     $sourcePath The source path of the language files.
+     */
+    public function __construct(File $file, $sourcePath)
     {
         $this->file = $file;
+        $this->sourcePath = $sourcePath;
     }
 
-    public function make($target, $options)
+    /**
+     * Generate a JS lang file from all language files.
+     *
+     * @param string $target  The target directory.
+     * @param array  $options Array of options.
+     */
+    public function generate($target, $options)
     {
         $messages = $this->getMessages();
         $this->prepareTarget($target);
@@ -31,18 +57,23 @@ class LangJsGenerator
         return $this->file->put($target, $template);
     }
 
+    /**
+     * Return all language messages.
+     *
+     * @return array
+     */
     protected function getMessages()
     {
         $messages = array();
-        $path = base_path().'/resources/lang';
+        $path = $this->sourcePath;
 
         if ( ! $this->file->exists($path))
         {
             throw new \Exception("${path} doesn't exists!");
         }
 
-        foreach ($this->file->allFiles($path) as $file) {
-
+        foreach ($this->file->allFiles($path) as $file)
+        {
             $pathName = $file->getRelativePathName();
 
             if ( $this->file->extension($pathName) !== 'php' ) continue;
@@ -57,6 +88,11 @@ class LangJsGenerator
         return $messages;
     }
 
+    /**
+     * Prepare the target directoy.
+     *
+     * @param string $target The target directory.
+     */
     protected function prepareTarget($target)
     {
         $dirname = dirname($target);
