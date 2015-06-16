@@ -1,7 +1,6 @@
 {
     "name": "mariuzzo/laravel-js-localization",
     "description": "Laravel Localization in JavaScript",
-    "version": "1.2.0",
     "type": "library",
     "keywords": ["laravel", "laravel 5", "localization", "i18n", "javascript", "js", "lang"],
     "homepage": "https://github.com/rmariuzzo/laravel-js-localization",
