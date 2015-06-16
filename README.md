@@ -14,7 +14,7 @@ Installation
 
 Add the following line to you `composer.json` file under `require`.
 
-    "rmariuzzo/laravel-js-localization": "dev-master"
+    "mariuzzo/laravel-js-localization": "1.2.0"
 
 Run:
 
@@ -102,13 +102,13 @@ After getting all the required softwares you may run the following commands to g
  1. Install PHP dependencies:
 
     ```shell
-        composer install
+    composer install
     ```
 
  2. Install NPM dependences:
 
     ```shell
-        npm install
+    npm install
     ```
 
 Now you are good to go! Happy coding!
@@ -121,11 +121,11 @@ This project use Node-Jasmine and PHPUnit. All tests are stored at `tests` direc
 To run all JS tests type in you terminal:
 
 ```shell
-    npm test
+npm test
 ```
 
 To run all PHP tests type in your terminal:
 
 ```shell
-    phpunit
+phpunit
 ```
