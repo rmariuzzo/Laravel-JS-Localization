@@ -46,7 +46,7 @@ class LangJsCommand extends Command
         $target = $this->argument('target');
         $options = ['compress' => $this->option('compress')];
 
-        if ($this->generator->make($target, $options))
+        if ($this->generator->generate($target, $options))
         {
             return $this->info("Created: {$target}");
         }
