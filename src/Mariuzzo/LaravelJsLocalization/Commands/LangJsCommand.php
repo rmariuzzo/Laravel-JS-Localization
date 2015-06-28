@@ -85,6 +85,6 @@ class LangJsCommand extends Command
      */
     public function getPublicPath()
     {
-        return $this->laravel['public_path'];
+        return public_path();
     }
 }
