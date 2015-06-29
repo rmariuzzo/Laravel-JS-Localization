@@ -19,19 +19,25 @@ Installation
 
 Add the following line to you `composer.json` file under `require`.
 
-    "mariuzzo/laravel-js-localization": "1.2.1"
+```json
+"mariuzzo/laravel-js-localization": "1.2.1"
+```
 
 Run:
 
-    composer update
+```shell
+composer update
+```
 
 In your Laravel app go to `app/config/app.php` and add the following service provider:
 
-    'providers' => array(
-        ...
-        'Mariuzzo\LaravelJsLocalization\LaravelJsLocalizationServiceProvider'
-        ...
-    )
+```php
+'providers' => array(
+    // ...
+    'Mariuzzo\LaravelJsLocalization\LaravelJsLocalizationServiceProvider',
+    // ...
+)
+```
 
 That's it!
 
@@ -42,15 +48,21 @@ This project comes with a command that generate the JavaScript version of all yo
 
 **Generating JS messages**
 
-    php artisan lang:js
+```shell
+php artisan lang:js
+```
 
 **Specifying a custom target**
 
-    php artisan lang:js public/assets/dist/lang.dist.js
+```shell
+php artisan lang:js public/assets/dist/lang.dist.js
+```
 
 **Compressing the JS file**
 
-    php artisan lang:js -c
+```shell
+php artisan lang:js -c
+```
 
 Documentation
 -------------
@@ -59,27 +71,39 @@ This is the documentation regarding the thin JavaScript library. The library hig
 
 **Getting a message**
 
-    Lang.get('messages.home');
+```js
+Lang.get('messages.home');
+```
 
 **Getting a message with replacements**
 
-    Lang.get('messages.welcome', { name: 'Joe' });
+```js
+Lang.get('messages.welcome', { name: 'Joe' });
+```
 
 **Changing the locale**
 
-    Lang.setLocale('es');
+```js
+Lang.setLocale('es');
+```
 
 **Checking if a message key exists**
 
-    Lang.has('messages.foo');
+```js
+Lang.has('messages.foo');
+```
 
 **Support for singular and plural message based on a count**
 
-    Lang.choice('messages.apples', 10);
+```js
+Lang.choice('messages.apples', 10);
+```
 
 **Calling the `choice` method with replacements**
 
-    Lang.choice('messages.apples', 10, { name: 'Joe' });
+```js
+Lang.choice('messages.apples', 10, { name: 'Joe' });
+```
 
 For more detailed information, take a look at the source: [Lang.js](https://github.com/rmariuzzo/Laravel-JS-Localization/blob/develop/js/lang.js).
 
