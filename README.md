@@ -52,6 +52,35 @@ This project comes with a command that generate the JavaScript version of all yo
 
     php artisan lang:js -c
 
+**(optional)Use [gulp](http://gulpjs.com/) to publish:**
+
+install `gulp-shell` from https://github.com/sun-zheng-an/gulp-shell with `npm install --save-dev gulp-shell` 
+and then run it directly in your `gulpfile.js`:
+
+    var shell = require('gulp-shell');
+
+    //......
+
+    gulp.task('langJs', shell.task('php artisan lang:js -c public/js/messages.js'));
+
+or you can extend [Laravel's elixir](http://laravel.com/docs/5.1/elixir) like this (thanks to [@vluzrmos](https://github.com/vluzrmos)):
+
+    elixir.extend("langjs", function(path) {
+        gulp.task("langjs", function() {
+            gulp.src("").pipe(shell("php artisan lang:js " + (path || "public/js/messages.js")));
+        });
+
+        return this.queueTask("langjs");
+    });
+
+and use it like this:
+
+    elixir(function(mix) {
+
+        mix.langjs();
+
+    });
+
 Documentation
 -------------
 
@@ -81,7 +110,7 @@ This is the documentation regarding the thin JavaScript library. The library hig
 
     Lang.choice('messages.apples', 10, { name: 'Joe' });
 
-For more detailed information, take a look at the source: [Lang.js](https://github.com/rmariuzzo/Laravel-JS-Localization/blob/develop/js/lang.js).
+For more detailed information, take a look at the source: [Lang.js](https://github.com/rmariuzzo/Laravel-JS-Localization/blob/master/src/js/lang.js).
 
 Want to contribute?
 ===================
