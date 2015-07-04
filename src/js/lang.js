@@ -253,11 +253,11 @@
         var numbers = this._parseNumbersFromInterval(interval);
         
         var types = {
-            "setOfNumbers" : /^\{.*\}$/,
-            "bothExclusive": /^(\(|\]|\)).*(\)|\[|\()$/,
-            "bothInclusive": /^\[.*\]$/,
-            "leftInclusive": /^\[.*(\)|\[|\()$/,
-            "rightInclusive": /^(\(|\]|\)).*\]$/
+            'setOfNumbers' : /^\{.*\}$/,
+            'bothExclusive': /^(\(|\]|\)).*(\)|\[|\()$/,
+            'bothInclusive': /^\[.*\]$/,
+            'leftInclusive': /^\[.*(\)|\[|\()$/,
+            'rightInclusive': /^(\(|\]|\)).*\]$/
         };
 
         if (interval.match(types.setOfNumbers)) {
@@ -307,27 +307,15 @@
      */
     Lang.prototype._parseNumbersFromInterval = function (interval) {
         var numbers = interval.split(/,\s?/);
-
-        
-
         var total = numbers.length;
-
         var braces = /\[|\]|\{|\}|\(|\)/g;
-
-        /* first number */
-        var first  = numbers[0].replace(braces, '');
+        var newNumbers = [];
         
-        numbers[0] = first;
-        
-        var last = '';
+        numbers[0] = numbers[0].replace(braces, '');
 
         if (total > 1) {
-            last = numbers[total-1].replace(braces, '');
-
-            numbers[total-1] = last;
+            numbers[total-1] = numbers[total-1].replace(braces, '');
         }
-
-        var newNumbers = [];
 
         for (var i in numbers) {
             newNumbers.push(this._parseNumber(numbers[i]));
