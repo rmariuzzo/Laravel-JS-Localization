@@ -41,75 +41,75 @@ Usage
 This project comes with a command that generate the JavaScript version of all your messages found at: `app/lang` or `resources/lang` directory. The resulting JavaScript file will have the whole bunch of messages and a thin library similar to Laravel's `Lang` class.
 
 **Generating JS messages**
-
-    php artisan lang:js
-
+```php
+php artisan lang:js
+```
 **Specifying a custom target**
-
-    php artisan lang:js public/assets/dist/lang.dist.js
-
+```php
+php artisan lang:js public/assets/dist/lang.dist.js
+```
 **Compressing the JS file**
-
-    php artisan lang:js -c
-
-**(optional)Use [gulp](http://gulpjs.com/) to publish:**
+```php
+php artisan lang:js -c
+```
+**Use [gulp](http://gulpjs.com/) to publish (optional):**
 
 install `gulp-shell` from https://github.com/sun-zheng-an/gulp-shell with `npm install --save-dev gulp-shell` 
 and then run it directly in your `gulpfile.js`:
+```js
+var shell = require('gulp-shell');
 
-    var shell = require('gulp-shell');
+//......
 
-    //......
-
-    gulp.task('langJs', shell.task('php artisan lang:js -c public/js/messages.js'));
-
+gulp.task('langJs', shell.task('php artisan lang:js -c public/js/messages.js'));
+```
 or you can extend [Laravel's elixir](http://laravel.com/docs/5.1/elixir) like this (thanks to [@vluzrmos](https://github.com/vluzrmos)):
-
-    elixir.extend("langjs", function(path) {
-        gulp.task("langjs", function() {
-            gulp.src("").pipe(shell("php artisan lang:js " + (path || "public/js/messages.js")));
-        });
-
-        return this.queueTask("langjs");
+```js
+elixir.extend("langjs", function(path) {
+    gulp.task("langjs", function() {
+        gulp.src("").pipe(shell("php artisan lang:js " + (path || "public/js/messages.js")));
     });
 
+    return this.queueTask("langjs");
+});
+```
 and use it like this:
+```js
+elixir(function(mix) {
 
-    elixir(function(mix) {
+    mix.langjs();
 
-        mix.langjs();
-
-    });
-
+});
+```
 Documentation
 -------------
 
 This is the documentation regarding the thin JavaScript library. The library highly inspired on Laravel's `Lang` class.
 
 **Getting a message**
-
-    Lang.get('messages.home');
-
+```js
+Lang.get('messages.home');
+```
 **Getting a message with replacements**
-
-    Lang.get('messages.welcome', { name: 'Joe' });
-
+```js
+Lang.get('messages.welcome', { name: 'Joe' });
+```
 **Changing the locale**
-
-    Lang.setLocale('es');
-
+```js
+Lang.setLocale('es');
+```
 **Checking if a message key exists**
-
-    Lang.has('messages.foo');
-
+```js
+Lang.has('messages.foo');
+```
 **Support for singular and plural message based on a count**
-
-    Lang.choice('messages.apples', 10);
-
+```js
+Lang.choice('messages.apples', 10);
+```
 **Calling the `choice` method with replacements**
-
-    Lang.choice('messages.apples', 10, { name: 'Joe' });
-
+```js
+Lang.choice('messages.apples', 10, { name: 'Joe' });
+```
 For more detailed information, take a look at the source: [Lang.js](https://github.com/rmariuzzo/Laravel-JS-Localization/blob/master/src/js/lang.js).
 
 Want to contribute?
