@@ -18,21 +18,21 @@ Installation
 ------------
 
 Add the following line to you `composer.json` file under `require`.
-
-    "mariuzzo/laravel-js-localization": "1.2.0"
-
+```json
+"mariuzzo/laravel-js-localization": "1.2.0"
+```
 Run:
-
-    composer update
-
+```shell
+composer update
+```
 In your Laravel app go to `app/config/app.php` and add the following service provider:
-
-    'providers' => array(
-        ...
-        'Mariuzzo\LaravelJsLocalization\LaravelJsLocalizationServiceProvider'
-        ...
-    )
-
+```php
+'providers' => array(
+    ...
+    'Mariuzzo\LaravelJsLocalization\LaravelJsLocalizationServiceProvider'
+    ...
+)
+```
 That's it!
 
 Usage
@@ -41,15 +41,15 @@ Usage
 This project comes with a command that generate the JavaScript version of all your messages found at: `app/lang` or `resources/lang` directory. The resulting JavaScript file will have the whole bunch of messages and a thin library similar to Laravel's `Lang` class.
 
 **Generating JS messages**
-```php
+```shell
 php artisan lang:js
 ```
 **Specifying a custom target**
-```php
+```shell
 php artisan lang:js public/assets/dist/lang.dist.js
 ```
 **Compressing the JS file**
-```php
+```shell
 php artisan lang:js -c
 ```
 **Use [gulp](http://gulpjs.com/) to publish (optional):**
