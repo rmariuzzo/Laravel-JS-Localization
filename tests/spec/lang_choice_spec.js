@@ -26,7 +26,7 @@ describe('The Lang.choice() method', function() {
         expect(Lang.choice('messages.plural', 10)).toBe('a million apples');
     });
 
-    it('should count the correctly', function() {
+    it('should count correctly', function() {
         expect(Lang.choice('messages.count', 0)).toBe('There are none');
         expect(Lang.choice('messages.count', 1)).toBe('There are some');
         expect(Lang.choice('messages.count', 10)).toBe('There are some');
