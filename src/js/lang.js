@@ -306,17 +306,10 @@
      * @return {Array} 
      */
     Lang.prototype._parseNumbersFromInterval = function (interval) {
-        var numbers = interval.split(/,\s?/);
-        var total = numbers.length;
         var braces = /\[|\]|\{|\}|\(|\)/g;
+        var numbers = interval.replace(braces, '').split(/,\s?/);
         var newNumbers = [];
         
-        numbers[0] = numbers[0].replace(braces, '');
-
-        if (total > 1) {
-            numbers[total-1] = numbers[total-1].replace(braces, '');
-        }
-
         for (var i in numbers) {
             newNumbers.push(this._parseNumber(numbers[i]));
         }
