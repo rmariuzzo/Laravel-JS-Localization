@@ -105,7 +105,8 @@
                 "son": "Jimmy"
             }
         },
-        "plural": "one apple|a million apples"
+        "plural": "{1} one apple|(1,+Inf) a million apples",
+        "count" : "{0} There are none|[1,19] There are some|[20,Inf] There are many"
     },
     "en.pagination": {
         "previous": "&laquo; Previous",
