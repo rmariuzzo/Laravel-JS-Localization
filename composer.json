@@ -35,6 +35,7 @@
     },
     "require-dev": {
         "phpunit/phpunit": "4.0.*",
+        "orchestra/testbench": "~3.0",
         "mockery/mockery": "0.9.*"
     },
     "autoload": {
@@ -42,5 +43,10 @@
             "Mariuzzo\\LaravelJsLocalization\\": "src/Mariuzzo/LaravelJsLocalization/"
         }
     },
+  "autoload-dev": {
+    "psr-4": {
+      "Mariuzzo\\LaravelJsLocalization\\": "tests/"
+    }
+  },
     "minimum-stability": "stable"
 }
