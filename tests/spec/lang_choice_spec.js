@@ -31,7 +31,6 @@ describe('The Lang.choice() method', function() {
         expect(Lang.choice('messages.count', 1)).toBe('There are some');
         expect(Lang.choice('messages.count', 10)).toBe('There are some');
         expect(Lang.choice('messages.count', 19)).toBe('There are some');
-        expect(Lang.choice('messages.count', 19)).toBe('There are some');
         expect(Lang.choice('messages.count', 20)).toBe('There are many');
         expect(Lang.choice('messages.count', 30)).toBe('There are many');
     });
