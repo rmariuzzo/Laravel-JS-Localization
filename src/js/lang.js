@@ -288,7 +288,7 @@
      * @return {Number}     
      */
     Lang.prototype._parseNumber = function (str){
-        str = str.replace(/Inf\s?$/i, 'Infinity');
+        str = str.replace(/Inf\s*?$/i, 'Infinity');
 
         return Number(str);
     };
