@@ -288,15 +288,9 @@
      * @return {Number}     
      */
     Lang.prototype._parseNumber = function (str){
-        if (str=='-Inf') {
-            return Number.NEGATIVE_INFINITY;
-        }
+        str = str.replace(/Inf\s?$/i, 'Infinity');
 
-        if(str=='Inf' || str=='+Inf') {
-            return Number.POSITIVE_INFINITY;
-        }
-
-        return (new Number(str)).valueOf();
+        return Number(str);
     };
 
     /**
