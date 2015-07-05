@@ -289,11 +289,11 @@
      */
     Lang.prototype._parseNumber = function (str){
         if (str=='-Inf') {
-            return Math.log(0);
+            return Number.NEGATIVE_INFINITY;
         }
 
         if(str=='Inf' || str=='+Inf') {
-            return -Math.log(0);
+            return Number.POSITIVE_INFINITY;
         }
 
         return (new Number(str)).valueOf();
