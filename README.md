@@ -20,7 +20,7 @@ Installation
 Add the following line to you `composer.json` file under `require`.
 
 ```json
-"mariuzzo/laravel-js-localization": "1.2.1"
+"mariuzzo/laravel-js-localization": "1.2.*"
 ```
 
 Run:
@@ -38,7 +38,6 @@ In your Laravel app go to `app/config/app.php` and add the following service pro
     // ...
 )
 ```
-
 That's it!
 
 Usage
@@ -62,6 +61,40 @@ php artisan lang:js public/assets/dist/lang.dist.js
 
 ```shell
 php artisan lang:js -c
+```
+
+**Use [gulp](http://gulpjs.com/) to publish (optional):**
+
+install `gulp-shell` from https://github.com/sun-zheng-an/gulp-shell with `npm install --save-dev gulp-shell` 
+and then run it directly in your `gulpfile.js`:
+
+```js
+var shell = require('gulp-shell');
+
+//......
+
+gulp.task('langJs', shell.task('php artisan lang:js -c public/js/messages.js'));
+```
+
+or you can extend [Laravel's elixir](http://laravel.com/docs/5.1/elixir) like this:
+
+```js
+elixir.extend("langjs", function(path) {
+    gulp.task("langjs", function() {
+        gulp.src("").pipe(shell("php artisan lang:js " + (path || "public/js/messages.js")));
+    });
+
+    return this.queueTask("langjs");
+});
+```
+and use it like this:
+
+```js
+elixir(function(mix) {
+
+    mix.langjs();
+
+});
 ```
 
 Documentation
@@ -105,7 +138,7 @@ Lang.choice('messages.apples', 10);
 Lang.choice('messages.apples', 10, { name: 'Joe' });
 ```
 
-For more detailed information, take a look at the source: [Lang.js](https://github.com/rmariuzzo/Laravel-JS-Localization/blob/develop/js/lang.js).
+For more detailed information, take a look at the source: [Lang.js](https://github.com/rmariuzzo/Laravel-JS-Localization/blob/master/js/lang.js).
 
 Want to contribute?
 ===================
@@ -137,6 +170,8 @@ After getting all the required softwares you may run the following commands to g
  2. Install NPM dependences:
 
     ```shell
+    npm install -g jasmine-node
+
     npm install
     ```
 
@@ -145,7 +180,7 @@ Now you are good to go! Happy coding!
 Unit testing
 ------------
 
-This project use Node-Jasmine and PHPUnit. All tests are stored at `tests` directory.
+This project use Jasmine-Node and PHPUnit. All tests are stored at `tests` directory.
 
 To run all JS tests type in you terminal:
 
