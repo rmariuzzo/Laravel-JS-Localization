@@ -118,7 +118,7 @@
 
         // Get the explicit rules, If any
         var explicitRules = [];
-        var regex = /{\d+}\s(.+)|\[\d+,\d+\]\s(.+)|\[\d+,Inf\]\s(.+)/;
+        var regex = /^(\[|\{|\(|\]|\)).*(\[|\(|\]|\)|\})\s/;
 
         for (var i = 0; i < messageParts.length; i++) {
             messageParts[i] = messageParts[i].trim();
@@ -249,8 +249,66 @@
          * The right delimiter can be [ (exclusive) or ] (inclusive).
          * Beside numbers, you can use -Inf and +Inf for the infinite.
          */
+        
+        var numbers = this._parseNumbersFromInterval(interval);
+        
+        var types = {
+            'setOfNumbers' : /^\{.*\}$/,
+            'bothExclusive': /^(\(|\]|\)).*(\)|\[|\()$/,
+            'bothInclusive': /^\[.*\]$/,
+            'leftInclusive': /^\[.*(\)|\[|\()$/,
+            'rightInclusive': /^(\(|\]|\)).*\]$/
+        };
 
-        return false;
+        if (interval.match(types.setOfNumbers)) {
+            return numbers.indexOf(count) != -1;
+        }
+
+        if (interval.match(types.bothInclusive)) {
+            return count >= numbers[0] && count <= numbers[1];
+        }
+
+        if (interval.match(types.bothExclusive)) {
+            return count > numbers[0] && count < numbers[1];
+        }
+
+        if (interval.match(types.rightInclusive)) {
+            return count > numbers[0] && count <= numbers[1];
+        }
+
+        if (interval.match(types.leftInclusive)) {
+            return count >= numbers[0] && count < numbers[1];
+        }
+    };
+
+    /**
+     * Parse a given string (number, +Inf, -Inf, Inf) to Number.
+     *
+     * @param  {String} str 
+     * @return {Number}     
+     */
+    Lang.prototype._parseNumber = function (str){
+        str = str.replace(/Inf\s*?$/i, 'Infinity');
+
+        return Number(str);
+    };
+
+    /**
+     * Parse an interval to array.
+     * 
+     * @param  {String} interval
+     * @return {Array} 
+     */
+    Lang.prototype._parseNumbersFromInterval = function (interval) {
+        var braces = /\[|\]|\{|\}|\(|\)/g;
+        var numbers = interval.replace(braces, '').split(/,\s?/);
+        var newNumbers = [];
+        
+        for (var i in numbers) {
+            newNumbers.push(this._parseNumber(numbers[i]));
+        }
+
+        return newNumbers;
     };
 
     return Lang;
