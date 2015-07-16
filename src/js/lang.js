@@ -209,7 +209,7 @@
         var message = this.messages[key.source];
         while (key.entries.length && (message = message[key.entries.shift()]));
 
-        if (typeof message !== 'string') {
+        if (typeof message !== 'string' && typeof message !== 'object') {
             return null;
         }
 
