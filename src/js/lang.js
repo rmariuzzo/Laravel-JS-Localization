@@ -68,7 +68,7 @@
             return key;
         }
 
-        if (replacements) {
+        if (replacements && typeof message === 'string') {
             message = this._applyReplacements(message, replacements);
         }
 
