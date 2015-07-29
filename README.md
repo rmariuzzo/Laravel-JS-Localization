@@ -54,33 +54,38 @@ php artisan lang:js -c
 ```
 **Use [gulp](http://gulpjs.com/) to publish (optional):**
 
-install `gulp-shell` from https://github.com/sun-zheng-an/gulp-shell with `npm install --save-dev gulp-shell` 
-and then run it directly in your `gulpfile.js`:
+1. Install `gulp-shell` from https://github.com/sun-zheng-an/gulp-shell with
+
+`npm install --save-dev gulp-shell` 
+2. Edit your `gulpfile.js` to extend elixir:
+
 ```js
 var shell = require('gulp-shell');
-
 //......
-
-gulp.task('langJs', shell.task('php artisan lang:js -c public/js/messages.js'));
-```
-or you can extend [Laravel's elixir](http://laravel.com/docs/5.1/elixir) like this (thanks to [@vluzrmos](https://github.com/vluzrmos)):
-```js
-elixir.extend("langjs", function(path) {
-    gulp.task("langjs", function() {
-        gulp.src("").pipe(shell("php artisan lang:js " + (path || "public/js/messages.js")));
+var Task = elixir.Task;
+elixir.extend('langjs', function(path, minimize) {
+    new Task('langjs', function() {
+        var command = "php artisan lang:js " + (path || "public/js/messages.js");
+        if (minimize) {
+            command += " -c";
+        }
+        return gulp.src("").pipe(shell(command));
     });
-
-    return this.queueTask("langjs");
 });
 ```
-and use it like this:
+
+3. Use the new elixir task in your `gulpfile`:
+
 ```js
 elixir(function(mix) {
+    
+    var path = "public/js";
+    var minimize = true;
 
-    mix.langjs();
-
+    mix.langjs(path,minimize);
 });
 ```
+
 Documentation
 -------------
 
