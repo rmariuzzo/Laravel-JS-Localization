@@ -1,0 +1,4 @@
+[submodule "lang.js"]
+	path = Lang.js
+	url = https://github.com/rmariuzzo/Lang.js.git
+	branch = master
