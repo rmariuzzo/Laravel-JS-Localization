@@ -7,9 +7,8 @@
  *  @author  rmariuzzo
  */
 
-'use strict';
-
 (function(root, factory) {
+    'use strict';
 
     if (typeof define === 'function' && define.amd) {
         // AMD support.
@@ -23,6 +22,7 @@
     }
 
 }(this, function() {
+    'use strict';
 
     // Default options //
 
