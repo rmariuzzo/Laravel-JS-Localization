@@ -5,6 +5,7 @@ Laravel JS Localization
 
 > Laravel Localization in JavaScript.
 
+![Laravel 5.2](https://img.shields.io/badge/Laravel-5.2-f4645f.svg)
 ![Laravel 5.1](https://img.shields.io/badge/Laravel-5.1-f4645f.svg)
 ![Laravel 5.0](https://img.shields.io/badge/Laravel-5.0-f4645f.svg)
 ![Laravel 4.2](https://img.shields.io/badge/Laravel-4.2-f4645f.svg)
@@ -14,7 +15,7 @@ Laravel JS Localization
 
 This is a simple package that convert all your localization messages of your Laravel app to JavaScript, and provides a small JavaScript library to interact with those messages.
 
-Support Laravel 4.2.x, Laravel 5 and Laravel 5.1.x.
+Support Laravel 4.2.x, Laravel 5, Laravel 5.1.x. and Laravel 5.2.x.
 
 Installation
 ------------
@@ -34,11 +35,11 @@ composer update
 In your Laravel app go to `app/config/app.php` and add the following service provider:
 
 ```php
-'providers' => array(
+'providers' => [
     // ...
-    'Mariuzzo\LaravelJsLocalization\LaravelJsLocalizationServiceProvider',
+    Mariuzzo\LaravelJsLocalization\LaravelJsLocalizationServiceProvider::class,
     // ...
-)
+],
 ```
 That's it!
 
