@@ -65,6 +65,12 @@ php artisan lang:js public/assets/dist/lang.dist.js
 php artisan lang:js -c
 ```
 
+**Exclude lang files**
+
+```shell
+php artisan lang:js -e auth -e passwords
+```
+
 **Use [gulp](http://gulpjs.com/) to publish (optional):**
 
 install `gulp-shell` from https://github.com/sun-zheng-an/gulp-shell with `npm install --save-dev gulp-shell` 
