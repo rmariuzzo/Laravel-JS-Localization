@@ -44,7 +44,10 @@ class LangJsCommand extends Command
     public function fire()
     {
         $target = $this->argument('target');
-        $options = ['compress' => $this->option('compress')];
+        $options = [
+            'compress' => $this->option('compress'),
+            'exclude' => $this->option('exclude'),
+        ];
 
         if ($this->generator->generate($target, $options))
         {
@@ -75,6 +78,7 @@ class LangJsCommand extends Command
     {
         return [
             ['compress', 'c', InputOption::VALUE_NONE, 'Compress the JavaScript file.', null],
+            ['exclude', 'e', InputArgument::OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Exclude lang files.', null],
         ];
     }
 
