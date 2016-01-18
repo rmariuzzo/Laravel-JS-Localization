@@ -40,7 +40,7 @@ class LangJsGenerator
      */
     public function generate($target, $options)
     {
-        $messages = $this->getMessages();
+        $messages = $this->getMessages($options);
         $this->prepareTarget($target);
 
         $template = $this->file->get(__DIR__ . '/Templates/langjs_with_messages.js');
@@ -60,9 +60,11 @@ class LangJsGenerator
     /**
      * Return all language messages.
      *
+     * @param array  $options Array of options.
+     *
      * @return array
      */
-    protected function getMessages()
+    protected function getMessages($options)
     {
         $messages = array();
         $path = $this->sourcePath;
@@ -77,6 +79,8 @@ class LangJsGenerator
             $pathName = $file->getRelativePathName();
 
             if ( $this->file->extension($pathName) !== 'php' ) continue;
+
+            if ( in_array($this->file->name($pathName), $options['exclude']) ) continue;
 
             $key = substr($pathName, 0, -4);
             $key = str_replace('\\', '.', $key);
