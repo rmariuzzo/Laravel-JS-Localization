@@ -99,7 +99,7 @@ class LangJsGenerator
 
         if ( ! $this->file->exists($dirname) )
         {
-            $this->file->makeDirectory($dirname);
+            $this->file->makeDirectory($dirname, null, true);
         }
     }
 }
