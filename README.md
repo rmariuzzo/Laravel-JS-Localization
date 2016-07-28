@@ -1,5 +1,4 @@
-Laravel JS Localization
-=======================
+# Laravel JS Localization
 
 [![Join the chat at https://gitter.im/rmariuzzo/Laravel-JS-Localization](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rmariuzzo/Laravel-JS-Localization?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -17,8 +16,7 @@ This is a simple package that convert all your localization messages of your Lar
 
 Support Laravel 4.2.x, Laravel 5, Laravel 5.1.x. and Laravel 5.2.x.
 
-Installation
-------------
+## Installation
 
 Add the following line to you `composer.json` file under `require`.
 
@@ -43,32 +41,31 @@ In your Laravel app go to `app/config/app.php` and add the following service pro
 ```
 That's it!
 
-Usage
------
+## Usage
 
 This project comes with a command that generate the JavaScript version of all your messages found at: `app/lang` or `resources/lang` directory. The resulting JavaScript file will have the whole bunch of messages and a thin library similar to Laravel's `Lang` class.
 
-**Generating JS messages**
+### Generating JS messages
 
 ```shell
 php artisan lang:js
 ```
 
-**Specifying a custom target**
+### Specifying a custom target
 
 ```shell
 php artisan lang:js public/assets/dist/lang.dist.js
 ```
 
-**Compressing the JS file**
+### Compressing the JS file
 
 ```shell
 php artisan lang:js -c
 ```
 
-**Use [gulp](http://gulpjs.com/) to publish (optional):**
+### Use [gulp](http://gulpjs.com/) to publish (optional):
 
-install `gulp-shell` from https://github.com/sun-zheng-an/gulp-shell with `npm install --save-dev gulp-shell` 
+Install `gulp-shell` from https://github.com/sun-zheng-an/gulp-shell with `npm install --save-dev gulp-shell` 
 and then run it directly in your `gulpfile.js`:
 
 ```js
@@ -76,21 +73,22 @@ var shell = require('gulp-shell');
 
 //......
 
-gulp.task('langJs', shell.task('php artisan lang:js -c public/js/messages.js'));
+gulp.task('langjs', shell.task('php artisan lang:js -c public/js/messages.js'));
 ```
 
 or you can extend [Laravel's elixir](http://laravel.com/docs/5.1/elixir) like this:
 
 ```js
-elixir.extend("langjs", function(path) {
-    gulp.task("langjs", function() {
-        gulp.src("").pipe(shell("php artisan lang:js " + (path || "public/js/messages.js")));
+elixir.extend('langjs', function(path) {
+    gulp.task('langjs', function() {
+        gulp.src('').pipe(shell('php artisan lang:js ' + (path || 'public/js/messages.js')));
     });
 
-    return this.queueTask("langjs");
+    return this.queueTask('langjs');
 });
 ```
-and use it like this:
+
+And use it like this:
 
 ```js
 elixir(function(mix) {
@@ -100,42 +98,41 @@ elixir(function(mix) {
 });
 ```
 
-Documentation
--------------
+## Documentation
 
 This is the documentation regarding the thin JavaScript library. The library highly inspired on Laravel's `Lang` class.
 
-**Getting a message**
+### Getting a message
 
 ```js
 Lang.get('messages.home');
 ```
 
-**Getting a message with replacements**
+### Getting a message with replacements
 
 ```js
 Lang.get('messages.welcome', { name: 'Joe' });
 ```
 
-**Changing the locale**
+### Changing the locale
 
 ```js
 Lang.setLocale('es');
 ```
 
-**Checking if a message key exists**
+### Checking if a message key exists
 
 ```js
 Lang.has('messages.foo');
 ```
 
-**Support for singular and plural message based on a count**
+### Support for singular and plural message based on a count
 
 ```js
 Lang.choice('messages.apples', 10);
 ```
 
-**Calling the `choice` method with replacements**
+### Calling the `choice` method with replacements
 
 ```js
 Lang.choice('messages.apples', 10, { name: 'Joe' });
@@ -143,19 +140,18 @@ Lang.choice('messages.apples', 10, { name: 'Joe' });
 
 For more detailed information, take a look at the source: [Lang.js](https://github.com/rmariuzzo/Laravel-JS-Localization/blob/master/js/lang.js).
 
-Want to contribute?
-===================
+# Want to contribute?
+
 
  1. Fork this repository and clone it.
  2. Create a branch from develop: `git checkout -b feature-foo`.
  3. Push your commits and create a pull request.
 
-Setting up development environment
-----------------------------------
+## Setting up development environment
 
-**Prerequisites:**
+### Prerequisites:
 
-You need to have installed the following softwares.
+You will need to have installed the following softwares.
 
  - Composer.
  - NodeJS.
@@ -180,8 +176,7 @@ After getting all the required softwares you may run the following commands to g
 
 Now you are good to go! Happy coding!
 
-Unit testing
-------------
+## Testing
 
 This project use Jasmine-Node and PHPUnit. All tests are stored at `tests` directory.
 
