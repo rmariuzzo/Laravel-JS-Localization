@@ -16,27 +16,44 @@ use Symfony\Component\Console\Output\NullOutput;
  */
 class LangJsCommandTest extends TestCase
 {
+    private $outputFilePath;
+
+    public function __construct()
+    {
+        $this->setOutputFilePath(__DIR__ . '/output/lang.js');
+    }
+
+    public function getOutputFilePath()
+    {
+        return $this->outputFilePath;
+    }
+
+    public function setOutputFilePath($filePath)
+    {
+        $this->outputFilePath = $filePath;
+    }
+
     /**
      * Test the command.
      */
     public function testShouldCommandRun()
     {
-        $generator = new LangJsGenerator(new File(), __DIR__.'/fixtures/lang');
+        $generator = new LangJsGenerator(new File(), __DIR__ . '/fixtures/lang');
 
         $command = new LangJsCommand($generator);
         $command->setLaravel($this->app);
 
-        $code = $this->runCommand($command, ['target' => __DIR__.'/output/lang.js']);
+        $code = $this->runCommand($command, ['target' => $this->getOutputFilePath()]);
 
         $this->assertRunsWithSuccess($code);
 
-        $this->assertFileExists(__DIR__.'/output/lang.js');
+        $this->assertFileExists($this->getOutputFilePath());
 
-        $template = __DIR__.'/../src/Mariuzzo/LaravelJsLocalization/Generators/Templates/langjs_with_messages.js';
+        $template = __DIR__ . '/../src/Mariuzzo/LaravelJsLocalization/Generators/Templates/langjs_with_messages.js';
 
         $this->assertFileExists($template);
 
-        $this->assertFileNotEquals($template, __DIR__.'/output/lang.js');
+        $this->assertFileNotEquals($template, $this->getOutputFilePath());
     }
 
     /**
@@ -44,7 +61,7 @@ class LangJsCommandTest extends TestCase
      */
     public function testShouldTemplateHasHandlebars()
     {
-        $template = __DIR__.'/../src/Mariuzzo/LaravelJsLocalization/Generators/Templates/langjs_with_messages.js';
+        $template = __DIR__ . '/../src/Mariuzzo/LaravelJsLocalization/Generators/Templates/langjs_with_messages.js';
 
         $this->assertFileExists($template);
 
@@ -62,17 +79,62 @@ class LangJsCommandTest extends TestCase
      */
     public function testShouldOutputHasNotHandlebars()
     {
-        $output = __DIR__.'/output/lang.js';
+        $this->assertFileExists($this->getOutputFilePath());
 
-        $this->assertFileExists($output);
-
-        $contents = file_get_contents($output);
+        $contents = file_get_contents($this->getOutputFilePath());
 
         $this->assertNotEmpty($contents);
 
         $this->assertHasNotHandlebars('messages', $contents);
 
         $this->assertHasNotHandlebars('langjs', $contents);
+    }
+
+    /**
+     * @return void
+     */
+    public function testAllFilesShouldBeConverted()
+    {
+        $generator = new LangJsGenerator(new File(), __DIR__ . '/fixtures/lang');
+
+        $command = new LangJsCommand($generator);
+        $command->setLaravel($this->app);
+
+        $code = $this->runCommand($command, ['target' => $this->getOutputFilePath()]);
+
+        $this->assertRunsWithSuccess($code);
+
+        $this->assertFileExists($this->getOutputFilePath());
+
+        $contents = file_get_contents($this->getOutputFilePath());
+
+        $this->assertContains('createCongregation', $contents);
+    }
+
+    /**
+     * @return void
+     */
+    public function testFilesSelectedInConfigShouldBeConverted()
+    {
+        $this->app['config']->set('localization-js.messages', [
+            'messages',
+        ]);
+
+        $generator = new LangJsGenerator(new File(), __DIR__ . '/fixtures/lang');
+
+        $command = new LangJsCommand($generator);
+        $command->setLaravel($this->app);
+
+        $code = $this->runCommand($command, ['target' => $this->getOutputFilePath()]);
+
+        $this->assertRunsWithSuccess($code);
+
+        $this->assertFileExists($this->getOutputFilePath());
+
+        $contents = file_get_contents($this->getOutputFilePath());
+
+        $this->assertContains('en.messages', $contents);
+        $this->assertNotContains('en.validation', $contents);
     }
 
     /**
@@ -88,7 +150,7 @@ class LangJsCommandTest extends TestCase
 
     /**
      * Assert the code return is success.
-     * @param int  $code
+     * @param int $code
      * @param null $message
      */
     protected function assertRunsWithSuccess($code, $message = null)
@@ -102,7 +164,7 @@ class LangJsCommandTest extends TestCase
      */
     protected function assertHasHandlebars($handle, $contents)
     {
-        $this->assertEquals(1, preg_match('/\'\{(\s)'.preg_quote($handle).'(\s)\}\'/', $contents));
+        $this->assertEquals(1, preg_match('/\'\{(\s)' . preg_quote($handle) . '(\s)\}\'/', $contents));
     }
 
     /**
@@ -111,6 +173,6 @@ class LangJsCommandTest extends TestCase
      */
     protected function assertHasNotHandlebars($handle, $contents)
     {
-        $this->assertEquals(0, preg_match('/\'\{(\s)'.preg_quote($handle).'(\s)\}\'/', $contents));
+        $this->assertEquals(0, preg_match('/\'\{(\s)' . preg_quote($handle) . '(\s)\}\'/', $contents));
     }
 }

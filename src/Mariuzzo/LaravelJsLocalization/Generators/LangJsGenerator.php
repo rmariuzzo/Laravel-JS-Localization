@@ -21,6 +21,13 @@ class LangJsGenerator
     protected $sourcePath;
 
     /**
+     * List of messages should be included in build.
+     *
+     * @var array
+     */
+    protected $messagesIncluded = [];
+
+    /**
      * Construct a new LangJsGenerator instance.
      *
      * @param Illuminate\Filesystem\File $file       The file service instance.
@@ -30,6 +37,7 @@ class LangJsGenerator
     {
         $this->file = $file;
         $this->sourcePath = $sourcePath;
+        $this->collectMessagesIncluded();
     }
 
     /**
@@ -78,6 +86,10 @@ class LangJsGenerator
 
             if ( $this->file->extension($pathName) !== 'php' ) continue;
 
+            if ($this->isMessagesExcluded($file->getFileName())) {
+                continue;
+            }
+
             $key = substr($pathName, 0, -4);
             $key = str_replace('\\', '.', $key);
             $key = str_replace('/', '.', $key);
@@ -101,5 +113,33 @@ class LangJsGenerator
         {
             $this->file->makeDirectory($dirname, null, true);
         }
+    }
+
+    /**
+     * If messages should be excluded from build.
+     *
+     * @param $filename
+     * @return bool
+     */
+    protected function isMessagesExcluded($filename)
+    {
+        if (empty($this->messagesIncluded)) {
+            return false;
+        }
+
+        $filename = substr($filename, 0, -4);
+        if (in_array($filename, $this->messagesIncluded)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Prepare list of messages should be included in build.
+     */
+    protected function collectMessagesIncluded()
+    {
+        $this->messagesIncluded = config('localization-js.messages');
     }
 }
