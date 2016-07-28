@@ -1,6 +1,15 @@
+# Composer.
 /vendor
-composer.phar
 composer.lock
+
+# Mac OS
 .DS_Store
-/tmp
+
+# NPM.
 /node_modules
+
+# IntelliJ IDEA.
+/.idea
+*.iml
+
+/tmp
