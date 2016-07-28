@@ -138,6 +138,31 @@ class LangJsCommandTest extends TestCase
     }
 
     /**
+     * @return void
+     */
+    public function testShouldIncludeNestedDirectoryFile()
+    {
+        $this->app['config']->set('localization-js.messages', [
+            'forum/thread',
+        ]);
+
+        $generator = new LangJsGenerator(new File(), __DIR__ . '/fixtures/lang');
+
+        $command = new LangJsCommand($generator);
+        $command->setLaravel($this->app);
+
+        $code = $this->runCommand($command, ['target' => $this->getOutputFilePath()]);
+
+        $this->assertRunsWithSuccess($code);
+
+        $this->assertFileExists($this->getOutputFilePath());
+
+        $contents = file_get_contents($this->getOutputFilePath());
+
+        $this->assertContains('en.forum.thread', $contents);
+    }
+
+    /**
      * Run the command.
      * @param \Illuminate\Console\Command $command
      * @param array $input
