@@ -41,6 +41,27 @@ In your Laravel app go to `app/config/app.php` and add the following service pro
 ```
 That's it!
 
+## Configuration
+
+Run `php artisan vendor:publish --provider="Mariuzzo\LaravelJsLocalization\LaravelJsLocalizationServiceProvider"` first. This command copies the package's default configuration to `config/localization-js.php`.
+
+You may edit this file to define the messages you need in your Javascript code. Just edit the `messages` array in the config file. *Empty messages array will include all the language files in build.*
+
+To make only `pagination.php` & `validation.php` files to be included in build process:
+
+```php
+<?php
+
+return [
+
+    'messages' => [
+        'pagination',
+        'validation',
+    ],
+    
+];
+```
+
 ## Usage
 
 This project comes with a command that generate the JavaScript version of all your messages found at: `app/lang` or `resources/lang` directory. The resulting JavaScript file will have the whole bunch of messages and a thin library similar to Laravel's `Lang` class.
