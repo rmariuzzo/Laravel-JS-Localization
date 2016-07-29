@@ -86,7 +86,7 @@ class LangJsGenerator
 
             if ( $this->file->extension($pathName) !== 'php' ) continue;
 
-            if ($this->isMessagesExcluded($file->getFileName())) {
+            if ($this->isMessagesExcluded($pathName)) {
                 continue;
             }
 
@@ -118,17 +118,21 @@ class LangJsGenerator
     /**
      * If messages should be excluded from build.
      *
-     * @param $filename
+     * @param string $filePath
      * @return bool
      */
-    protected function isMessagesExcluded($filename)
+    protected function isMessagesExcluded($filePath)
     {
         if (empty($this->messagesIncluded)) {
             return false;
         }
 
-        $filename = substr($filename, 0, -4);
-        if (in_array($filename, $this->messagesIncluded)) {
+        $localeDirSeparatorPosition = strpos($filePath, '/');
+        $filePath = substr($filePath, $localeDirSeparatorPosition);
+        $filePath = ltrim($filePath, '/');
+        $filePath = substr($filePath, 0, -4);
+
+        if (in_array($filePath, $this->messagesIncluded)) {
             return false;
         }
 
