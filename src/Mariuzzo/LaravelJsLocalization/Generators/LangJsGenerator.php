@@ -6,23 +6,25 @@ use JShrink\Minifier;
 /**
  * The LangJsGenerator class.
  *
- * @author Rubens Mariuzzo <rubens@mariuzzo.com>
+ * @package Mariuzzo\LaravelJsLocalization\Generators
+ * @author  Rubens Mariuzzo <rubens@mariuzzo.com>
  */
 class LangJsGenerator
 {
     /**
      * The file service.
+     * @var File
      */
     protected $file;
 
     /**
      * The source path of the language files.
+     * @var string
      */
     protected $sourcePath;
 
     /**
      * List of messages should be included in build.
-     *
      * @var array
      */
     protected $messagesIncluded = [];
@@ -30,8 +32,8 @@ class LangJsGenerator
     /**
      * Construct a new LangJsGenerator instance.
      *
-     * @param Illuminate\Filesystem\File $file       The file service instance.
-     * @param string                     $sourcePath The source path of the language files.
+     * @param File   $file       The file service instance.
+     * @param string $sourcePath The source path of the language files.
      */
     public function __construct(File $file, $sourcePath)
     {
@@ -45,6 +47,8 @@ class LangJsGenerator
      *
      * @param string $target  The target directory.
      * @param array  $options Array of options.
+     *
+     * @return int
      */
     public function generate($target, $options)
     {
@@ -57,8 +61,7 @@ class LangJsGenerator
         $template = str_replace('\'{ messages }\'', json_encode($messages), $template);
         $template = str_replace('\'{ langjs }\';', $langjs, $template);
 
-        if ($options['compress'])
-        {
+        if ($options['compress']) {
             $template = Minifier::minify($template);
         }
 
@@ -69,22 +72,21 @@ class LangJsGenerator
      * Return all language messages.
      *
      * @return array
+     * @throws \Exception
      */
     protected function getMessages()
     {
-        $messages = array();
+        $messages = [];
         $path = $this->sourcePath;
 
-        if ( ! $this->file->exists($path))
-        {
+        if (!$this->file->exists($path)) {
             throw new \Exception("${path} doesn't exists!");
         }
 
-        foreach ($this->file->allFiles($path) as $file)
-        {
+        foreach ($this->file->allFiles($path) as $file) {
             $pathName = $file->getRelativePathName();
 
-            if ( $this->file->extension($pathName) !== 'php' ) continue;
+            if ($this->file->extension($pathName) !== 'php') continue;
 
             if ($this->isMessagesExcluded($pathName)) {
                 continue;
@@ -94,14 +96,14 @@ class LangJsGenerator
             $key = str_replace('\\', '.', $key);
             $key = str_replace('/', '.', $key);
 
-            $messages[ $key ] = include "${path}/${pathName}";
+            $messages[$key] = include "${path}/${pathName}";
         }
 
         return $messages;
     }
 
     /**
-     * Prepare the target directoy.
+     * Prepare the target directory.
      *
      * @param string $target The target directory.
      */
@@ -109,8 +111,7 @@ class LangJsGenerator
     {
         $dirname = dirname($target);
 
-        if ( ! $this->file->exists($dirname) )
-        {
+        if (!$this->file->exists($dirname)) {
             $this->file->makeDirectory($dirname, null, true);
         }
     }
@@ -119,6 +120,7 @@ class LangJsGenerator
      * If messages should be excluded from build.
      *
      * @param string $filePath
+     *
      * @return bool
      */
     protected function isMessagesExcluded($filePath)

@@ -2,35 +2,39 @@
 
 use Illuminate\Console\Command;
 use Mariuzzo\LaravelJsLocalization\Generators\LangJsGenerator;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * The LangJsCommand class.
  *
- * @author Rubens Mariuzzo <rubens@mariuzzo.com>
+ * @package Mariuzzo\LaravelJsLocalization\Commands
+ * @author  Rubens Mariuzzo <rubens@mariuzzo.com>
  */
 class LangJsCommand extends Command
 {
     /**
      * The command name.
+     * @var string
      */
     protected $name = 'lang:js';
 
     /**
      * The command description.
+     * @var  string
      */
     protected $description = 'Generate JS lang files.';
 
     /**
      * The generator instance.
+     * @var LangJsGenerator
      */
     protected $generator;
 
     /**
      * Construct a new LangJsCommand.
      *
-     * @param Mariuzzo\LaravelJsLocalization\Genrators\LangJsGenerator The generator instance.
+     * @param LangJsGenerator $generator The generator.
      */
     public function __construct(LangJsGenerator $generator)
     {
@@ -46,9 +50,9 @@ class LangJsCommand extends Command
         $target = $this->argument('target');
         $options = ['compress' => $this->option('compress')];
 
-        if ($this->generator->generate($target, $options))
-        {
-            return $this->info("Created: {$target}");
+        if ($this->generator->generate($target, $options)) {
+            $this->info("Created: {$target}");
+            return;
         }
 
         $this->error("Could not create: {$target}");

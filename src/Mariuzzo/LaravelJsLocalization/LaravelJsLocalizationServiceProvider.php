@@ -5,13 +5,13 @@ use Illuminate\Support\ServiceProvider;
 /**
  * The LaravelJsLocalizationServiceProvider class.
  *
- * @author Rubens Mariuzzo <rubens@mariuzzo.com>
+ * @package Mariuzzo\LaravelJsLocalization
+ * @author  Rubens Mariuzzo <rubens@mariuzzo.com>
  */
 class LaravelJsLocalizationServiceProvider extends ServiceProvider
 {
     /**
      * Indicates if loading of the provider is deferred.
-     *
      * @var bool
      */
     protected $defer = false;
@@ -40,10 +40,9 @@ class LaravelJsLocalizationServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app['localization.js'] = $this->app->share(function ($app)
-        {
+        $this->app['localization.js'] = $this->app->share(function ($app) {
             $files = $app['files'];
-            $langs = $app['path.base'].'/resources/lang';
+            $langs = $app['path.base'] . '/resources/lang';
             $generator = new Generators\LangJsGenerator($files, $langs);
             return new Commands\LangJsCommand($generator);
         });
@@ -58,6 +57,6 @@ class LaravelJsLocalizationServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return array('localization.js');
+        return ['localization.js'];
     }
 }
