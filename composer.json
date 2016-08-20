@@ -43,10 +43,15 @@
             "Mariuzzo\\LaravelJsLocalization\\": "src/Mariuzzo/LaravelJsLocalization/"
         }
     },
-  "autoload-dev": {
-    "psr-4": {
-      "Mariuzzo\\LaravelJsLocalization\\": "tests/"
+    "autoload-dev": {
+        "psr-4": {
+            "Mariuzzo\\LaravelJsLocalization\\": "tests/"
+        }
+    },
+    "minimum-stability": "stable",
+    "scripts": {
+        "post-install-cmd": [
+            "Mariuzzo\\ComposerScripts::postInstall"
+        ]
     }
-  },
-    "minimum-stability": "stable"
 }
