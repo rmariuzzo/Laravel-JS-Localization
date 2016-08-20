@@ -30,7 +30,7 @@
     },
     "require": {
         "php": ">=5.5.9",
-        "laravel/framework": "5.1.*|5.2.*",
+        "laravel/framework": "5.1.*|5.2.*|5.3.*",
         "tedivm/jshrink": "1.0.*"
     },
     "require-dev": {
