@@ -30,7 +30,8 @@
     },
     "require": {
         "php": ">=5.5.9",
-        "laravel/framework": "5.1.*|5.2.*|5.3.*",
+        "illuminate/console": ">=5.2",
+        "illuminate/filesystem": ">=5.2",
         "tedivm/jshrink": "1.0.*"
     },
     "require-dev": {
@@ -43,10 +44,15 @@
             "Mariuzzo\\LaravelJsLocalization\\": "src/Mariuzzo/LaravelJsLocalization/"
         }
     },
-  "autoload-dev": {
-    "psr-4": {
-      "Mariuzzo\\LaravelJsLocalization\\": "tests/"
+    "autoload-dev": {
+        "psr-4": {
+            "Mariuzzo\\LaravelJsLocalization\\": "tests/"
+        }
+    },
+    "minimum-stability": "stable",
+    "scripts": {
+        "post-install-cmd": [
+            "Mariuzzo\\LaravelJsLocalization\\ComposerScripts::postInstall"
+        ]
     }
-  },
-    "minimum-stability": "stable"
 }
