@@ -1,6 +1,6 @@
 <?php
 
-namespace Mariuzzo;
+namespace Mariuzzo\LaravelJsLocalization;
 
 /**
  * The ComposerScripts class.
@@ -15,7 +15,7 @@ class ComposerScripts
      */
     public static function postInstall()
     {
-        exec('git pull --recurse-submodules');
+        exec('git submodule update --init --recursive');
         copy('Lang.js/dist/lang.min.js', 'lib/lang.min.js');
     }
 
