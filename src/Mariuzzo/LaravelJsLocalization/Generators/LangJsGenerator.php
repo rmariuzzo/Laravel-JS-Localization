@@ -1,4 +1,6 @@
-<?php namespace Mariuzzo\LaravelJsLocalization\Generators;
+<?php
+
+namespace Mariuzzo\LaravelJsLocalization\Generators;
 
 use Illuminate\Filesystem\Filesystem as File;
 use JShrink\Minifier;
@@ -6,25 +8,27 @@ use JShrink\Minifier;
 /**
  * The LangJsGenerator class.
  *
- * @package Mariuzzo\LaravelJsLocalization\Generators
  * @author  Rubens Mariuzzo <rubens@mariuzzo.com>
  */
 class LangJsGenerator
 {
     /**
      * The file service.
+     *
      * @var File
      */
     protected $file;
 
     /**
      * The source path of the language files.
+     *
      * @var string
      */
     protected $sourcePath;
 
     /**
      * List of messages should be included in build.
+     *
      * @var array
      */
     protected $messagesIncluded = [];
@@ -35,11 +39,11 @@ class LangJsGenerator
      * @param File   $file       The file service instance.
      * @param string $sourcePath The source path of the language files.
      */
-    public function __construct(File $file, $sourcePath)
+    public function __construct(File $file, $sourcePath, $messagesIncluded = [])
     {
         $this->file = $file;
         $this->sourcePath = $sourcePath;
-        $this->collectMessagesIncluded();
+        $this->messagesIncluded = $messagesIncluded;
     }
 
     /**
@@ -55,8 +59,8 @@ class LangJsGenerator
         $messages = $this->getMessages();
         $this->prepareTarget($target);
 
-        $template = $this->file->get(__DIR__ . '/Templates/langjs_with_messages.js');
-        $langjs = $this->file->get(__DIR__ . '/../../../../lib/lang.min.js');
+        $template = $this->file->get(__DIR__.'/Templates/langjs_with_messages.js');
+        $langjs = $this->file->get(__DIR__.'/../../../../lib/lang.min.js');
 
         $template = str_replace('\'{ messages }\'', json_encode($messages), $template);
         $template = str_replace('\'{ langjs }\';', $langjs, $template);
@@ -72,6 +76,7 @@ class LangJsGenerator
      * Return all language messages.
      *
      * @return array
+     *
      * @throws \Exception
      */
     protected function getMessages()
@@ -86,7 +91,9 @@ class LangJsGenerator
         foreach ($this->file->allFiles($path) as $file) {
             $pathName = $file->getRelativePathName();
 
-            if ($this->file->extension($pathName) !== 'php') continue;
+            if ($this->file->extension($pathName) !== 'php') {
+                continue;
+            }
 
             if ($this->isMessagesExcluded($pathName)) {
                 continue;
@@ -139,13 +146,5 @@ class LangJsGenerator
         }
 
         return true;
-    }
-
-    /**
-     * Prepare list of messages should be included in build.
-     */
-    protected function collectMessagesIncluded()
-    {
-        $this->messagesIncluded = config('localization-js.messages');
     }
 }

@@ -18,24 +18,28 @@ class LangJsCommandTest extends TestCase
 {
     /**
      * The base path of tests.
+     *
      * @var string
      */
-    private $testPath = __DIR__ . '/..';
+    private $testPath = __DIR__.'/..';
 
     /**
      * The root path of the project.
+     *
      * @var string
      */
-    private $rootPath = __DIR__ . '/../..';
+    private $rootPath = __DIR__.'/../..';
 
     /**
      * The file path of the expected output.
+     *
      * @var string
      */
     private $outputFilePath;
 
     /**
      * The base path of language files.
+     *
      * @var string
      */
     private $langPath;
@@ -69,7 +73,6 @@ class LangJsCommandTest extends TestCase
     }
 
     /**
-     * @return void
      */
     public function testShouldTemplateHasHandlebars()
     {
@@ -83,7 +86,6 @@ class LangJsCommandTest extends TestCase
     }
 
     /**
-     * @return void
      */
     public function testShouldOutputHasNotHandlebars()
     {
@@ -96,7 +98,6 @@ class LangJsCommandTest extends TestCase
     }
 
     /**
-     * @return void
      */
     public function testAllFilesShouldBeConverted()
     {
@@ -114,15 +115,10 @@ class LangJsCommandTest extends TestCase
     }
 
     /**
-     * @return void
      */
     public function testFilesSelectedInConfigShouldBeConverted()
     {
-        $this->app['config']->set('localization-js.messages', [
-            'messages',
-        ]);
-
-        $generator = new LangJsGenerator(new File(), $this->langPath);
+        $generator = new LangJsGenerator(new File(), $this->langPath, ['messages']);
 
         $command = new LangJsCommand($generator);
         $command->setLaravel($this->app);
@@ -137,15 +133,10 @@ class LangJsCommandTest extends TestCase
     }
 
     /**
-     * @return void
      */
     public function testShouldIncludeNestedDirectoryFile()
     {
-        $this->app['config']->set('localization-js.messages', [
-            'forum/thread',
-        ]);
-
-        $generator = new LangJsGenerator(new File(), $this->langPath);
+        $generator = new LangJsGenerator(new File(), $this->langPath, ['forum/thread']);
 
         $command = new LangJsCommand($generator);
         $command->setLaravel($this->app);
@@ -160,8 +151,10 @@ class LangJsCommandTest extends TestCase
 
     /**
      * Run the command.
+     *
      * @param \Illuminate\Console\Command $command
-     * @param array $input
+     * @param array                       $input
+     *
      * @return int
      */
     protected function runCommand($command, $input = [])
@@ -171,7 +164,8 @@ class LangJsCommandTest extends TestCase
 
     /**
      * Assert the code return is success.
-     * @param int $code
+     *
+     * @param int  $code
      * @param null $message
      */
     protected function assertRunsWithSuccess($code, $message = null)
@@ -185,7 +179,7 @@ class LangJsCommandTest extends TestCase
      */
     protected function assertHasHandlebars($handle, $contents)
     {
-        $this->assertEquals(1, preg_match('/\'\{(\s)' . preg_quote($handle) . '(\s)\}\'/', $contents));
+        $this->assertEquals(1, preg_match('/\'\{(\s)'.preg_quote($handle).'(\s)\}\'/', $contents));
     }
 
     /**
@@ -194,6 +188,6 @@ class LangJsCommandTest extends TestCase
      */
     protected function assertHasNotHandlebars($handle, $contents)
     {
-        $this->assertEquals(0, preg_match('/\'\{(\s)' . preg_quote($handle) . '(\s)\}\'/', $contents));
+        $this->assertEquals(0, preg_match('/\'\{(\s)'.preg_quote($handle).'(\s)\}\'/', $contents));
     }
 }
