@@ -49,16 +49,5 @@
       "Mariuzzo\\LaravelJsLocalization\\": "tests/"
     }
   },
-  "minimum-stability": "stable",
-  "scripts": {
-    "post-update-cmd": [
-      "echo post-update-cmd"
-    ],
-    "post-install-cmd": [
-      "echo post-install-cmd"
-    ],
-    "post-package-install": [
-      "echo post-package-install"
-    ]
-  }
+  "minimum-stability": "stable"
 }
