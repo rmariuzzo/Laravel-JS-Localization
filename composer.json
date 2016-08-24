@@ -51,7 +51,7 @@
     },
     "minimum-stability": "stable",
     "scripts": {
-        "post-install-cmd": [
+        "post-package-install": [
             "Mariuzzo\\LaravelJsLocalization\\ComposerScripts::postInstall"
         ]
     }
