@@ -1,6 +1,5 @@
 # Composer.
 /vendor
-composer.lock
 
 # Mac OS.
 .DS_Store
@@ -14,5 +13,4 @@ composer.lock
 
 # Tests
 /tests/*/vendor
-/test/*/composer.lock
 /tmp
