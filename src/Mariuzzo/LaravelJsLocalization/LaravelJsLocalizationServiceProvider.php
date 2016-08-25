@@ -1,49 +1,49 @@
-<?php namespace Mariuzzo\LaravelJsLocalization;
+<?php
+
+namespace Mariuzzo\LaravelJsLocalization;
 
 use Illuminate\Support\ServiceProvider;
 
 /**
  * The LaravelJsLocalizationServiceProvider class.
  *
- * @package Mariuzzo\LaravelJsLocalization
  * @author  Rubens Mariuzzo <rubens@mariuzzo.com>
  */
 class LaravelJsLocalizationServiceProvider extends ServiceProvider
 {
     /**
      * Indicates if loading of the provider is deferred.
+     *
      * @var bool
      */
     protected $defer = false;
 
     /**
      * Bootstrap the application events.
-     *
-     * @return void
      */
     public function boot()
     {
         // Publish config files
         $this->publishes([
-            __DIR__ . '/../../config/config.php' => config_path('localization-js.php'),
+            __DIR__.'/../../config/config.php' => config_path('localization-js.php'),
         ]);
 
         $this->mergeConfigFrom(
-            __DIR__ . '/../../config/config.php', 'localization-js'
+            __DIR__.'/../../config/config.php', 'localization-js'
         );
     }
 
     /**
      * Register the service provider.
-     *
-     * @return void
      */
     public function register()
     {
         $this->app['localization.js'] = $this->app->share(function ($app) {
             $files = $app['files'];
-            $langs = $app['path.base'] . '/resources/lang';
-            $generator = new Generators\LangJsGenerator($files, $langs);
+            $langs = $app['path.base'].'/resources/lang';
+            $messages = $app['config']->get('localization-js.messages');
+            $generator = new Generators\LangJsGenerator($files, $langs, $messages);
+
             return new Commands\LangJsCommand($generator);
         });
 

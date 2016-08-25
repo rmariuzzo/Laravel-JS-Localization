@@ -16,21 +16,41 @@ use Symfony\Component\Console\Output\NullOutput;
  */
 class LangJsCommandTest extends TestCase
 {
+    /**
+     * The base path of tests.
+     *
+     * @var string
+     */
+    private $testPath = __DIR__.'/..';
+
+    /**
+     * The root path of the project.
+     *
+     * @var string
+     */
+    private $rootPath = __DIR__.'/../..';
+
+    /**
+     * The file path of the expected output.
+     *
+     * @var string
+     */
     private $outputFilePath;
 
+    /**
+     * The base path of language files.
+     *
+     * @var string
+     */
+    private $langPath;
+
+    /**
+     * LangJsCommandTest constructor.
+     */
     public function __construct()
     {
-        $this->setOutputFilePath(__DIR__ . '/output/lang.js');
-    }
-
-    public function getOutputFilePath()
-    {
-        return $this->outputFilePath;
-    }
-
-    public function setOutputFilePath($filePath)
-    {
-        $this->outputFilePath = $filePath;
+        $this->outputFilePath = "$this->testPath/output/lang.js";
+        $this->langPath = "$this->testPath/fixtures/lang";
     }
 
     /**
@@ -38,134 +58,103 @@ class LangJsCommandTest extends TestCase
      */
     public function testShouldCommandRun()
     {
-        $generator = new LangJsGenerator(new File(), __DIR__ . '/fixtures/lang');
+        $generator = new LangJsGenerator(new File(), $this->langPath);
 
         $command = new LangJsCommand($generator);
         $command->setLaravel($this->app);
 
-        $code = $this->runCommand($command, ['target' => $this->getOutputFilePath()]);
-
+        $code = $this->runCommand($command, ['target' => $this->outputFilePath]);
         $this->assertRunsWithSuccess($code);
+        $this->assertFileExists($this->outputFilePath);
 
-        $this->assertFileExists($this->getOutputFilePath());
-
-        $template = __DIR__ . '/../src/Mariuzzo/LaravelJsLocalization/Generators/Templates/langjs_with_messages.js';
-
+        $template = "$this->rootPath/src/Mariuzzo/LaravelJsLocalization/Generators/Templates/langjs_with_messages.js";
         $this->assertFileExists($template);
-
-        $this->assertFileNotEquals($template, $this->getOutputFilePath());
+        $this->assertFileNotEquals($template, $this->outputFilePath);
     }
 
     /**
-     * @return void
      */
     public function testShouldTemplateHasHandlebars()
     {
-        $template = __DIR__ . '/../src/Mariuzzo/LaravelJsLocalization/Generators/Templates/langjs_with_messages.js';
-
+        $template = "$this->rootPath/src/Mariuzzo/LaravelJsLocalization/Generators/Templates/langjs_with_messages.js";
         $this->assertFileExists($template);
 
         $contents = file_get_contents($template);
-
         $this->assertNotEmpty($contents);
-
         $this->assertHasHandlebars('messages', $contents);
-
         $this->assertHasHandlebars('langjs', $contents);
     }
 
     /**
-     * @return void
      */
     public function testShouldOutputHasNotHandlebars()
     {
-        $this->assertFileExists($this->getOutputFilePath());
+        $this->assertFileExists($this->outputFilePath);
 
-        $contents = file_get_contents($this->getOutputFilePath());
-
+        $contents = file_get_contents($this->outputFilePath);
         $this->assertNotEmpty($contents);
-
         $this->assertHasNotHandlebars('messages', $contents);
-
         $this->assertHasNotHandlebars('langjs', $contents);
     }
 
     /**
-     * @return void
      */
     public function testAllFilesShouldBeConverted()
     {
-        $generator = new LangJsGenerator(new File(), __DIR__ . '/fixtures/lang');
+        $generator = new LangJsGenerator(new File(), $this->langPath);
 
         $command = new LangJsCommand($generator);
         $command->setLaravel($this->app);
 
-        $code = $this->runCommand($command, ['target' => $this->getOutputFilePath()]);
-
+        $code = $this->runCommand($command, ['target' => $this->outputFilePath]);
         $this->assertRunsWithSuccess($code);
+        $this->assertFileExists($this->outputFilePath);
 
-        $this->assertFileExists($this->getOutputFilePath());
-
-        $contents = file_get_contents($this->getOutputFilePath());
-
+        $contents = file_get_contents($this->outputFilePath);
         $this->assertContains('createCongregation', $contents);
     }
 
     /**
-     * @return void
      */
     public function testFilesSelectedInConfigShouldBeConverted()
     {
-        $this->app['config']->set('localization-js.messages', [
-            'messages',
-        ]);
-
-        $generator = new LangJsGenerator(new File(), __DIR__ . '/fixtures/lang');
+        $generator = new LangJsGenerator(new File(), $this->langPath, ['messages']);
 
         $command = new LangJsCommand($generator);
         $command->setLaravel($this->app);
 
-        $code = $this->runCommand($command, ['target' => $this->getOutputFilePath()]);
-
+        $code = $this->runCommand($command, ['target' => $this->outputFilePath]);
         $this->assertRunsWithSuccess($code);
+        $this->assertFileExists($this->outputFilePath);
 
-        $this->assertFileExists($this->getOutputFilePath());
-
-        $contents = file_get_contents($this->getOutputFilePath());
-
+        $contents = file_get_contents($this->outputFilePath);
         $this->assertContains('en.messages', $contents);
         $this->assertNotContains('en.validation', $contents);
     }
 
     /**
-     * @return void
      */
     public function testShouldIncludeNestedDirectoryFile()
     {
-        $this->app['config']->set('localization-js.messages', [
-            'forum/thread',
-        ]);
-
-        $generator = new LangJsGenerator(new File(), __DIR__ . '/fixtures/lang');
+        $generator = new LangJsGenerator(new File(), $this->langPath, ['forum/thread']);
 
         $command = new LangJsCommand($generator);
         $command->setLaravel($this->app);
 
-        $code = $this->runCommand($command, ['target' => $this->getOutputFilePath()]);
-
+        $code = $this->runCommand($command, ['target' => $this->outputFilePath]);
         $this->assertRunsWithSuccess($code);
+        $this->assertFileExists($this->outputFilePath);
 
-        $this->assertFileExists($this->getOutputFilePath());
-
-        $contents = file_get_contents($this->getOutputFilePath());
-
+        $contents = file_get_contents($this->outputFilePath);
         $this->assertContains('en.forum.thread', $contents);
     }
 
     /**
      * Run the command.
+     *
      * @param \Illuminate\Console\Command $command
-     * @param array $input
+     * @param array                       $input
+     *
      * @return int
      */
     protected function runCommand($command, $input = [])
@@ -175,7 +164,8 @@ class LangJsCommandTest extends TestCase
 
     /**
      * Assert the code return is success.
-     * @param int $code
+     *
+     * @param int  $code
      * @param null $message
      */
     protected function assertRunsWithSuccess($code, $message = null)
@@ -189,7 +179,7 @@ class LangJsCommandTest extends TestCase
      */
     protected function assertHasHandlebars($handle, $contents)
     {
-        $this->assertEquals(1, preg_match('/\'\{(\s)' . preg_quote($handle) . '(\s)\}\'/', $contents));
+        $this->assertEquals(1, preg_match('/\'\{(\s)'.preg_quote($handle).'(\s)\}\'/', $contents));
     }
 
     /**
@@ -198,6 +188,6 @@ class LangJsCommandTest extends TestCase
      */
     protected function assertHasNotHandlebars($handle, $contents)
     {
-        $this->assertEquals(0, preg_match('/\'\{(\s)' . preg_quote($handle) . '(\s)\}\'/', $contents));
+        $this->assertEquals(0, preg_match('/\'\{(\s)'.preg_quote($handle).'(\s)\}\'/', $contents));
     }
 }

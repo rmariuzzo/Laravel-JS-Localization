@@ -2,7 +2,7 @@
 /vendor
 composer.lock
 
-# Mac OS
+# Mac OS.
 .DS_Store
 
 # NPM.
@@ -12,4 +12,7 @@ composer.lock
 /.idea
 *.iml
 
+# Tests
+/tests/*/vendor
+/test/*/composer.lock
 /tmp
