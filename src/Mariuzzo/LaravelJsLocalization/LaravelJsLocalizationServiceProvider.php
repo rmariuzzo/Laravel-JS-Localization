@@ -43,15 +43,15 @@ class LaravelJsLocalizationServiceProvider extends ServiceProvider
         $app = $this->app;
         $laravelMajorVersion = intval($app::VERSION);
 
+        // Publishes Laravel-JS-Localization packag files and merge user and
+        // package configurations.
         if ($laravelMajorVersion === 4) {
-            // Merge package configuration files.
             $config = $this->app['config']->get($configKey, []);
             $this->app['config']->set($configKey, array_merge(require $configPath, $config));
         } elseif ($laravelMajorVersion === 5) {
             $this->publishes([
                 $configPath => config_path("$configKey.php"),
             ]);
-
             $this->mergeConfigFrom(
                 $configPath, $configKey
             );
@@ -73,7 +73,7 @@ class LaravelJsLocalizationServiceProvider extends ServiceProvider
             return new Commands\LangJsCommand($generator);
         });
 
-        // Bint the Laravel JS Localization command into Laravel Artisan.
+        // Bind the Laravel JS Localization command into Laravel Artisan.
         $this->commands('localization.js');
     }
 
