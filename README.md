@@ -14,7 +14,12 @@
 
 This package convert all your localization messages from your Laravel app to JavaScript with a small library to interact with those messages following a very similar syntax you are familiar with.
 
-Support Laravel 4.2.x, Laravel 5.0.x, Laravel 5.1.x, Laravel 5.2.x and Laravel 5.3.x.
+#### Features
+
+ - Support Laravel 4.2.x, Laravel 5.0.x, Laravel 5.1.x, Laravel 5.2.x and Laravel 5.3.x.
+ - Includes [Lang.js](https://github.com/rmariuzzo/lang.js) (a thin library highly inspired on Laravel's [`Translator`](https://laravel.com/api/5.3/Illuminate/Translation/Translator.html) class).
+ - Allow to specify desired lang files to be converted to JS.
+ - Lang.js API is based on Laravel's [`Translator`](https://laravel.com/api/5.3/Illuminate/Translation/Translator.html) class. No need to learn a whole API.
 
 ## Installation
 
@@ -30,7 +35,7 @@ Mariuzzo\LaravelJsLocalization\LaravelJsLocalizationServiceProvider::class
 
 ## Usage
 
-The `Laravel-JS-Localization` package provides a command that generate the JavaScript version of all your messages found at: `app/lang` (Laravel 4) or `resources/lang` (Laravel 5) directory. The resulting JavaScript file will have the whole bunch of messages and a thin library similar to Laravel's `Lang` class or `trans()` global function.
+The `Laravel-JS-Localization` package provides a command that generate the JavaScript version of all your messages found at: `app/lang` (Laravel 4) or `resources/lang` (Laravel 5) directory. The resulting JavaScript file will contains all your messages plus [Lang.js](https://github.com/rmariuzzo/lang.js) (a thin library highly inspired on Laravel's [`Translator`](https://laravel.com/api/5.3/Illuminate/Translation/Translator.html) class).
 
 ### Generating JS messages
 
@@ -62,12 +67,10 @@ To make only `pagination.php` & `validation.php` files to be included in build p
 <?php
 
 return [
-
     'messages' => [
         'pagination',
         'validation',
     ],
-    
 ];
 ```
 
@@ -103,7 +106,7 @@ elixir(function(mix) {
 
 ## Documentation
 
-This is a quick documentation regarding [Lang.js](https://github.com/rmariuzzo/lang.js) (the thin JavaScript library included by `Laravel-JS-Localization`). The [Lang.js](https://github.com/rmariuzzo/lang.js) library is highly inspired on Laravel's `Lang` class or `trans()` global function.
+This is a quick documentation regarding [Lang.js](https://github.com/rmariuzzo/lang.js) (the thin JavaScript library included by `Laravel-JS-Localization`). The [Lang.js](https://github.com/rmariuzzo/lang.js) (a thin library highly inspired on Laravel's [`Translator`](https://laravel.com/api/5.3/Illuminate/Translation/Translator.html) class).
 
  > 💁 Go to [Lang.js documentation]([Lang.js](https://github.com/rmariuzzo/lang.js)) to see all available methods.
 
