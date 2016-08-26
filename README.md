@@ -1,9 +1,8 @@
 # Laravel JS Localization
 
-[![Join the chat at https://gitter.im/rmariuzzo/Laravel-JS-Localization](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rmariuzzo/Laravel-JS-Localization?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+> 🌐 Laravel Localization in JavaScript.
 
-> Laravel Localization in JavaScript.
-
+![Laravel 5.3](https://img.shields.io/badge/Laravel-5.3-f4645f.svg)
 ![Laravel 5.2](https://img.shields.io/badge/Laravel-5.2-f4645f.svg)
 ![Laravel 5.1](https://img.shields.io/badge/Laravel-5.1-f4645f.svg)
 ![Laravel 5.0](https://img.shields.io/badge/Laravel-5.0-f4645f.svg)
@@ -11,60 +10,27 @@
 [![Latest Stable Version](https://poser.pugx.org/mariuzzo/laravel-js-localization/v/stable.svg)](https://packagist.org/packages/mariuzzo/laravel-js-localization)
 [![Total Downloads](https://poser.pugx.org/mariuzzo/laravel-js-localization/downloads.svg)](https://packagist.org/packages/mariuzzo/laravel-js-localization)
 [![License](https://poser.pugx.org/mariuzzo/laravel-js-localization/license.svg)](https://packagist.org/packages/mariuzzo/laravel-js-localization)
+[![Join the chat at https://gitter.im/rmariuzzo/Laravel-JS-Localization](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rmariuzzo/Laravel-JS-Localization?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-This is a simple package that convert all your localization messages of your Laravel app to JavaScript, and provides a small JavaScript library to interact with those messages.
+This package convert all your localization messages from your Laravel app to JavaScript with a small library to interact with those messages following a very similar syntax you are familiar with.
 
-Support Laravel 4.2.x, Laravel 5, Laravel 5.1.x. and Laravel 5.2.x.
+Support Laravel 4.2.x, Laravel 5.0.x, Laravel 5.1.x, Laravel 5.2.x and Laravel 5.3.x.
 
 ## Installation
 
-Add the following line to you `composer.json` file under `require`.
-
-```json
-"mariuzzo/laravel-js-localization": "1.2.*"
-```
-
-Run:
-
 ```shell
-composer update
+composer require mariuzzo/laravel-js-localization
 ```
 
-In your Laravel app go to `app/config/app.php` and add the following service provider:
+In your Laravel app go to `config/app.php` and add the following service provider:
 
 ```php
-'providers' => [
-    // ...
-    Mariuzzo\LaravelJsLocalization\LaravelJsLocalizationServiceProvider::class,
-    // ...
-],
-```
-That's it!
-
-## Configuration
-
-Run `php artisan vendor:publish --provider="Mariuzzo\LaravelJsLocalization\LaravelJsLocalizationServiceProvider"` first. This command copies the package's default configuration to `config/localization-js.php`.
-
-You may edit this file to define the messages you need in your Javascript code. Just edit the `messages` array in the config file. *Empty messages array will include all the language files in build.*
-
-To make only `pagination.php` & `validation.php` files to be included in build process:
-
-```php
-<?php
-
-return [
-
-    'messages' => [
-        'pagination',
-        'validation',
-    ],
-    
-];
+Mariuzzo\LaravelJsLocalization\LaravelJsLocalizationServiceProvider::class
 ```
 
 ## Usage
 
-This project comes with a command that generate the JavaScript version of all your messages found at: `app/lang` or `resources/lang` directory. The resulting JavaScript file will have the whole bunch of messages and a thin library similar to Laravel's `Lang` class.
+The `Laravel-JS-Localization` package provides a command that generate the JavaScript version of all your messages found at: `app/lang` (Laravel 4) or `resources/lang` (Laravel 5) directory. The resulting JavaScript file will have the whole bunch of messages and a thin library similar to Laravel's `Lang` class or `trans()` global function.
 
 ### Generating JS messages
 
@@ -84,20 +50,38 @@ php artisan lang:js public/assets/dist/lang.dist.js
 php artisan lang:js -c
 ```
 
-### Use [gulp](http://gulpjs.com/) to publish (optional):
+## Configuration
 
-Install `gulp-shell` from https://github.com/sun-zheng-an/gulp-shell with `npm install --save-dev gulp-shell` 
-and then run it directly in your `gulpfile.js`:
+Run `php artisan vendor:publish --provider="Mariuzzo\LaravelJsLocalization\LaravelJsLocalizationServiceProvider"` first. This command copies the package's default configuration to `config/localization-js.php`.
+
+You may edit this file to define the messages you need in your Javascript code. Just edit the `messages` array in the config file. **Empty messages array will include all the language files in build**.
+
+To make only `pagination.php` & `validation.php` files to be included in build process:
+
+```php
+<?php
+
+return [
+
+    'messages' => [
+        'pagination',
+        'validation',
+    ],
+    
+];
+```
+
+#### Using [gulp](http://gulpjs.com/) (optional)
+
+Install [`gulp-shell`](https://github.com/sun-zheng-an/gulp-shell) and then run it directly in your `gulpfile.js`:
 
 ```js
 var shell = require('gulp-shell');
 
-//......
-
 gulp.task('langjs', shell.task('php artisan lang:js -c public/js/messages.js'));
 ```
 
-or you can extend [Laravel's elixir](http://laravel.com/docs/5.1/elixir) like this:
+#### Using [Laravel's elixir](http://laravel.com/docs/elixir) (optional)
 
 ```js
 elixir.extend('langjs', function(path) {
@@ -113,15 +97,15 @@ And use it like this:
 
 ```js
 elixir(function(mix) {
-
     mix.langjs();
-
 });
 ```
 
 ## Documentation
 
-This is the documentation regarding the thin JavaScript library. The library highly inspired on Laravel's `Lang` class.
+This is a quick documentation regarding [Lang.js](https://github.com/rmariuzzo/lang.js) (the thin JavaScript library included by `Laravel-JS-Localization`). The [Lang.js](https://github.com/rmariuzzo/lang.js) library is highly inspired on Laravel's `Lang` class or `trans()` global function.
+
+ > 💁 Go to [Lang.js documentation]([Lang.js](https://github.com/rmariuzzo/lang.js)) to see all available methods.
 
 ### Getting a message
 
@@ -159,56 +143,41 @@ Lang.choice('messages.apples', 10);
 Lang.choice('messages.apples', 10, { name: 'Joe' });
 ```
 
-For more detailed information, take a look at the source: [Lang.js](https://github.com/rmariuzzo/Laravel-JS-Localization/blob/master/js/lang.js).
+> 💁 Go to [Lang.js documentation]([Lang.js](https://github.com/rmariuzzo/lang.js)) to see all available methods.
 
-# Want to contribute?
-
+## Want to contribute?
 
  1. Fork this repository and clone it.
- 2. Create a branch from develop: `git checkout -b feature-foo`.
+ 2. Create a [feature branch](https://guides.github.com/introduction/flow/) from develop: `git checkout develop; git checkout -b feature-foo`.
  3. Push your commits and create a pull request.
-
-## Setting up development environment
 
 ### Prerequisites:
 
 You will need to have installed the following softwares.
 
  - Composer.
- - NodeJS.
- - NPM.
- - PHP 5.4+.
+ - PHP 5.5+.
+
+### Development setup
 
 After getting all the required softwares you may run the following commands to get everything ready:
 
  1. Install PHP dependencies:
-
     ```shell
     composer install
     ```
 
- 2. Install NPM dependences:
-
+ 2. Install test dependencies:
     ```shell
-    npm install -g jasmine-node
-
-    npm install
+    composer test-install
     ```
 
 Now you are good to go! Happy coding!
 
 ## Testing
 
-This project use Jasmine-Node and PHPUnit. All tests are stored at `tests` directory.
-
-To run all JS tests type in you terminal:
+This project uses PHPUnit. All tests are stored at `tests` directory. To run all tests type in your terminal:
 
 ```shell
-npm test
-```
-
-To run all PHP tests type in your terminal:
-
-```shell
-phpunit
+composer test
 ```
