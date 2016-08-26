@@ -51,11 +51,11 @@
   "minimum-stability": "stable",
   "scripts": {
     "test-install": [
-      "composer install --prefer-source --no-interaction --working-dir tests/4.2",
-      "composer install --prefer-source --no-interaction --working-dir tests/5.0",
-      "composer install --prefer-source --no-interaction --working-dir tests/5.1",
-      "composer install --prefer-source --no-interaction --working-dir tests/5.2",
-      "composer install --prefer-source --no-interaction --working-dir tests/5.3"
+      "composer install --prefer-dist --no-interaction --working-dir tests/4.2",
+      "composer install --prefer-dist --no-interaction --working-dir tests/5.0",
+      "composer install --prefer-dist --no-interaction --working-dir tests/5.1",
+      "composer install --prefer-dist --no-interaction --working-dir tests/5.2",
+      "composer install --prefer-dist --no-interaction --working-dir tests/5.3"
     ],
     "test": [
       "./vendor/bin/phpunit --configuration tests/4.2",
