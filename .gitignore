@@ -1,5 +1,6 @@
 # Composer.
 /vendor
+composer.lock
 
 # Mac OS.
 .DS_Store
