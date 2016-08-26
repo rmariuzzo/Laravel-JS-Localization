@@ -1,17 +1,23 @@
 language: php
 
 php:
+  - '5.5'
   - '5.6'
   - '7.0'
   - hhvm
 
+# Optimize the build since we are `composer installing` for each supported
+# Laravel versions (see composer.json, under scripts sections).
 cache:
   directories:
     - $HOME/.composer/cache
 
 before_script:
   - composer self-update
+  # Installing `Laravel-JS-Localization` package dependencies.
   - composer install --prefer-dist --no-interaction
+  # Installing `Laravel-JS-Localization` package dependencies for each
+  # supported Laravel versions (see composer.json, under scripts section).
   - composer test-install
 
 script: composer test

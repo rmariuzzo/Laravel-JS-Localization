@@ -111,7 +111,7 @@ class LangJsCommandTest extends TestCase
         $this->assertFileExists($this->outputFilePath);
 
         $contents = file_get_contents($this->outputFilePath);
-        $this->assertContains('createCongregation', $contents);
+        $this->assertContains('gm8ft2hrrlq1u6m54we9udi', $contents);
     }
 
     /**
