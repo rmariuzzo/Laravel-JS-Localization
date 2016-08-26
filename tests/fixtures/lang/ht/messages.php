@@ -1,39 +1,13 @@
 <?php
 
 return array(
-
-	'home' => 'Akèy',
-	'login' => 'Aksede',
-    'pleaseLogin' => 'Tanpri, itilize non itilizatè ak mo de pas pou ou ka kontinye:',
-    'speakers' => 'Oratè',
-    'congregations' => 'Kongregasyon',
-    'talks' => 'Diskou',
-    'loggedAs' => 'Konekte kòm:',
-    'badUsernameOrPassword' => 'Non itilizatè a oswa mo de pas yo pa bon.',
-    'successfullyLoggedOut' => 'Ou sòti sistèm nan.',
-    'welcome' => 'Byenveni',
-    'unexpectedError' => 'Malerezman, gen yon pwoblèm ki pase...',
-    'noCongregations' => 'Pa gen kongregasyon.',
-    'createOne' => 'Kreye youn',
-    'createCongregation' => 'Kreye Kongregasyon',
-    'datetimeFormat' => 'Fòma: LL:MM',
-    'formErrors' => 'Tanpri, fè yon tcheke nan erè yo.',
-    'congregationCreated' => 'Kongregasyon kreye!',
-    'id' => 'Id',
-    'name' => 'Non',
-    'address' => 'Adrès',
-    'actions' => 'Aksyon',
-    'edit' => 'Modifye',
-    'editCongregation' => 'Modifye Kongregasyon',
-    'update' => 'Mete ajou',
-    'cancel' => 'Anile',
-    'pmDayOfWeek' => 'Jou Diskou Piblik',
-    'pmTime' => 'Lè Diskou Piblik',
-    'create' => 'Kreye',
-    'congregationUpdated' => 'Kongregasyon ajou!',
-    'settings' => 'Paramet',
-    'save' => 'Sere',
-    'language' => 'Langaj',
-    'settingsSaved' => 'Paramet sere!',
-    'messagePlural' => 'singular apple|plural apples' // don't know the language
+    'home' => 'Akèy',
+    'family' => array(
+            'father' => 'Papa',
+            'mother' => 'Maman',
+            'children' => array(
+                 'son' => 'Pitit',
+            ),
+    ),
+    'messagePlural' => 'Yon pòm|Pòm yo',
 );

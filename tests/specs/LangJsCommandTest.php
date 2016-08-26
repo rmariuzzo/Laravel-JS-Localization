@@ -21,14 +21,14 @@ class LangJsCommandTest extends TestCase
      *
      * @var string
      */
-    private $testPath = __DIR__.'/..';
+    private $testPath;
 
     /**
      * The root path of the project.
      *
      * @var string
      */
-    private $rootPath = __DIR__.'/../..';
+    private $rootPath;
 
     /**
      * The file path of the expected output.
@@ -49,6 +49,8 @@ class LangJsCommandTest extends TestCase
      */
     public function __construct()
     {
+        $this->testPath = __DIR__.'/..';
+        $this->rootPath = __DIR__.'/../..';
         $this->outputFilePath = "$this->testPath/output/lang.js";
         $this->langPath = "$this->testPath/fixtures/lang";
     }
@@ -111,7 +113,7 @@ class LangJsCommandTest extends TestCase
         $this->assertFileExists($this->outputFilePath);
 
         $contents = file_get_contents($this->outputFilePath);
-        $this->assertContains('createCongregation', $contents);
+        $this->assertContains('gm8ft2hrrlq1u6m54we9udi', $contents);
     }
 
     /**

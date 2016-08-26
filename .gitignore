@@ -14,5 +14,4 @@ composer.lock
 
 # Tests
 /tests/*/vendor
-/test/*/composer.lock
 /tmp
