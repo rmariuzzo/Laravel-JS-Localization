@@ -1,4 +1,6 @@
-<?php namespace Mariuzzo\LaravelJsLocalization\Commands;
+<?php
+
+namespace Mariuzzo\LaravelJsLocalization\Commands;
 
 use Illuminate\Console\Command;
 use Mariuzzo\LaravelJsLocalization\Generators\LangJsGenerator;
@@ -8,25 +10,27 @@ use Symfony\Component\Console\Input\InputOption;
 /**
  * The LangJsCommand class.
  *
- * @package Mariuzzo\LaravelJsLocalization\Commands
  * @author  Rubens Mariuzzo <rubens@mariuzzo.com>
  */
 class LangJsCommand extends Command
 {
     /**
      * The command name.
+     *
      * @var string
      */
     protected $name = 'lang:js';
 
     /**
      * The command description.
-     * @var  string
+     *
+     * @var string
      */
     protected $description = 'Generate JS lang files.';
 
     /**
      * The generator instance.
+     *
      * @var LangJsGenerator
      */
     protected $generator;
@@ -52,6 +56,7 @@ class LangJsCommand extends Command
 
         if ($this->generator->generate($target, $options)) {
             $this->info("Created: {$target}");
+
             return;
         }
 
@@ -66,7 +71,7 @@ class LangJsCommand extends Command
     protected function getArguments()
     {
         return [
-            ['target', InputArgument::OPTIONAL, 'Target path.', $this->getPublicPath() . '/messages.js'],
+            ['target', InputArgument::OPTIONAL, 'Target path.', $this->getPublicPath().'/messages.js'],
         ];
     }
 
