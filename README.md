@@ -57,7 +57,13 @@ php artisan lang:js -c
 
 ## Configuration
 
-Run `php artisan vendor:publish --provider="Mariuzzo\LaravelJsLocalization\LaravelJsLocalizationServiceProvider"` first. This command copies the package's default configuration to `config/localization-js.php`.
+First, publish the default package's configuration file running:
+
+```shell
+php artisan vendor:publish --provider="Mariuzzo\LaravelJsLocalization\LaravelJsLocalizationServiceProvider"
+```
+
+The configuration will be published to `config/localization-js.php`.
 
 You may edit this file to define the messages you need in your Javascript code. Just edit the `messages` array in the config file. **Empty messages array will include all the language files in build**.
 
