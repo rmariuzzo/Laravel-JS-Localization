@@ -1,5 +1,5 @@
 '{ langjs }';
 
-(function(root) {
+(function () {
     Lang.setMessages('{ messages }');
-})(window);
+})();

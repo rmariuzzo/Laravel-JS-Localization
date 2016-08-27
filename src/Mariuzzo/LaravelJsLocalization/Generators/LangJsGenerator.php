@@ -1,4 +1,6 @@
-<?php namespace Mariuzzo\LaravelJsLocalization\Generators;
+<?php
+
+namespace Mariuzzo\LaravelJsLocalization\Generators;
 
 use Illuminate\Filesystem\Filesystem as File;
 use JShrink\Minifier;
@@ -6,30 +8,42 @@ use JShrink\Minifier;
 /**
  * The LangJsGenerator class.
  *
- * @author Rubens Mariuzzo <rubens@mariuzzo.com>
+ * @author  Rubens Mariuzzo <rubens@mariuzzo.com>
  */
 class LangJsGenerator
 {
     /**
      * The file service.
+     *
+     * @var File
      */
     protected $file;
 
     /**
      * The source path of the language files.
+     *
+     * @var string
      */
     protected $sourcePath;
 
     /**
+     * List of messages should be included in build.
+     *
+     * @var array
+     */
+    protected $messagesIncluded = [];
+
+    /**
      * Construct a new LangJsGenerator instance.
      *
-     * @param Illuminate\Filesystem\File $file       The file service instance.
-     * @param string                     $sourcePath The source path of the language files.
+     * @param File   $file       The file service instance.
+     * @param string $sourcePath The source path of the language files.
      */
-    public function __construct(File $file, $sourcePath)
+    public function __construct(File $file, $sourcePath, $messagesIncluded = [])
     {
         $this->file = $file;
         $this->sourcePath = $sourcePath;
+        $this->messagesIncluded = $messagesIncluded;
     }
 
     /**
@@ -37,20 +51,21 @@ class LangJsGenerator
      *
      * @param string $target  The target directory.
      * @param array  $options Array of options.
+     *
+     * @return int
      */
     public function generate($target, $options)
     {
         $messages = $this->getMessages();
         $this->prepareTarget($target);
 
-        $template = $this->file->get(__DIR__ . '/Templates/langjs_with_messages.js');
-        $langjs = $this->file->get(__DIR__ . '/../../../../Lang.js/src/lang.js');
+        $template = $this->file->get(__DIR__.'/Templates/langjs_with_messages.js');
+        $langjs = $this->file->get(__DIR__.'/../../../../lib/lang.min.js');
 
         $template = str_replace('\'{ messages }\'', json_encode($messages), $template);
         $template = str_replace('\'{ langjs }\';', $langjs, $template);
 
-        if ($options['compress'])
-        {
+        if ($options['compress']) {
             $template = Minifier::minify($template);
         }
 
@@ -61,35 +76,41 @@ class LangJsGenerator
      * Return all language messages.
      *
      * @return array
+     *
+     * @throws \Exception
      */
     protected function getMessages()
     {
-        $messages = array();
+        $messages = [];
         $path = $this->sourcePath;
 
-        if ( ! $this->file->exists($path))
-        {
+        if (!$this->file->exists($path)) {
             throw new \Exception("${path} doesn't exists!");
         }
 
-        foreach ($this->file->allFiles($path) as $file)
-        {
+        foreach ($this->file->allFiles($path) as $file) {
             $pathName = $file->getRelativePathName();
 
-            if ( $this->file->extension($pathName) !== 'php' ) continue;
+            if ($this->file->extension($pathName) !== 'php') {
+                continue;
+            }
+
+            if ($this->isMessagesExcluded($pathName)) {
+                continue;
+            }
 
             $key = substr($pathName, 0, -4);
             $key = str_replace('\\', '.', $key);
             $key = str_replace('/', '.', $key);
 
-            $messages[ $key ] = include "${path}/${pathName}";
+            $messages[$key] = include "${path}/${pathName}";
         }
 
         return $messages;
     }
 
     /**
-     * Prepare the target directoy.
+     * Prepare the target directory.
      *
      * @param string $target The target directory.
      */
@@ -97,9 +118,33 @@ class LangJsGenerator
     {
         $dirname = dirname($target);
 
-        if ( ! $this->file->exists($dirname) )
-        {
-            $this->file->makeDirectory($dirname);
+        if (!$this->file->exists($dirname)) {
+            $this->file->makeDirectory($dirname, null, true);
         }
+    }
+
+    /**
+     * If messages should be excluded from build.
+     *
+     * @param string $filePath
+     *
+     * @return bool
+     */
+    protected function isMessagesExcluded($filePath)
+    {
+        if (empty($this->messagesIncluded)) {
+            return false;
+        }
+
+        $localeDirSeparatorPosition = strpos($filePath, '/');
+        $filePath = substr($filePath, $localeDirSeparatorPosition);
+        $filePath = ltrim($filePath, '/');
+        $filePath = substr($filePath, 0, -4);
+
+        if (in_array($filePath, $this->messagesIncluded)) {
+            return false;
+        }
+
+        return true;
     }
 }

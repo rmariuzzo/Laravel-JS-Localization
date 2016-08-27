@@ -1,11 +1,13 @@
-<?php namespace Mariuzzo\LaravelJsLocalization;
+<?php
+
+namespace Mariuzzo\LaravelJsLocalization;
 
 use Illuminate\Support\ServiceProvider;
 
 /**
  * The LaravelJsLocalizationServiceProvider class.
  *
- * @author Rubens Mariuzzo <rubens@mariuzzo.com>
+ * @author  Rubens Mariuzzo <rubens@mariuzzo.com>
  */
 class LaravelJsLocalizationServiceProvider extends ServiceProvider
 {
@@ -17,30 +19,71 @@ class LaravelJsLocalizationServiceProvider extends ServiceProvider
     protected $defer = false;
 
     /**
-     * Register the service provider.
+     * The path of this package configuration file.
      *
-     * @return void
+     * @var string
+     */
+    protected $configPath;
+
+    public function __constructor()
+    {
+        parent::__constructor();
+        $this->configPath = $this->app['path.config'].DIRECTORY_SEPARATOR;
+    }
+
+    /**
+     * Bootstrap the application events.
+     */
+    public function boot()
+    {
+        $configPath = __DIR__.'/../../config/config.php';
+        $configKey = 'localization-js';
+
+        // Determines Laravel major version.
+        $app = $this->app;
+        $laravelMajorVersion = intval($app::VERSION);
+
+        // Publishes Laravel-JS-Localization packag files and merge user and
+        // package configurations.
+        if ($laravelMajorVersion === 4) {
+            $config = $this->app['config']->get($configKey, []);
+            $this->app['config']->set($configKey, array_merge(require $configPath, $config));
+        } elseif ($laravelMajorVersion === 5) {
+            $this->publishes([
+                $configPath => config_path("$configKey.php"),
+            ]);
+            $this->mergeConfigFrom(
+                $configPath, $configKey
+            );
+        }
+    }
+
+    /**
+     * Register the service provider.
      */
     public function register()
     {
-        $this->app['localization.js'] = $this->app->share(function ($app)
-        {
+        // Bind the Laravel JS Localization command into the app IOC.
+        $this->app['localization.js'] = $this->app->share(function ($app) {
             $files = $app['files'];
             $langs = $app['path.base'].'/resources/lang';
-            $generator = new Generators\LangJsGenerator($files, $langs);
+            $messages = $app['config']->get('localization-js.messages');
+            $generator = new Generators\LangJsGenerator($files, $langs, $messages);
+
             return new Commands\LangJsCommand($generator);
         });
 
+        // Bind the Laravel JS Localization command into Laravel Artisan.
         $this->commands('localization.js');
     }
 
     /**
-     * Get the services provided by the provider.
+     * Get the services provided by this provider.
      *
      * @return array
      */
     public function provides()
     {
-        return array('localization.js');
+        return ['localization.js'];
     }
 }

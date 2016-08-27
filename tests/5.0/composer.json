@@ -1,0 +1,11 @@
+{
+    "require": {
+        "php": ">=5.5.9",
+        "illuminate/console": "5.0.*",
+        "illuminate/filesystem": "5.0.*",
+        "tedivm/jshrink": "1.0.*"
+    },
+    "require-dev": {
+        "orchestra/testbench": "3.0.*"
+    }
+}

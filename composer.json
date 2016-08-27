@@ -15,13 +15,17 @@
         "email": "me@gpopoteur.com",
         "homepage": "https://github.com/gpopoteur",
         "role": "Developer"
-    },{
+    }, {
         "name": "Galievskiy Dmitriy",
         "homepage": "https://github.com/xAockd",
         "role": "Developer"
-    },{
+    }, {
         "name": "Ramon Ackermann",
         "homepage": "https://github.com/sboo",
+        "role": "Developer"
+    }, {
+        "name": "Pe Ell",
+        "homepage": "https://github.com/a-komarev",
         "role": "Developer"
     }],
     "support": {
@@ -30,23 +34,39 @@
     },
     "require": {
         "php": ">=5.5.9",
-        "laravel/framework": "5.1.*|5.2.*",
+        "illuminate/config": ">=4.2",
+        "illuminate/console": ">=4.2",
+        "illuminate/filesystem": ">=4.2",
         "tedivm/jshrink": "1.0.*"
     },
     "require-dev": {
-        "phpunit/phpunit": "4.0.*",
-        "orchestra/testbench": "~3.0",
-        "mockery/mockery": "0.9.*"
+        "phpunit/phpunit": "4.8.*"
     },
     "autoload": {
         "psr-4": {
             "Mariuzzo\\LaravelJsLocalization\\": "src/Mariuzzo/LaravelJsLocalization/"
         }
     },
-  "autoload-dev": {
-    "psr-4": {
-      "Mariuzzo\\LaravelJsLocalization\\": "tests/"
+    "autoload-dev": {
+        "psr-4": {
+            "Mariuzzo\\LaravelJsLocalization\\": "tests/specs"
+        }
+    },
+    "minimum-stability": "stable",
+    "scripts": {
+        "test-install": [
+            "composer install --prefer-dist --no-interaction --working-dir tests/4.2",
+            "composer install --prefer-dist --no-interaction --working-dir tests/5.0",
+            "composer install --prefer-dist --no-interaction --working-dir tests/5.1",
+            "composer install --prefer-dist --no-interaction --working-dir tests/5.2",
+            "if [[ `php -v` =~ \"PHP 5.6\" ]]; then composer install --prefer-dist --no-interaction --working-dir tests/5.3; fi"
+        ],
+        "test": [
+            "./vendor/bin/phpunit --configuration tests/4.2",
+            "./vendor/bin/phpunit --configuration tests/5.0",
+            "./vendor/bin/phpunit --configuration tests/5.1",
+            "./vendor/bin/phpunit --configuration tests/5.2",
+            "if [[ `php -v` =~ \"PHP 5.6\" ]]; then ./vendor/bin/phpunit --configuration tests/5.3; fi"
+        ]
     }
-  },
-    "minimum-stability": "stable"
 }
