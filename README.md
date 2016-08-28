@@ -14,7 +14,7 @@
 
 This package convert all your localization messages from your Laravel app to JavaScript with a small library to interact with those messages following a very similar syntax you are familiar with.
 
-#### Features
+### Features
 
  - Support Laravel 4.2.x, Laravel 5.0.x, Laravel 5.1.x, Laravel 5.2.x and Laravel 5.3.x.
  - Includes [Lang.js](https://github.com/rmariuzzo/lang.js) (a thin library highly inspired on Laravel's [`Translator`](https://laravel.com/api/5.3/Illuminate/Translation/Translator.html) class).
