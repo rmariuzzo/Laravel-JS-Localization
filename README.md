@@ -14,7 +14,7 @@
 
 This package convert all your localization messages from your Laravel app to JavaScript with a small library to interact with those messages following a very similar syntax you are familiar with.
 
-#### Features
+### Features
 
  - Support Laravel 4.2.x, Laravel 5.0.x, Laravel 5.1.x, Laravel 5.2.x and Laravel 5.3.x.
  - Includes [Lang.js](https://github.com/rmariuzzo/lang.js) (a thin library highly inspired on Laravel's [`Translator`](https://laravel.com/api/5.3/Illuminate/Translation/Translator.html) class).
@@ -91,6 +91,7 @@ gulp.task('langjs', shell.task('php artisan lang:js -c public/js/messages.js'));
 ```
 
 #### Using [Laravel's elixir](http://laravel.com/docs/elixir) (optional)
+Before Elixir 4.0:
 
 ```js
 elixir.extend('langjs', function(path) {
@@ -99,6 +100,15 @@ elixir.extend('langjs', function(path) {
     });
 
     return this.queueTask('langjs');
+});
+```
+Elixir 4.0+:
+```js
+var Task = elixir.Task;
+elixir.extend('langjs', function(path) {
+    new Task('langjs', function() {
+        gulp.src('').pipe(shell('php artisan lang:js ' + (path || 'public/js/messages.js')));
+    });
 });
 ```
 
