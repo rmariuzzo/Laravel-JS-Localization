@@ -91,6 +91,7 @@ gulp.task('langjs', shell.task('php artisan lang:js -c public/js/messages.js'));
 ```
 
 #### Using [Laravel's elixir](http://laravel.com/docs/elixir) (optional)
+Before Elixir 4.0:
 
 ```js
 elixir.extend('langjs', function(path) {
@@ -99,6 +100,15 @@ elixir.extend('langjs', function(path) {
     });
 
     return this.queueTask('langjs');
+});
+```
+Elixir 4.0+:
+```js
+var Task = elixir.Task;
+elixir.extend('langjs', function(path) {
+    new Task('langjs', function() {
+        gulp.src('').pipe(shell('php artisan lang:js ' + (path || 'public/js/messages.js')));
+    });
 });
 ```
 
