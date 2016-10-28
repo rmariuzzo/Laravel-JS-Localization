@@ -38,6 +38,7 @@ class LangJsGenerator
      *
      * @param File   $file       The file service instance.
      * @param string $sourcePath The source path of the language files.
+     * @param array $messagesIncluded
      */
     public function __construct(File $file, $sourcePath, $messagesIncluded = [])
     {
@@ -103,7 +104,7 @@ class LangJsGenerator
             $key = str_replace('\\', '.', $key);
             $key = str_replace('/', '.', $key);
 
-            $messages[$key] = include "${path}/${pathName}";
+            $messages[$key] = include $path . DIRECTORY_SEPARATOR . $pathName;
         }
 
         return $messages;
@@ -136,9 +137,9 @@ class LangJsGenerator
             return false;
         }
 
-        $localeDirSeparatorPosition = strpos($filePath, '/');
+        $localeDirSeparatorPosition = strpos($filePath, DIRECTORY_SEPARATOR);
         $filePath = substr($filePath, $localeDirSeparatorPosition);
-        $filePath = ltrim($filePath, '/');
+        $filePath = ltrim($filePath, DIRECTORY_SEPARATOR);
         $filePath = substr($filePath, 0, -4);
 
         if (in_array($filePath, $this->messagesIncluded)) {
