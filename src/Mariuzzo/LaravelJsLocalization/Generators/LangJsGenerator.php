@@ -103,7 +103,7 @@ class LangJsGenerator
             $key = str_replace('\\', '.', $key);
             $key = str_replace('/', '.', $key);
 
-            $messages[$key] = include "${path}/${pathName}";
+            $messages[$key] = include $path.DIRECTORY_SEPARATOR.$pathName;
         }
 
         return $messages;
@@ -135,6 +135,8 @@ class LangJsGenerator
         if (empty($this->messagesIncluded)) {
             return false;
         }
+
+        $filePath = str_replace(DIRECTORY_SEPARATOR,'/',$filePath);
 
         $localeDirSeparatorPosition = strpos($filePath, '/');
         $filePath = substr($filePath, $localeDirSeparatorPosition);
