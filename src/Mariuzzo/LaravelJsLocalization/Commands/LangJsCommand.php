@@ -2,6 +2,7 @@
 
 namespace Mariuzzo\LaravelJsLocalization\Commands;
 
+use Config;
 use Illuminate\Console\Command;
 use Mariuzzo\LaravelJsLocalization\Generators\LangJsGenerator;
 use Symfony\Component\Console\Input\InputArgument;
@@ -84,7 +85,7 @@ class LangJsCommand extends Command
     {
         $default = $this->getPublicPath() . DIRECTORY_SEPARATOR . 'messages.js';
 
-        return config('localization-js.path', $default);
+        return Config::get('localization-js.path', $default);
     }
 
     /**
