@@ -71,8 +71,20 @@ class LangJsCommand extends Command
     protected function getArguments()
     {
         return [
-            ['target', InputArgument::OPTIONAL, 'Target path.', $this->getPublicPath().'/messages.js'],
+            ['target', InputArgument::OPTIONAL, 'Target path.', $this->getDefaultPath()],
         ];
+    }
+
+    /**
+     * Return the path to use when no path is specified.
+     *
+     * @return string
+     */
+    protected function getDefaultPath()
+    {
+        $default = $this->getPublicPath() . DIRECTORY_SEPARATOR . 'messages.js';
+
+        return config('localization-js.path', $default);
     }
 
     /**
