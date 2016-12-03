@@ -2,7 +2,7 @@
 
 return [
 
-    /**
+    /*
      * Set the names of files you want to add to generated javascript.
      * Otherwise all the files will be included.
      *
@@ -15,8 +15,8 @@ return [
 
     ],
 
-    /**
+    /*
      * The default path to use for the generated javascript.
      */
-    'path' => public_path() . DIRECTORY_SEPARATOR . 'messages.js',
+    'path' => public_path('messages.js'),
 ];

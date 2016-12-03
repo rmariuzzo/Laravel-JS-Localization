@@ -83,9 +83,7 @@ class LangJsCommand extends Command
      */
     protected function getDefaultPath()
     {
-        $default = $this->getPublicPath() . DIRECTORY_SEPARATOR . 'messages.js';
-
-        return Config::get('localization-js.path', $default);
+        return Config::get('localization-js.path', public_path('messages.js'));
     }
 
     /**
@@ -98,15 +96,5 @@ class LangJsCommand extends Command
         return [
             ['compress', 'c', InputOption::VALUE_NONE, 'Compress the JavaScript file.', null],
         ];
-    }
-
-    /**
-     * Return the public path of the Laravel application.
-     *
-     * @return string
-     */
-    public function getPublicPath()
-    {
-        return public_path();
     }
 }
