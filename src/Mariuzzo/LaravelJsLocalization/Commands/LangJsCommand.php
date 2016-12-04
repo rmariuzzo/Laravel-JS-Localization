@@ -2,6 +2,7 @@
 
 namespace Mariuzzo\LaravelJsLocalization\Commands;
 
+use Config;
 use Illuminate\Console\Command;
 use Mariuzzo\LaravelJsLocalization\Generators\LangJsGenerator;
 use Symfony\Component\Console\Input\InputArgument;
@@ -71,8 +72,18 @@ class LangJsCommand extends Command
     protected function getArguments()
     {
         return [
-            ['target', InputArgument::OPTIONAL, 'Target path.', $this->getPublicPath().'/messages.js'],
+            ['target', InputArgument::OPTIONAL, 'Target path.', $this->getDefaultPath()],
         ];
+    }
+
+    /**
+     * Return the path to use when no path is specified.
+     *
+     * @return string
+     */
+    protected function getDefaultPath()
+    {
+        return Config::get('localization-js.path', public_path('messages.js'));
     }
 
     /**
@@ -85,15 +96,5 @@ class LangJsCommand extends Command
         return [
             ['compress', 'c', InputOption::VALUE_NONE, 'Compress the JavaScript file.', null],
         ];
-    }
-
-    /**
-     * Return the public path of the Laravel application.
-     *
-     * @return string
-     */
-    public function getPublicPath()
-    {
-        return public_path();
     }
 }

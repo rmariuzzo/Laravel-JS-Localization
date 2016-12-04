@@ -11,9 +11,12 @@ return [
      *     'forum/thread',
      * ],
      */
-
     'messages' => [
 
     ],
 
+    /*
+     * The default path to use for the generated javascript.
+     */
+    'path' => public_path('messages.js'),
 ];
