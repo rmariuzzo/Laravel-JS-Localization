@@ -56,6 +56,10 @@ class LangJsGenerator
      */
     public function generate($target, $options)
     {
+        if ($options['source']) {
+            $this->sourcePath = $options['source'];
+        }
+
         $messages = $this->getMessages();
         $this->prepareTarget($target);
 
