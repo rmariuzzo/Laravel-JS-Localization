@@ -226,13 +226,9 @@ class LangJsCommandTest extends TestCase
         $command = new LangJsCommand($generator);
         $command->setLaravel($this->app);
 
-        $outputDir = $this->testPath.'/output/';
-
-        FileFacade::copyDirectory($this->langPath, $outputDir);
-
         $code = $this->runCommand($command,[
                 'target' => $this->outputFilePath,
-                '-s' => $outputDir,
+                '-s' => "$this->testPath/fixtures/theme/lang",
             ]
         );
         $this->assertRunsWithSuccess($code);
@@ -241,6 +237,9 @@ class LangJsCommandTest extends TestCase
         $template = "$this->rootPath/src/Mariuzzo/LaravelJsLocalization/Generators/Templates/langjs_with_messages.js";
         $this->assertFileExists($template);
         $this->assertFileNotEquals($template, $this->outputFilePath);
+
+        $contents = file_get_contents($this->outputFilePath);
+        $this->assertContains('en.page', $contents);
 
         $this->cleanupOutputDirectory();
     }
@@ -312,11 +311,6 @@ class LangJsCommandTest extends TestCase
         $files = FileFacade::files("{$this->testPath}/output");
         foreach ($files as $file) {
             FileFacade::delete($file);
-        }
-
-        $directories = FileFacade::directories("{$this->testPath}/output");
-        foreach ($directories as $directory) {
-            FileFacade::deleteDirectory($directory);
         }
     }
 }
