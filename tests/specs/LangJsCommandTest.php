@@ -250,6 +250,50 @@ class LangJsCommandTest extends TestCase
     }
 
     /**
+     */
+    public function testChangeDefaultLangSourceFolder()
+    {
+        $generator = new LangJsGenerator(new File(), $this->langPath);
+
+        $command = new LangJsCommand($generator);
+        $command->setLaravel($this->app);
+
+        $code = $this->runCommand($command,[
+                'target' => $this->outputFilePath,
+                '-s' => "$this->testPath/fixtures/theme/lang",
+            ]
+        );
+        $this->assertRunsWithSuccess($code);
+        $this->assertFileExists($this->outputFilePath);
+
+        $template = "$this->rootPath/src/Mariuzzo/LaravelJsLocalization/Generators/Templates/langjs_with_messages.js";
+        $this->assertFileExists($template);
+        $this->assertFileNotEquals($template, $this->outputFilePath);
+
+        $contents = file_get_contents($this->outputFilePath);
+        $this->assertContains('en.page', $contents);
+
+        $this->cleanupOutputDirectory();
+    }
+
+    /**
+     * @expectedException Exception
+     */
+    public function testChangeDefaultLangSourceFolderForOneThatDosentExist()
+    {
+        $generator = new LangJsGenerator(new File(), $this->langPath);
+
+        $command = new LangJsCommand($generator);
+        $command->setLaravel($this->app);
+
+        $code = $this->runCommand($command,[
+                'target' => $this->outputFilePath,
+                '-s' => $this->langPath.'/non-exist',
+            ]
+        );
+    }
+
+    /**
      * Run the command.
      *
      * @param \Illuminate\Console\Command $command
