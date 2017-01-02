@@ -53,7 +53,10 @@ class LangJsCommand extends Command
     public function fire()
     {
         $target = $this->argument('target');
-        $options = ['compress' => $this->option('compress')];
+        $options = [
+            'compress' => $this->option('compress'),
+            'source' => $this->option('source'),
+        ];
 
         if ($this->generator->generate($target, $options)) {
             $this->info("Created: {$target}");
@@ -95,6 +98,7 @@ class LangJsCommand extends Command
     {
         return [
             ['compress', 'c', InputOption::VALUE_NONE, 'Compress the JavaScript file.', null],
+            ['source', 's', InputOption::VALUE_REQUIRED, 'Specifying a custom source folder', null],
         ];
     }
 }

@@ -55,6 +55,12 @@ php artisan lang:js public/assets/dist/lang.dist.js
 php artisan lang:js -c
 ```
 
+### Specifying a custom source folder
+
+```shell
+php artisan lang:js public/assets/dist/lang.dist.js -s themes/default/lang
+```
+
 ## Configuration
 
 First, publish the default package's configuration file running:
