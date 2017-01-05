@@ -69,7 +69,7 @@ class LangJsCommandTest extends TestCase
         $this->assertRunsWithSuccess($code);
         $this->assertFileExists($this->outputFilePath);
 
-        $template = "$this->rootPath/src/Mariuzzo/LaravelJsLocalization/Generators/Templates/langjs_with_messages.js";
+        $template = "$this->rootPath/src/Mariuzzo/LaravelJsLocalization/Generators/Templates/langjs_messages.js";
         $this->assertFileExists($template);
         $this->assertFileNotEquals($template, $this->outputFilePath);
     }
@@ -78,13 +78,12 @@ class LangJsCommandTest extends TestCase
      */
     public function testShouldTemplateHasHandlebars()
     {
-        $template = "$this->rootPath/src/Mariuzzo/LaravelJsLocalization/Generators/Templates/langjs_with_messages.js";
+        $template = "$this->rootPath/src/Mariuzzo/LaravelJsLocalization/Generators/Templates/langjs_messages.js";
         $this->assertFileExists($template);
 
         $contents = file_get_contents($template);
         $this->assertNotEmpty($contents);
         $this->assertHasHandlebars('messages', $contents);
-        $this->assertHasHandlebars('langjs', $contents);
     }
 
     /**
@@ -96,7 +95,6 @@ class LangJsCommandTest extends TestCase
         $contents = file_get_contents($this->outputFilePath);
         $this->assertNotEmpty($contents);
         $this->assertHasNotHandlebars('messages', $contents);
-        $this->assertHasNotHandlebars('langjs', $contents);
     }
 
     /**
