@@ -127,8 +127,18 @@ class LangJsCommandTest extends TestCase
 
         $contents = file_get_contents($this->outputFilePath);
         $this->assertContains('gm8ft2hrrlq1u6m54we9udi', $contents);
+        
+        $this->assertNotContains('vendor.nonameinc.en.messages', $contents);
+        $this->assertNotContains('vendor.nonameinc.es.messages', $contents);
+        $this->assertNotContains('vendor.nonameinc.ht.messages', $contents);
+
+        $this->assertContains('en.nonameinc::messages', $contents);
+        $this->assertContains('es.nonameinc::messages', $contents);
+        $this->assertContains('ht.nonameinc::messages', $contents);
+
 
         $this->cleanupOutputDirectory();
+
     }
 
     /**

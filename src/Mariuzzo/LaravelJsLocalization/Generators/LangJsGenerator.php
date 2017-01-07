@@ -110,6 +110,10 @@ class LangJsGenerator
             $key = substr($pathName, 0, -4);
             $key = str_replace('\\', '.', $key);
             $key = str_replace('/', '.', $key);
+            
+            if (starts_with($key, 'vendor')) {
+                $key = $this->getVendorKey($key);
+            }
 
             $messages[$key] = include $path . DIRECTORY_SEPARATOR . $pathName;
         }
@@ -156,5 +160,13 @@ class LangJsGenerator
         }
 
         return true;
+    }
+    
+    private function getVendorKey($key)
+    {
+        $keyParts = explode('.', $key, 4);
+        unset($keyParts[0]);
+
+        return $keyParts[2] .'.'. $keyParts[1] . '::' . $keyParts[3];
     }
 }
