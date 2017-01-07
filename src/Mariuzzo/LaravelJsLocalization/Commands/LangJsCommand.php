@@ -2,6 +2,7 @@
 
 namespace Mariuzzo\LaravelJsLocalization\Commands;
 
+use Config;
 use Illuminate\Console\Command;
 use Mariuzzo\LaravelJsLocalization\Generators\LangJsGenerator;
 use Symfony\Component\Console\Input\InputArgument;
@@ -52,7 +53,11 @@ class LangJsCommand extends Command
     public function fire()
     {
         $target = $this->argument('target');
-        $options = ['compress' => $this->option('compress')];
+        $options = [
+            'compress' => $this->option('compress'),
+            'no-lib' => $this->option('no-lib'),
+            'source' => $this->option('source'),
+        ];
 
         if ($this->generator->generate($target, $options)) {
             $this->info("Created: {$target}");
@@ -71,8 +76,18 @@ class LangJsCommand extends Command
     protected function getArguments()
     {
         return [
-            ['target', InputArgument::OPTIONAL, 'Target path.', $this->getPublicPath().'/messages.js'],
+            ['target', InputArgument::OPTIONAL, 'Target path.', $this->getDefaultPath()],
         ];
+    }
+
+    /**
+     * Return the path to use when no path is specified.
+     *
+     * @return string
+     */
+    protected function getDefaultPath()
+    {
+        return Config::get('localization-js.path', public_path('messages.js'));
     }
 
     /**
@@ -84,16 +99,8 @@ class LangJsCommand extends Command
     {
         return [
             ['compress', 'c', InputOption::VALUE_NONE, 'Compress the JavaScript file.', null],
+            ['no-lib', 'nl', InputOption::VALUE_NONE, 'Do not include the lang.js library.', null],
+            ['source', 's', InputOption::VALUE_REQUIRED, 'Specifying a custom source folder', null],
         ];
-    }
-
-    /**
-     * Return the public path of the Laravel application.
-     *
-     * @return string
-     */
-    public function getPublicPath()
-    {
-        return public_path();
     }
 }

@@ -56,14 +56,22 @@ class LangJsGenerator
      */
     public function generate($target, $options)
     {
+        if ($options['source']) {
+            $this->sourcePath = $options['source'];
+        }
+
         $messages = $this->getMessages();
         $this->prepareTarget($target);
 
-        $template = $this->file->get(__DIR__.'/Templates/langjs_with_messages.js');
-        $langjs = $this->file->get(__DIR__.'/../../../../lib/lang.min.js');
+        if ($options['no-lib']) {
+            $template = $this->file->get(__DIR__.'/Templates/messages.js');
+        } else {
+            $template = $this->file->get(__DIR__.'/Templates/langjs_with_messages.js');
+            $langjs = $this->file->get(__DIR__.'/../../../../lib/lang.min.js');
+            $template = str_replace('\'{ langjs }\';', $langjs, $template);
+        }
 
         $template = str_replace('\'{ messages }\'', json_encode($messages), $template);
-        $template = str_replace('\'{ langjs }\';', $langjs, $template);
 
         if ($options['compress']) {
             $template = Minifier::minify($template);

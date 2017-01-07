@@ -2,6 +2,8 @@
 
 namespace Mariuzzo\LaravelJsLocalization;
 
+use Config;
+use Illuminate\Support\Facades\File as FileFacade;
 use Illuminate\Filesystem\Filesystem as File;
 use Mariuzzo\LaravelJsLocalization\Commands\LangJsCommand;
 use Mariuzzo\LaravelJsLocalization\Generators\LangJsGenerator;
@@ -72,6 +74,8 @@ class LangJsCommandTest extends TestCase
         $template = "$this->rootPath/src/Mariuzzo/LaravelJsLocalization/Generators/Templates/langjs_with_messages.js";
         $this->assertFileExists($template);
         $this->assertFileNotEquals($template, $this->outputFilePath);
+
+        $this->cleanupOutputDirectory();
     }
 
     /**
@@ -91,12 +95,21 @@ class LangJsCommandTest extends TestCase
      */
     public function testShouldOutputHasNotHandlebars()
     {
+        $generator = new LangJsGenerator(new File(), $this->langPath);
+
+        $command = new LangJsCommand($generator);
+        $command->setLaravel($this->app);
+
+        $code = $this->runCommand($command, ['target' => $this->outputFilePath]);
+        $this->assertRunsWithSuccess($code);
         $this->assertFileExists($this->outputFilePath);
 
         $contents = file_get_contents($this->outputFilePath);
         $this->assertNotEmpty($contents);
         $this->assertHasNotHandlebars('messages', $contents);
         $this->assertHasNotHandlebars('langjs', $contents);
+
+        $this->cleanupOutputDirectory();
     }
 
     /**
@@ -122,6 +135,10 @@ class LangJsCommandTest extends TestCase
         $this->assertContains('en.nonameinc::messages', $contents);
         $this->assertContains('es.nonameinc::messages', $contents);
         $this->assertContains('ht.nonameinc::messages', $contents);
+
+
+        $this->cleanupOutputDirectory();
+
     }
 
     /**
@@ -140,6 +157,8 @@ class LangJsCommandTest extends TestCase
         $contents = file_get_contents($this->outputFilePath);
         $this->assertContains('en.messages', $contents);
         $this->assertNotContains('en.validation', $contents);
+
+        $this->cleanupOutputDirectory();
     }
 
     /**
@@ -157,6 +176,131 @@ class LangJsCommandTest extends TestCase
 
         $contents = file_get_contents($this->outputFilePath);
         $this->assertContains('en.forum.thread', $contents);
+
+        $this->cleanupOutputDirectory();
+    }
+
+    /**
+     */
+    public function testShouldUseDefaultOutputPathFromConfig()
+    {
+        $customOutputFilePath = "{$this->testPath}/output/lang-with-custom-path.js";
+        Config::set('localization-js.path', $customOutputFilePath);
+
+        $generator = new LangJsGenerator(new File(), $this->langPath);
+
+        $command = new LangJsCommand($generator);
+        $command->setLaravel($this->app);
+
+        $code = $this->runCommand($command);
+        $this->assertRunsWithSuccess($code);
+        $this->assertFileExists($customOutputFilePath);
+
+        $template = "$this->rootPath/src/Mariuzzo/LaravelJsLocalization/Generators/Templates/langjs_with_messages.js";
+        $this->assertFileExists($template);
+        $this->assertFileNotEquals($template, $customOutputFilePath);
+
+        $this->cleanupOutputDirectory();
+    }
+
+    /**
+     */
+    public function testShouldIgnoreDefaultOutputPathFromConfigIfTargetArgumentExist()
+    {
+        $customOutputFilePath = "{$this->testPath}/output/lang-with-custom-path.js";
+        Config::set('localization-js.path', $customOutputFilePath);
+
+        $generator = new LangJsGenerator(new File(), $this->langPath);
+
+        $command = new LangJsCommand($generator);
+        $command->setLaravel($this->app);
+
+        $code = $this->runCommand($command, ['target' => $this->outputFilePath]);
+        $this->assertRunsWithSuccess($code);
+        $this->assertFileExists($this->outputFilePath);
+        $this->assertFileNotExists($customOutputFilePath);
+
+        $template = "$this->rootPath/src/Mariuzzo/LaravelJsLocalization/Generators/Templates/langjs_with_messages.js";
+        $this->assertFileExists($template);
+        $this->assertFileNotEquals($template, $this->outputFilePath);
+
+        $this->cleanupOutputDirectory();
+    }
+
+    /*
+     * test template have handlebar { messages }
+     * */
+    public function testShouldTemplateMessagesHasHandlebars()
+    {
+        $template = "$this->rootPath/src/Mariuzzo/LaravelJsLocalization/Generators/Templates/messages.js";
+        $this->assertFileExists($template);
+
+        $contents = file_get_contents($template);
+        $this->assertNotEmpty($contents);
+        $this->assertHasHandlebars('messages', $contents);
+    }
+
+    /*
+     * test command with option --no-lib
+     * */
+    public function testShouldOnlyMessageExported()
+    {
+        $generator = new LangJsGenerator(new File(), $this->langPath);
+        $command = new LangJsCommand($generator);
+        $command->setLaravel($this->app);
+
+        $code = $this->runCommand($command, ['target' => $this->outputFilePath,'--no-lib' => true]);
+        $this->assertRunsWithSuccess($code);
+        $this->assertFileExists($this->outputFilePath);
+
+        $contents = file_get_contents($this->outputFilePath);
+        $this->assertNotEmpty($contents);
+        $this->assertHasNotHandlebars('messages', $contents);
+        $this->cleanupOutputDirectory();
+    }
+
+    /**
+     */
+    public function testChangeDefaultLangSourceFolder()
+    {
+        $generator = new LangJsGenerator(new File(), $this->langPath);
+
+        $command = new LangJsCommand($generator);
+        $command->setLaravel($this->app);
+
+        $code = $this->runCommand($command,[
+                'target' => $this->outputFilePath,
+                '-s' => "$this->testPath/fixtures/theme/lang",
+            ]
+        );
+        $this->assertRunsWithSuccess($code);
+        $this->assertFileExists($this->outputFilePath);
+
+        $template = "$this->rootPath/src/Mariuzzo/LaravelJsLocalization/Generators/Templates/langjs_with_messages.js";
+        $this->assertFileExists($template);
+        $this->assertFileNotEquals($template, $this->outputFilePath);
+
+        $contents = file_get_contents($this->outputFilePath);
+        $this->assertContains('en.page', $contents);
+
+        $this->cleanupOutputDirectory();
+    }
+
+    /**
+     * @expectedException Exception
+     */
+    public function testChangeDefaultLangSourceFolderForOneThatDosentExist()
+    {
+        $generator = new LangJsGenerator(new File(), $this->langPath);
+
+        $command = new LangJsCommand($generator);
+        $command->setLaravel($this->app);
+
+        $code = $this->runCommand($command,[
+                'target' => $this->outputFilePath,
+                '-s' => $this->langPath.'/non-exist',
+            ]
+        );
     }
 
     /**
@@ -199,5 +343,16 @@ class LangJsCommandTest extends TestCase
     protected function assertHasNotHandlebars($handle, $contents)
     {
         $this->assertEquals(0, preg_match('/\'\{(\s)'.preg_quote($handle).'(\s)\}\'/', $contents));
+    }
+
+    /**
+     * Cleanup output directory after tests.
+     */
+    protected function cleanupOutputDirectory()
+    {
+        $files = FileFacade::files("{$this->testPath}/output");
+        foreach ($files as $file) {
+            FileFacade::delete($file);
+        }
     }
 }
