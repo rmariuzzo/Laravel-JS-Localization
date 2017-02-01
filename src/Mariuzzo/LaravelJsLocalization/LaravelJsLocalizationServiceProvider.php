@@ -41,9 +41,9 @@ class LaravelJsLocalizationServiceProvider extends ServiceProvider
 
         // Determines Laravel major version.
         $app = $this->app;
-        $laravelMajorVersion = intval($app::VERSION);
+        $laravelMajorVersion = (int) $app::VERSION;
 
-        // Publishes Laravel-JS-Localization packag files and merge user and
+        // Publishes Laravel-JS-Localization package files and merge user and
         // package configurations.
         if ($laravelMajorVersion === 4) {
             $config = $this->app['config']->get($configKey, []);
@@ -64,7 +64,7 @@ class LaravelJsLocalizationServiceProvider extends ServiceProvider
     public function register()
     {
         // Bind the Laravel JS Localization command into the app IOC.
-        $this->app['localization.js'] = $this->app->share(function ($app) {
+        $this->app->singleton('localization.js', function ($app) {
             $files = $app['files'];
             $langs = $app['path.base'].'/resources/lang';
             $messages = $app['config']->get('localization-js.messages');
