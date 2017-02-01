@@ -1,0 +1,18 @@
+{
+    "autoload": {
+        "psr-4": {
+            "Mariuzzo\\LaravelJsLocalization\\": "../../src/Mariuzzo/LaravelJsLocalization/"
+        }
+    },
+    "require": {
+        "php": ">=5.5.9",
+        "illuminate/console": "5.4.*",
+        "illuminate/filesystem": "5.4.*",
+        "tedivm/jshrink": "1.0.*"
+    },
+    "require-dev": {
+        "orchestra/testbench": "3.4.*",
+        "phpunit/phpunit": "~5.7"
+    },
+    "minimum-stability": "dev"
+}

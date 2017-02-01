@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Get current script directory.
+CWD=`dirname $0`
+echo "Current working directory is: $CWD"
+
+# Get PHP version.
+PHP_VERSION=`php -v`
+echo "PHP version is: $PHP_VERSION"
+
+# Run if PHP version is 5.6, 7.0 or HHVM.
+if [[ $PHP_VERSION =~ "PHP 5.6" || $PHP_VERSION =~ "PHP 7.0" || $PHP_VERSION =~ "HHVM" ]] ; then
+    "$CWD"/vendor/bin/phpunit --configuration "$CWD"
+else
+    echo "No running tests for PHP version: $PHP_VERSION"
+fi
