@@ -59,14 +59,16 @@
             "composer install --prefer-dist --no-interaction --working-dir tests/5.0",
             "composer install --prefer-dist --no-interaction --working-dir tests/5.1",
             "composer install --prefer-dist --no-interaction --working-dir tests/5.2",
-            "if [[ `php -v` =~ \"PHP 5.6\" ]]; then composer install --prefer-dist --no-interaction --working-dir tests/5.3; fi"
+            "./tests/5.3/install",
+            "./tests/5.4/install"
         ],
         "test": [
             "./vendor/bin/phpunit --configuration tests/4.2",
             "./vendor/bin/phpunit --configuration tests/5.0",
             "./vendor/bin/phpunit --configuration tests/5.1",
             "./vendor/bin/phpunit --configuration tests/5.2",
-            "if [[ `php -v` =~ \"PHP 5.6\" ]]; then ./vendor/bin/phpunit --configuration tests/5.3; fi"
+            "./tests/5.3/run",
+            "./tests/5.4/run"
         ]
     }
 }
