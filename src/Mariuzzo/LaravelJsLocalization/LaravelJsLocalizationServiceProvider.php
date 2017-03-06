@@ -65,8 +65,16 @@ class LaravelJsLocalizationServiceProvider extends ServiceProvider
     {
         // Bind the Laravel JS Localization command into the app IOC.
         $this->app->singleton('localization.js', function ($app) {
+            $app = $this->app;
+            $laravelMajorVersion = (int) $app::VERSION;
+            
             $files = $app['files'];
-            $langs = $app['path.base'].'/resources/lang';
+            
+            if ($laravelMajorVersion === 4) {
+                $langs = $app['path.base'].'/app/lang';
+            }} elseif ($laravelMajorVersion === 5) {
+                $langs = $app['path.base'].'/resources/lang';
+            }
             $messages = $app['config']->get('localization-js.messages');
             $generator = new Generators\LangJsGenerator($files, $langs, $messages);
 
