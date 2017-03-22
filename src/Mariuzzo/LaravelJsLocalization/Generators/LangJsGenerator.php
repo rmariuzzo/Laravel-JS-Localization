@@ -73,6 +73,22 @@ class LangJsGenerator
     }
 
     /**
+     * Recursively sorts all messages by key.
+     *
+     * @param array $messages The messages to sort by key.
+     */
+    protected function sortMessages(&$messages)
+    {
+        if (is_array($messages)) {
+            ksort($messages);
+
+            foreach ($messages as $key => &$value) {
+                $this->sortMessages($value);
+            }
+        }
+    }
+
+    /**
      * Return all language messages.
      *
      * @return array
@@ -105,6 +121,8 @@ class LangJsGenerator
 
             $messages[$key] = include $path . DIRECTORY_SEPARATOR . $pathName;
         }
+
+        $this->sortMessages($messages);
 
         return $messages;
     }
