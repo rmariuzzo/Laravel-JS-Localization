@@ -65,6 +65,8 @@ class LangJsGenerator
 
         if ($options['no-lib']) {
             $template = $this->file->get(__DIR__.'/Templates/messages.js');
+        } else if ($options['json']) {
+            $template = $this->file->get(__DIR__.'/Templates/messages.json');
         } else {
             $template = $this->file->get(__DIR__.'/Templates/langjs_with_messages.js');
             $langjs = $this->file->get(__DIR__.'/../../../../lib/lang.min.js');
