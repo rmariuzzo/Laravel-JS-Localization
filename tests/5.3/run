@@ -6,8 +6,8 @@ CWD=`dirname $0`
 # Get PHP version.
 PHP_VERSION=`php -v`
 
-# Run if PHP version is 5.6, 7.0 or HHVM.
-if [[ $PHP_VERSION =~ "PHP 5.6" || $PHP_VERSION =~ "PHP 7.0" || $PHP_VERSION =~ "HHVM" ]] ; then
+# Run if PHP version is 5.6 or 7.0.
+if [[ $PHP_VERSION =~ "PHP 5.6" || $PHP_VERSION =~ "PHP 7.0" ]] ; then
     echo "Current working directory is: $CWD"
     echo "PHP version is: $PHP_VERSION"
     "$CWD"/../../vendor/bin/phpunit --configuration "$CWD"
