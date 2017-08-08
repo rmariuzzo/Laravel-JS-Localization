@@ -259,6 +259,25 @@ class LangJsCommandTest extends TestCase
         $this->cleanupOutputDirectory();
     }
 
+    /*
+     * test command with option --json
+     * */
+    public function testShouldOnlyMessageJSONExported()
+    {
+        $generator = new LangJsGenerator(new File(), $this->langPath);
+        $command = new LangJsCommand($generator);
+        $command->setLaravel($this->app);
+
+        $code = $this->runCommand($command, ['target' => $this->outputFilePath,'--json' => true]);
+        $this->assertRunsWithSuccess($code);
+        $this->assertFileExists($this->outputFilePath);
+
+        $contents = file_get_contents($this->outputFilePath);
+        $this->assertNotEmpty($contents);
+        $this->assertHasNotHandlebars('messages', $contents);
+        $this->cleanupOutputDirectory();
+    }
+
     /**
      */
     public function testChangeDefaultLangSourceFolder()

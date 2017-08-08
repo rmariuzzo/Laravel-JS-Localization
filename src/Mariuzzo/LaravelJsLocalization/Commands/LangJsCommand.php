@@ -55,6 +55,7 @@ class LangJsCommand extends Command
         $target = $this->argument('target');
         $options = [
             'compress' => $this->option('compress'),
+            'json' => $this->option('json'),
             'no-lib' => $this->option('no-lib'),
             'source' => $this->option('source'),
         ];
@@ -100,6 +101,7 @@ class LangJsCommand extends Command
         return [
             ['compress', 'c', InputOption::VALUE_NONE, 'Compress the JavaScript file.', null],
             ['no-lib', 'nl', InputOption::VALUE_NONE, 'Do not include the lang.js library.', null],
+            ['json', 'j', InputOption::VALUE_NONE, 'Only output the messages json.', null],
             ['source', 's', InputOption::VALUE_REQUIRED, 'Specifying a custom source folder', null],
         ];
     }
