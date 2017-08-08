@@ -52,7 +52,7 @@ class LangJsCommand extends Command
      */
     public function fire()
     {
-        $this->fire();
+        $this->handle();
     }
 
     /**
