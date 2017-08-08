@@ -62,6 +62,12 @@ php artisan lang:js -c
 php artisan lang:js public/assets/dist/lang.dist.js -s themes/default/lang
 ```
 
+### Output a JSON file instead.
+
+```shell
+php artisan lang:js --json
+```
+
 ## Configuration
 
 First, publish the default package's configuration file running:
