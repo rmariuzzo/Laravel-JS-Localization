@@ -48,9 +48,17 @@ class LangJsCommand extends Command
     }
 
     /**
-     * Fire the command.
+     * Fire the command. (Compatibility for < 5.0)
      */
     public function fire()
+    {
+        $this->handle();
+    }
+
+    /**
+     * Handle the command.
+     */
+    public function handle()
     {
         $target = $this->argument('target');
         $options = [
