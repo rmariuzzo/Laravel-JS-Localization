@@ -72,6 +72,6 @@
         ]
     },
     "suggest": {
-        "clentfort/laravel-find-js-localizations": "An Artisan command that helps finding untranslated strings in JavaScript-soruces"
+        "clentfort/laravel-find-js-localizations": "An Artisan that helps to find untranslated strings in JavaScript-sources"
     }
 }
