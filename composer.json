@@ -70,5 +70,8 @@
             "./tests/5.3/run",
             "./tests/5.4/run"
         ]
+    },
+    "suggest": {
+        "clentfort/laravel-find-js-localizations": "An Artisan that helps to find untranslated strings in JavaScript-sources"
     }
 }
