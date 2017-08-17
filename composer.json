@@ -70,5 +70,12 @@
             "./tests/5.3/run",
             "./tests/5.4/run"
         ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Mariuzzo\\LaravelJsLocalization\\LaravelJsLocalizationServiceProvider"
+            ]
+        }
     }
 }
