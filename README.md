@@ -1,23 +1,16 @@
-# Laravel JS Localization
+![Laravel JS Localization](banner.png)
 
-> 🌐 Laravel Localization in JavaScript.
-
-![Laravel 5.4](https://img.shields.io/badge/Laravel-5.4-f4645f.svg)
-![Laravel 5.3](https://img.shields.io/badge/Laravel-5.3-f4645f.svg)
-![Laravel 5.2](https://img.shields.io/badge/Laravel-5.2-f4645f.svg)
-![Laravel 5.1](https://img.shields.io/badge/Laravel-5.1-f4645f.svg)
-![Laravel 5.0](https://img.shields.io/badge/Laravel-5.0-f4645f.svg)
+![Laravel 5.5](https://img.shields.io/badge/Laravel-5.5-f4645f.svg)
 ![Laravel 4.2](https://img.shields.io/badge/Laravel-4.2-f4645f.svg)
 [![Latest Stable Version](https://poser.pugx.org/mariuzzo/laravel-js-localization/v/stable.svg)](https://packagist.org/packages/mariuzzo/laravel-js-localization)
 [![Total Downloads](https://poser.pugx.org/mariuzzo/laravel-js-localization/downloads.svg)](https://packagist.org/packages/mariuzzo/laravel-js-localization)
 [![License](https://poser.pugx.org/mariuzzo/laravel-js-localization/license.svg)](https://packagist.org/packages/mariuzzo/laravel-js-localization)
-[![Join the chat at https://gitter.im/rmariuzzo/Laravel-JS-Localization](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rmariuzzo/Laravel-JS-Localization?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 This package convert all your localization messages from your Laravel app to JavaScript with a small library to interact with those messages following a very similar syntax you are familiar with.
 
 ### Features
 
- - Support Laravel 4.2, 5.0, 5.1, 5.2, 5.3 and 5.4.
+ - Support Laravel 4.2, 5.0, 5.1, 5.2, 5.3, 5.4 and 5.5.
  - Includes [Lang.js](https://github.com/rmariuzzo/lang.js) (a thin library highly inspired on Laravel's [`Translator`](https://laravel.com/api/5.4/Illuminate/Translation/Translator.html) class).
  - Allow to specify desired lang files to be converted to JS.
  - Lang.js API is based on Laravel's [`Translator`](https://laravel.com/api/5.4/Illuminate/Translation/Translator.html) class. No need to learn a whole API.
