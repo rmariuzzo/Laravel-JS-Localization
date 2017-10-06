@@ -151,7 +151,7 @@ class LangJsGenerator
         $dirname = dirname($target);
 
         if (!$this->file->exists($dirname)) {
-            $this->file->makeDirectory($dirname, null, true);
+            $this->file->makeDirectory($dirname, 0755, true);
         }
     }
 
