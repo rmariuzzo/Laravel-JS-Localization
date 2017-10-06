@@ -136,6 +136,7 @@ class LangJsCommandTest extends TestCase
         $this->assertContains('es.nonameinc::messages', $contents);
         $this->assertContains('ht.nonameinc::messages', $contents);
 
+        $this->assertContains('en.forum.thread', $contents);
 
         $this->cleanupOutputDirectory();
 
