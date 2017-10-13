@@ -34,16 +34,24 @@ class LangJsGenerator
     protected $messagesIncluded = [];
 
     /**
+     * A string within the path that must occur, in order to add the file.
+     *
+     * @var string
+     */
+    protected $pathContains;
+
+    /**
      * Construct a new LangJsGenerator instance.
      *
      * @param File   $file       The file service instance.
      * @param string $sourcePath The source path of the language files.
      */
-    public function __construct(File $file, $sourcePath, $messagesIncluded = [])
+    public function __construct(File $file, $sourcePath, $messagesIncluded = [], $pathContains = [])
     {
         $this->file = $file;
         $this->sourcePath = $sourcePath;
         $this->messagesIncluded = $messagesIncluded;
+        $this->pathContains = $pathContains;
     }
 
     /**
@@ -125,6 +133,10 @@ class LangJsGenerator
                 continue;
             }
 
+            if (!$this->isPathIncluded($pathName)) {
+                continue;
+            }
+
             $key = substr($pathName, 0, -4);
             $key = str_replace('\\', '.', $key);
             $key = str_replace('/', '.', $key);
@@ -181,7 +193,31 @@ class LangJsGenerator
 
         return true;
     }
-    
+
+    /**
+     * If path should be included in the build.
+     *
+     * @param string $filePath
+     *
+     * @return bool
+     */
+    protected function isPathIncluded($filePath)
+    {
+        if (empty($this->pathContains)) {
+            return true;
+        }
+
+        $filePath = str_replace(DIRECTORY_SEPARATOR, '/', $filePath);
+        $filePath = ltrim($filePath, '/');
+        $filePath = substr($filePath, 0, -4);
+
+        foreach($this->pathContains AS $word)
+            if(stristr($filePath, $word))
+                return true;
+
+        return false;
+    }
+
     private function getVendorKey($key)
     {
         $keyParts = explode('.', $key, 4);
