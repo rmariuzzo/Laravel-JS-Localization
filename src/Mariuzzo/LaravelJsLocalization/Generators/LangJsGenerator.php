@@ -34,6 +34,14 @@ class LangJsGenerator
     protected $messagesIncluded = [];
 
     /**
+     * Name of the domain in which all string-translation should be stored under.
+     * More about string-translation: https://laravel.com/docs/master/localization#retrieving-translation-strings
+     * 
+     * @var string
+     */
+    protected $stringsDomain = 'strings';
+
+    /**
      * Construct a new LangJsGenerator instance.
      *
      * @param File   $file       The file service instance.
@@ -116,8 +124,8 @@ class LangJsGenerator
 
         foreach ($this->file->allFiles($path) as $file) {
             $pathName = $file->getRelativePathName();
-
-            if ($this->file->extension($pathName) !== 'php') {
+            $extension = $this->file->extension($pathName);
+            if ($extension != 'php' && $extension != 'json') {
                 continue;
             }
 
@@ -128,12 +136,19 @@ class LangJsGenerator
             $key = substr($pathName, 0, -4);
             $key = str_replace('\\', '.', $key);
             $key = str_replace('/', '.', $key);
-            
+
             if (starts_with($key, 'vendor')) {
                 $key = $this->getVendorKey($key);
             }
 
-            $messages[$key] = include $path . DIRECTORY_SEPARATOR . $pathName;
+            $fullPath = $path.DIRECTORY_SEPARATOR.$pathName;
+            if ($extension == 'php') {
+                $messages[$key] = include $fullPath;
+            } else {
+                $key = $key.$this->stringsDomain;
+                $fileContent = file_get_contents($fullPath);
+                $messages[$key] = json_decode($fileContent, true);
+            }
         }
 
         $this->sortMessages($messages);
