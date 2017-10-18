@@ -17,7 +17,7 @@ return [
 
     /*
      * Set the name(s) a file must contain, for it to be included on the generated javascript.
-     * E.g. if you place all language files for JS in a seperate folder: lang/en/js/example.php, you can use:
+     * E.g. if you place all language files for JS in a separate folder: lang/en/js/example.php, you can use:
      *
      * 'pathContains' => [
             'js'
