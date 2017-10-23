@@ -33,7 +33,7 @@
         "source": "https://github.com/rmariuzzo/laravel-js-localization"
     },
     "require": {
-        "php": ">=5.5.9",
+        "php": ">=5.4.0",
         "illuminate/config": ">=4.2",
         "illuminate/console": ">=4.2",
         "illuminate/filesystem": ">=4.2",
