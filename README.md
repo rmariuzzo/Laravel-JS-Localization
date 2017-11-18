@@ -15,7 +15,10 @@ This package convert all your localization messages from your Laravel app to Jav
  - Allow to specify desired lang files to be converted to JS.
  - Lang.js API is based on Laravel's [`Translator`](https://laravel.com/api/5.4/Illuminate/Translation/Translator.html) class. No need to learn a whole API.
 
-> :loudspeaker: **Webpack user?** Try the new and shiny [Laravel localization loader](https://github.com/rmariuzzo/laravel-localization-loader)!
+ |     |
+ | --- |
+ | :loudspeaker: **Webpack user?** Try the new and shiny [**Laravel localization loader**](https://github.com/rmariuzzo/laravel-localization-loader) for Webpack! |
+ |     |
 
 ## Installation
 
