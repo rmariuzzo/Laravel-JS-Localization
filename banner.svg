@@ -1,21 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="880px" height="440px" viewBox="0 0 880 440" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="background: #FFFFFF;">
-    <defs>
-        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
-            <stop stop-color="#FFFFFF" offset="0%"></stop>
-            <stop stop-color="#F0DB5F" offset="50.1654177%"></stop>
-            <stop stop-color="#FFFFFF" offset="100%"></stop>
-        </linearGradient>
-        <linearGradient x1="50%" y1="0%" x2="50%" y2="98.7444196%" id="linearGradient-2">
-            <stop stop-color="#FFFFFF" offset="0%"></stop>
-            <stop stop-color="#E64636" offset="50.4823023%"></stop>
-            <stop stop-color="#FFFFFF" offset="100%"></stop>
-        </linearGradient>
-    </defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="Artboard">
-            <polygon id="Rectangle" fill-opacity="0.100000001" fill="url(#linearGradient-1)" points="413.919003 -2 558 -2 332.080997 441 188 441"></polygon>
-            <polygon id="Rectangle-Copy" fill-opacity="0.0599999987" fill="url(#linearGradient-2)" points="547.140187 -5 692 -5 464.859813 441 320 441"></polygon>
             <text id="LARAVEL-JS-LOCALIZAT" font-family="Roboto-Bold, Roboto" font-size="48" font-weight="bold" letter-spacing="5" fill="#000000">
                 <tspan x="82.2070312" y="233">LARAVEL JS LOCALIZATION</tspan>
             </text>
