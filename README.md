@@ -1,4 +1,4 @@
-![Laravel JS Localization - Convert you Laravel messages and use them in the front-end!](banner.png)
+![Laravel JS Localization - Convert you Laravel messages and use them in the front-end!](banner.svg)
 
 ![Laravel 5.5](https://img.shields.io/badge/Laravel-5.5-f4645f.svg)
 ![Laravel 4.2](https://img.shields.io/badge/Laravel-4.2-f4645f.svg)
@@ -8,7 +8,7 @@
 
 This package convert all your localization messages from your Laravel app to JavaScript with a small library to interact with those messages following a very similar syntax you are familiar with.
 
-### Features
+## Features
 
  - Support Laravel 4.2, 5.0, 5.1, 5.2, 5.3, 5.4 and 5.5.
  - Includes [Lang.js](https://github.com/rmariuzzo/lang.js) (a thin library highly inspired on Laravel's [`Translator`](https://laravel.com/api/5.4/Illuminate/Translation/Translator.html) class).
@@ -73,7 +73,7 @@ The configuration will be published to `config/localization-js.php`.
 
 You may edit this file to define the messages you need in your Javascript code. Just edit the `messages` array in the config file. **Empty messages array will include all the language files in build**.
 
-To make only `pagination.php` & `validation.php` files to be included in build process:
+To make only `pagination.php` and `validation.php` files to be included in build process:
 
 ```php
 <?php
@@ -86,7 +86,7 @@ return [
 ];
 ```
 
-#### Using [gulp](http://gulpjs.com/) (optional)
+### Using [gulp](http://gulpjs.com/) (optional)
 
 Install [`gulp-shell`](https://github.com/sun-zheng-an/gulp-shell) and then run it directly in your `gulpfile.js`:
 
@@ -96,7 +96,7 @@ var shell = require('gulp-shell');
 gulp.task('langjs', shell.task('php artisan lang:js -c public/js/messages.js'));
 ```
 
-#### Using [Laravel's elixir](http://laravel.com/docs/elixir) (optional)
+### Using [Laravel's elixir](http://laravel.com/docs/elixir) (optional)
 Before Elixir 4.0:
 
 ```js
@@ -126,7 +126,7 @@ elixir(function(mix) {
 });
 ```
 
-#### Using [Laravel's Mix](https://laravel.com/docs/5.4/mix) with Laravel 5.4+ (optional)
+### Using [Laravel's Mix](https://laravel.com/docs/5.4/mix) with Laravel 5.4+ (optional)
 
 Add "[webpack-shell-plugin](https://www.npmjs.com/package/webpack-shell-plugin)" to package.json's "devDependencies" section.
 
@@ -224,3 +224,11 @@ This project uses PHPUnit. All tests are stored at `tests` directory. To run all
 ```shell
 composer test
 ```
+
+<div align=center>
+
+Made with :heart: by [Rubens Mariuzzo](https://github.com/rmariuzzo).
+
+[MIT license](LICENSE)
+
+</div>
