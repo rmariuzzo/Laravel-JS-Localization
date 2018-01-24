@@ -2,6 +2,7 @@
 
 namespace Mariuzzo\LaravelJsLocalization\Generators;
 
+use InvalidArgumentException;
 use Illuminate\Filesystem\Filesystem as File;
 use JShrink\Minifier;
 
@@ -148,6 +149,10 @@ class LangJsGenerator
                 $key = $key.$this->stringsDomain;
                 $fileContent = file_get_contents($fullPath);
                 $messages[$key] = json_decode($fileContent, true);
+
+                if (json_last_error() !== JSON_ERROR_NONE) {
+                    throw new InvalidArgumentException('Error while decode ' . basename($fullPath) . ': ' . json_last_error_msg());
+                }
             }
         }
 
