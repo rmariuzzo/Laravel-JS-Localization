@@ -36,7 +36,7 @@ class LangJsGenerator
     /**
      * Name of the domain in which all string-translation should be stored under.
      * More about string-translation: https://laravel.com/docs/master/localization#retrieving-translation-strings
-     * 
+     *
      * @var string
      */
     protected $stringsDomain = 'strings';
@@ -68,7 +68,7 @@ class LangJsGenerator
             $this->sourcePath = $options['source'];
         }
 
-        $messages = $this->getMessages();
+        $messages = $this->getMessages($options['no-sort']);
         $this->prepareTarget($target);
 
         if ($options['no-lib']) {
@@ -109,11 +109,12 @@ class LangJsGenerator
     /**
      * Return all language messages.
      *
+     * @param bool $noSort Whether sorting of the messages should be skipped.
      * @return array
      *
      * @throws \Exception
      */
-    protected function getMessages()
+    protected function getMessages($noSort)
     {
         $messages = [];
         $path = $this->sourcePath;
@@ -151,7 +152,10 @@ class LangJsGenerator
             }
         }
 
-        $this->sortMessages($messages);
+        if (!$noSort)
+        {
+            $this->sortMessages($messages);
+        }
 
         return $messages;
     }
@@ -196,7 +200,7 @@ class LangJsGenerator
 
         return true;
     }
-    
+
     private function getVendorKey($key)
     {
         $keyParts = explode('.', $key, 4);

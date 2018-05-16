@@ -127,7 +127,7 @@ class LangJsCommandTest extends TestCase
 
         $contents = file_get_contents($this->outputFilePath);
         $this->assertContains('gm8ft2hrrlq1u6m54we9udi', $contents);
-        
+
         $this->assertNotContains('vendor.nonameinc.en.messages', $contents);
         $this->assertNotContains('vendor.nonameinc.es.messages', $contents);
         $this->assertNotContains('vendor.nonameinc.ht.messages', $contents);
@@ -321,6 +321,48 @@ class LangJsCommandTest extends TestCase
                 '-s' => $this->langPath.'/non-exist',
             ]
         );
+    }
+
+    /**
+     * Test that messages are sorted alphabetically by default.
+     */
+    public function testDoesSortMessages()
+    {
+        $generator = new LangJsGenerator(new File(), $this->langPath, ['pagination']);
+
+        $command = new LangJsCommand($generator);
+        $command->setLaravel($this->app);
+
+        $code = $this->runCommand($command, ['target' => $this->outputFilePath]);
+        $this->assertRunsWithSuccess($code);
+        $this->assertFileExists($this->outputFilePath);
+
+        $contents = file_get_contents($this->outputFilePath);
+        $this->assertContains('en.pagination', $contents);
+        $this->assertContains('{"next":"Next &raquo;","previous":"&laquo; Previous"}', $contents);
+
+        $this->cleanupOutputDirectory();
+    }
+
+    /**
+     * Tests that the --no-sort option does not sort messages.
+     */
+    public function testDoesNotSortMessages()
+    {
+        $generator = new LangJsGenerator(new File(), $this->langPath, ['pagination']);
+
+        $command = new LangJsCommand($generator);
+        $command->setLaravel($this->app);
+
+        $code = $this->runCommand($command, ['target' => $this->outputFilePath, '--no-sort' => true]);
+        $this->assertRunsWithSuccess($code);
+        $this->assertFileExists($this->outputFilePath);
+
+        $contents = file_get_contents($this->outputFilePath);
+        $this->assertContains('en.pagination', $contents);
+        $this->assertContains('{"previous":"&laquo; Previous","next":"Next &raquo;"}', $contents);
+
+        $this->cleanupOutputDirectory();
     }
 
     /**
