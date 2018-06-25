@@ -2,7 +2,7 @@
 
 namespace Mariuzzo\LaravelJsLocalization\Commands;
 
-use Config;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Console\Command;
 use Mariuzzo\LaravelJsLocalization\Generators\LangJsGenerator;
 use Symfony\Component\Console\Input\InputArgument;
