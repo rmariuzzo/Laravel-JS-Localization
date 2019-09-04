@@ -3,6 +3,7 @@
 namespace Mariuzzo\LaravelJsLocalization\Generators;
 
 use Illuminate\Filesystem\Filesystem as File;
+use Illuminate\Support\Str;
 use JShrink\Minifier;
 
 /**
@@ -137,7 +138,7 @@ class LangJsGenerator
             $key = str_replace('\\', '.', $key);
             $key = str_replace('/', '.', $key);
 
-            if (starts_with($key, 'vendor')) {
+            if (Str::startsWith($key, 'vendor')) {
                 $key = $this->getVendorKey($key);
             }
 
