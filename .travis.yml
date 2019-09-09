@@ -21,7 +21,7 @@ before_script:
   # PHP version is 5.5 then we should require minimum supported illuminate
   # dependencies.
   - if [[ `php -v` =~ "PHP 5.5" ]]; then composer require "illuminate/config:4.2.*" "illuminate/console:4.2.*" "illuminate/filesystem:4.2.*"; fi
-  - if [[ `php -v` =~ "PHP 7.2" || `php -v` =~ "PHP 7.3" ]]; then yes | pecl install mcrypt-1.0.1; fi
+  - if [[ `php -v` =~ "PHP 7.2" || `php -v` =~ "PHP 7.3" ]]; then yes | pecl install mcrypt-1.0.2; fi
   - composer install --prefer-dist --no-interaction
   # Installing `Laravel-JS-Localization` package dependencies for each
   # supported Laravel versions (see composer.json, under scripts section).
