@@ -72,7 +72,7 @@ class LaravelJsLocalizationServiceProvider extends ServiceProvider
             
             if ($laravelMajorVersion === 4) {
                 $langs = $app['path.base'].'/app/lang';
-            } elseif ($laravelMajorVersion === 5) {
+            } elseif ($laravelMajorVersion === 5 || $laravelMajorVersion === 6) {
                 $langs = $app['path.base'].'/resources/lang';
             }
             $messages = $app['config']->get('localization-js.messages');
