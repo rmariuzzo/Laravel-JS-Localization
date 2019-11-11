@@ -66,6 +66,7 @@ class LangJsCommand extends Command
             'json' => $this->option('json'),
             'no-lib' => $this->option('no-lib'),
             'source' => $this->option('source'),
+            'no-sort' => $this->option('no-sort'),
         ];
 
         if ($this->generator->generate($target, $options)) {
@@ -111,6 +112,7 @@ class LangJsCommand extends Command
             ['no-lib', 'nl', InputOption::VALUE_NONE, 'Do not include the lang.js library.', null],
             ['json', 'j', InputOption::VALUE_NONE, 'Only output the messages json.', null],
             ['source', 's', InputOption::VALUE_REQUIRED, 'Specifying a custom source folder', null],
+            ['no-sort', 'ns', InputOption::VALUE_NONE, 'Do not sort the messages', null],
         ];
     }
 }

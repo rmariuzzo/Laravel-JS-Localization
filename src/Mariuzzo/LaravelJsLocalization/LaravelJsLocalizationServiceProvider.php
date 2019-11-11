@@ -67,9 +67,9 @@ class LaravelJsLocalizationServiceProvider extends ServiceProvider
         $this->app->singleton('localization.js', function ($app) {
             $app = $this->app;
             $laravelMajorVersion = (int) $app::VERSION;
-            
+
             $files = $app['files'];
-            
+
             if ($laravelMajorVersion === 4) {
                 $langs = $app['path.base'].'/app/lang';
             } elseif ($laravelMajorVersion >= 5) {
