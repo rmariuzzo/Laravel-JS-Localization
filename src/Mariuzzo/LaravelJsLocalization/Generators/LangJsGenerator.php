@@ -2,7 +2,9 @@
 
 namespace Mariuzzo\LaravelJsLocalization\Generators;
 
+use InvalidArgumentException;
 use Illuminate\Filesystem\Filesystem as File;
+use Illuminate\Support\Str;
 use JShrink\Minifier;
 
 /**
@@ -138,7 +140,7 @@ class LangJsGenerator
             $key = str_replace('\\', '.', $key);
             $key = str_replace('/', '.', $key);
 
-            if (starts_with($key, 'vendor')) {
+            if (Str::startsWith($key, 'vendor')) {
                 $key = $this->getVendorKey($key);
             }
 
@@ -149,6 +151,10 @@ class LangJsGenerator
                 $key = $key.$this->stringsDomain;
                 $fileContent = file_get_contents($fullPath);
                 $messages[$key] = json_decode($fileContent, true);
+
+                if (json_last_error() !== JSON_ERROR_NONE) {
+                    throw new InvalidArgumentException('Error while decode ' . basename($fullPath) . ': ' . json_last_error_msg());
+                }
             }
         }
 

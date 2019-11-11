@@ -24,8 +24,8 @@
         "homepage": "https://github.com/sboo",
         "role": "Developer"
     }, {
-        "name": "Pe Ell",
-        "homepage": "https://github.com/a-komarev",
+        "name": "Anton Komarev",
+        "homepage": "https://github.com/antonkomarev",
         "role": "Developer"
     }],
     "support": {
@@ -37,7 +37,8 @@
         "illuminate/config": ">=4.2",
         "illuminate/console": ">=4.2",
         "illuminate/filesystem": ">=4.2",
-        "tedivm/jshrink": "1.0.*"
+        "tedivm/jshrink": "~1.0",
+        "vlucas/phpdotenv": "^3.3"
     },
     "require-dev": {
         "phpunit/phpunit": "4.8.*"

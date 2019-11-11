@@ -48,7 +48,7 @@ class LaravelJsLocalizationServiceProvider extends ServiceProvider
         if ($laravelMajorVersion === 4) {
             $config = $this->app['config']->get($configKey, []);
             $this->app['config']->set($configKey, array_merge(require $configPath, $config));
-        } elseif ($laravelMajorVersion > 5) {
+        } elseif ($laravelMajorVersion >= 5) {
             $this->publishes([
                 $configPath => config_path("$configKey.php"),
             ]);
@@ -72,7 +72,7 @@ class LaravelJsLocalizationServiceProvider extends ServiceProvider
 
             if ($laravelMajorVersion === 4) {
                 $langs = $app['path.base'].'/app/lang';
-            } elseif ($laravelMajorVersion > 5) {
+            } elseif ($laravelMajorVersion >= 5) {
                 $langs = $app['path.base'].'/resources/lang';
             }
             $messages = $app['config']->get('localization-js.messages');
