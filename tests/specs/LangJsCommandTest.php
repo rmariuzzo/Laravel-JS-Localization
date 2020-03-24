@@ -3,8 +3,9 @@
 namespace Mariuzzo\LaravelJsLocalization;
 
 use Config;
-use Illuminate\Support\Facades\File as FileFacade;
+use Exception;
 use Illuminate\Filesystem\Filesystem as File;
+use Illuminate\Support\Facades\File as FileFacade;
 use Mariuzzo\LaravelJsLocalization\Commands\LangJsCommand;
 use Mariuzzo\LaravelJsLocalization\Generators\LangJsGenerator;
 use Orchestra\Testbench\TestCase;
@@ -51,10 +52,30 @@ class LangJsCommandTest extends TestCase
      */
     public function __construct()
     {
-        $this->testPath = __DIR__.'/..';
-        $this->rootPath = __DIR__.'/../..';
+        parent::__construct();
+
+        $this->testPath       = __DIR__ . '/..';
+        $this->rootPath       = __DIR__ . '/../..';
         $this->outputFilePath = "$this->testPath/output/lang.js";
-        $this->langPath = "$this->testPath/fixtures/lang";
+        $this->langPath       = "$this->testPath/fixtures/lang";
+    }
+
+    public function _assertStringContainsString($needle, $haystack)
+    {
+        if (method_exists(get_parent_class($this), 'assertStringContainsString')) {
+            return $this->assertStringContainsString($needle, $haystack);
+        }
+
+        return $this->assertContains($needle, $haystack);
+    }
+
+    public function _assertStringNotContainsString($needle, $haystack)
+    {
+        if (method_exists(get_parent_class($this), 'assertStringNotContainsString')) {
+            return $this->assertStringNotContainsString($needle, $haystack);
+        }
+
+        return $this->assertNotContains($needle, $haystack);
     }
 
     /**
@@ -126,20 +147,20 @@ class LangJsCommandTest extends TestCase
         $this->assertFileExists($this->outputFilePath);
 
         $contents = file_get_contents($this->outputFilePath);
-        $this->assertContains('gm8ft2hrrlq1u6m54we9udi', $contents);
 
-        $this->assertNotContains('vendor.nonameinc.en.messages', $contents);
-        $this->assertNotContains('vendor.nonameinc.es.messages', $contents);
-        $this->assertNotContains('vendor.nonameinc.ht.messages', $contents);
+        $this->_assertStringContainsString('gm8ft2hrrlq1u6m54we9udi', $contents);
 
-        $this->assertContains('en.nonameinc::messages', $contents);
-        $this->assertContains('es.nonameinc::messages', $contents);
-        $this->assertContains('ht.nonameinc::messages', $contents);
+        $this->_assertStringNotContainsString('vendor.nonameinc.en.messages', $contents);
+        $this->_assertStringNotContainsString('vendor.nonameinc.es.messages', $contents);
+        $this->_assertStringNotContainsString('vendor.nonameinc.ht.messages', $contents);
 
-        $this->assertContains('en.forum.thread', $contents);
+        $this->_assertStringContainsString('en.nonameinc::messages', $contents);
+        $this->_assertStringContainsString('es.nonameinc::messages', $contents);
+        $this->_assertStringContainsString('ht.nonameinc::messages', $contents);
+
+        $this->_assertStringContainsString('en.forum.thread', $contents);
 
         $this->cleanupOutputDirectory();
-
     }
 
     /**
@@ -156,8 +177,8 @@ class LangJsCommandTest extends TestCase
         $this->assertFileExists($this->outputFilePath);
 
         $contents = file_get_contents($this->outputFilePath);
-        $this->assertContains('en.messages', $contents);
-        $this->assertNotContains('en.validation', $contents);
+        $this->_assertStringContainsString('en.messages', $contents);
+        $this->_assertStringNotContainsString('en.validation', $contents);
 
         $this->cleanupOutputDirectory();
     }
@@ -176,7 +197,7 @@ class LangJsCommandTest extends TestCase
         $this->assertFileExists($this->outputFilePath);
 
         $contents = file_get_contents($this->outputFilePath);
-        $this->assertContains('en.forum.thread', $contents);
+        $this->_assertStringContainsString('en.forum.thread', $contents);
 
         $this->cleanupOutputDirectory();
     }
@@ -247,7 +268,7 @@ class LangJsCommandTest extends TestCase
     public function testShouldOnlyMessageExported()
     {
         $generator = new LangJsGenerator(new File(), $this->langPath);
-        $command = new LangJsCommand($generator);
+        $command   = new LangJsCommand($generator);
         $command->setLaravel($this->app);
 
         $code = $this->runCommand($command, ['target' => $this->outputFilePath,'--no-lib' => true]);
@@ -266,7 +287,7 @@ class LangJsCommandTest extends TestCase
     public function testShouldOnlyMessageJSONExported()
     {
         $generator = new LangJsGenerator(new File(), $this->langPath);
-        $command = new LangJsCommand($generator);
+        $command   = new LangJsCommand($generator);
         $command->setLaravel($this->app);
 
         $code = $this->runCommand($command, ['target' => $this->outputFilePath,'--json' => true]);
@@ -288,9 +309,11 @@ class LangJsCommandTest extends TestCase
         $command = new LangJsCommand($generator);
         $command->setLaravel($this->app);
 
-        $code = $this->runCommand($command,[
+        $code = $this->runCommand(
+            $command,
+            [
                 'target' => $this->outputFilePath,
-                '-s' => "$this->testPath/fixtures/theme/lang",
+                '-s'     => "$this->testPath/fixtures/theme/lang",
             ]
         );
         $this->assertRunsWithSuccess($code);
@@ -301,14 +324,11 @@ class LangJsCommandTest extends TestCase
         $this->assertFileNotEquals($template, $this->outputFilePath);
 
         $contents = file_get_contents($this->outputFilePath);
-        $this->assertContains('en.page', $contents);
+        $this->_assertStringContainsString('en.page', $contents);
 
         $this->cleanupOutputDirectory();
     }
 
-    /**
-     * @expectedException Exception
-     */
     public function testChangeDefaultLangSourceFolderForOneThatDosentExist()
     {
         $generator = new LangJsGenerator(new File(), $this->langPath);
@@ -316,11 +336,19 @@ class LangJsCommandTest extends TestCase
         $command = new LangJsCommand($generator);
         $command->setLaravel($this->app);
 
-        $code = $this->runCommand($command,[
-                'target' => $this->outputFilePath,
-                '-s' => $this->langPath.'/non-exist',
-            ]
-        );
+        try {
+            $code = $this->runCommand(
+                $command,
+                [
+                    'target' => $this->outputFilePath,
+                    '-s'     => $this->langPath . '/non-exist',
+                ]
+            );
+        } catch (Exception $exception) {
+            return $this->assertTrue(true);
+        }
+
+        return $this->fail('Should have thrown Exception');
     }
 
     /**
@@ -338,8 +366,8 @@ class LangJsCommandTest extends TestCase
         $this->assertFileExists($this->outputFilePath);
 
         $contents = file_get_contents($this->outputFilePath);
-        $this->assertContains('en.pagination', $contents);
-        $this->assertContains('{"next":"Next &raquo;","previous":"&laquo; Previous"}', $contents);
+        $this->_assertStringContainsString('en.pagination', $contents);
+        $this->_assertStringContainsString('{"next":"Next &raquo;","previous":"&laquo; Previous"}', $contents);
 
         $this->cleanupOutputDirectory();
     }
@@ -359,8 +387,8 @@ class LangJsCommandTest extends TestCase
         $this->assertFileExists($this->outputFilePath);
 
         $contents = file_get_contents($this->outputFilePath);
-        $this->assertContains('en.pagination', $contents);
-        $this->assertContains('{"previous":"&laquo; Previous","next":"Next &raquo;"}', $contents);
+        $this->_assertStringContainsString('en.pagination', $contents);
+        $this->_assertStringContainsString('{"previous":"&laquo; Previous","next":"Next &raquo;"}', $contents);
 
         $this->cleanupOutputDirectory();
     }
@@ -384,7 +412,7 @@ class LangJsCommandTest extends TestCase
      * @param int  $code
      * @param null $message
      */
-    protected function assertRunsWithSuccess($code, $message = null)
+    protected function assertRunsWithSuccess($code, $message = '')
     {
         $this->assertEquals(0, $code, $message);
     }
@@ -395,7 +423,7 @@ class LangJsCommandTest extends TestCase
      */
     protected function assertHasHandlebars($handle, $contents)
     {
-        $this->assertEquals(1, preg_match('/\'\{(\s)'.preg_quote($handle).'(\s)\}\'/', $contents));
+        $this->assertEquals(1, preg_match('/\'\{(\s)' . preg_quote($handle) . '(\s)\}\'/', $contents));
     }
 
     /**
@@ -404,7 +432,7 @@ class LangJsCommandTest extends TestCase
      */
     protected function assertHasNotHandlebars($handle, $contents)
     {
-        $this->assertEquals(0, preg_match('/\'\{(\s)'.preg_quote($handle).'(\s)\}\'/', $contents));
+        $this->assertEquals(0, preg_match('/\'\{(\s)' . preg_quote($handle) . '(\s)\}\'/', $contents));
     }
 
     /**
