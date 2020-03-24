@@ -60,7 +60,7 @@ class LangJsCommandTest extends TestCase
         $this->langPath       = "$this->testPath/fixtures/lang";
     }
 
-    public function _assertStringContainsString(string $needle, string $haystack)
+    public function _assertStringContainsString($needle, $haystack)
     {
         if (method_exists(get_parent_class($this), 'assertStringContainsString')) {
             return $this->assertStringContainsString($needle, $haystack);
@@ -69,7 +69,7 @@ class LangJsCommandTest extends TestCase
         return $this->assertContains($needle, $haystack);
     }
 
-    public function _assertStringNotContainsString(string $needle, string $haystack)
+    public function _assertStringNotContainsString($needle, $haystack)
     {
         if (method_exists(get_parent_class($this), 'assertStringNotContainsString')) {
             return $this->assertStringNotContainsString($needle, $haystack);
