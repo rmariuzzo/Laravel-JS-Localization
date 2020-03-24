@@ -60,6 +60,24 @@ class LangJsCommandTest extends TestCase
         $this->langPath       = "$this->testPath/fixtures/lang";
     }
 
+    public function _assertStringContainsString(string $needle, string $haystack, string $message = '')
+    {
+        if (method_exists(get_parent_class($this), 'assertStringContainsString')) {
+            return $this->assertStringContainsString($needle, $haystack, $message);
+        }
+
+        return $this->assertContains($needle, $haystack, $message);
+    }
+
+    public function _assertStringNotContainsString(string $needle, string $haystack, string $message = '')
+    {
+        if (method_exists(get_parent_class($this), 'assertStringNotContainsString')) {
+            return $this->assertStringNotContainsString($needle, $haystack, $message);
+        }
+
+        return $this->assertNotContains($needle, $haystack, $message);
+    }
+
     /**
      * Test the command.
      */
@@ -130,17 +148,17 @@ class LangJsCommandTest extends TestCase
 
         $contents = file_get_contents($this->outputFilePath);
 
-        $this->assertStringContainsString('gm8ft2hrrlq1u6m54we9udi', $contents);
+        $this->_assertStringContainsString('gm8ft2hrrlq1u6m54we9udi', $contents);
 
-        $this->assertStringNotContainsString('vendor.nonameinc.en.messages', $contents);
-        $this->assertStringNotContainsString('vendor.nonameinc.es.messages', $contents);
-        $this->assertStringNotContainsString('vendor.nonameinc.ht.messages', $contents);
+        $this->_assertStringNotContainsString('vendor.nonameinc.en.messages', $contents);
+        $this->_assertStringNotContainsString('vendor.nonameinc.es.messages', $contents);
+        $this->_assertStringNotContainsString('vendor.nonameinc.ht.messages', $contents);
 
-        $this->assertStringContainsString('en.nonameinc::messages', $contents);
-        $this->assertStringContainsString('es.nonameinc::messages', $contents);
-        $this->assertStringContainsString('ht.nonameinc::messages', $contents);
+        $this->_assertStringContainsString('en.nonameinc::messages', $contents);
+        $this->_assertStringContainsString('es.nonameinc::messages', $contents);
+        $this->_assertStringContainsString('ht.nonameinc::messages', $contents);
 
-        $this->assertStringContainsString('en.forum.thread', $contents);
+        $this->_assertStringContainsString('en.forum.thread', $contents);
 
         $this->cleanupOutputDirectory();
     }
@@ -159,8 +177,8 @@ class LangJsCommandTest extends TestCase
         $this->assertFileExists($this->outputFilePath);
 
         $contents = file_get_contents($this->outputFilePath);
-        $this->assertStringContainsString('en.messages', $contents);
-        $this->assertStringNotContainsString('en.validation', $contents);
+        $this->_assertStringContainsString('en.messages', $contents);
+        $this->_assertStringNotContainsString('en.validation', $contents);
 
         $this->cleanupOutputDirectory();
     }
@@ -179,7 +197,7 @@ class LangJsCommandTest extends TestCase
         $this->assertFileExists($this->outputFilePath);
 
         $contents = file_get_contents($this->outputFilePath);
-        $this->assertStringContainsString('en.forum.thread', $contents);
+        $this->_assertStringContainsString('en.forum.thread', $contents);
 
         $this->cleanupOutputDirectory();
     }
@@ -306,7 +324,7 @@ class LangJsCommandTest extends TestCase
         $this->assertFileNotEquals($template, $this->outputFilePath);
 
         $contents = file_get_contents($this->outputFilePath);
-        $this->assertStringContainsString('en.page', $contents);
+        $this->_assertStringContainsString('en.page', $contents);
 
         $this->cleanupOutputDirectory();
     }
@@ -348,8 +366,8 @@ class LangJsCommandTest extends TestCase
         $this->assertFileExists($this->outputFilePath);
 
         $contents = file_get_contents($this->outputFilePath);
-        $this->assertStringContainsString('en.pagination', $contents);
-        $this->assertStringContainsString('{"next":"Next &raquo;","previous":"&laquo; Previous"}', $contents);
+        $this->_assertStringContainsString('en.pagination', $contents);
+        $this->_assertStringContainsString('{"next":"Next &raquo;","previous":"&laquo; Previous"}', $contents);
 
         $this->cleanupOutputDirectory();
     }
@@ -369,8 +387,8 @@ class LangJsCommandTest extends TestCase
         $this->assertFileExists($this->outputFilePath);
 
         $contents = file_get_contents($this->outputFilePath);
-        $this->assertStringContainsString('en.pagination', $contents);
-        $this->assertStringContainsString('{"previous":"&laquo; Previous","next":"Next &raquo;"}', $contents);
+        $this->_assertStringContainsString('en.pagination', $contents);
+        $this->_assertStringContainsString('{"previous":"&laquo; Previous","next":"Next &raquo;"}', $contents);
 
         $this->cleanupOutputDirectory();
     }
