@@ -56,8 +56,7 @@
         "illuminate/config": "^4.2 || ^5.0 || ^6.0 || ^7.0",
         "illuminate/console": "^4.2 || ^5.0 || ^6.0 || ^7.0",
         "illuminate/filesystem": "^4.2 || ^5.0 || ^6.0 || ^7.0",
-        "tedivm/jshrink": "~1.0",
-        "vlucas/phpdotenv": "^3.3 || ^4.0"
+        "tedivm/jshrink": "~1.0"
     },
     "require-dev": {
         "orchestra/testbench": "^2.2 || ^3.0 || ^4.0"
