@@ -105,26 +105,26 @@ matrix:
     - php: 7.1
       env: LARAVEL='5.4.*' TESTBENCH='^3.4.2' PHPUNIT='>=5.7' COMPOSER_FLAGS='--prefer-stable'
     - php: 7.2
-      env: LARAVEL='5.4.*' TESTBENCH='^3.4.2' PHPUNIT='>=5.7' COMPOSER_FLAGS='--prefer-lowest'
+      env: LARAVEL='5.4.*' TESTBENCH='^3.4.2' PHPUNIT='>=6 <8' COMPOSER_FLAGS='--prefer-lowest'
     - php: 7.2
-      env: LARAVEL='5.4.*' TESTBENCH='^3.4.2' PHPUNIT='>=5.7' COMPOSER_FLAGS='--prefer-stable'
+      env: LARAVEL='5.4.*' TESTBENCH='^3.4.2' PHPUNIT='>=6 <8' COMPOSER_FLAGS='--prefer-stable'
 
     - php: 7.0
-      env: LARAVEL='5.5.*' TESTBENCH='^3.5.4' PHPUNIT='>=6' COMPOSER_FLAGS='--prefer-lowest'
+      env: LARAVEL='5.5.*' TESTBENCH='^3.5.5' PHPUNIT='>=6.5' COMPOSER_FLAGS='--prefer-lowest'
     - php: 7.0
-      env: LARAVEL='5.5.*' TESTBENCH='^3.5.4' PHPUNIT='>=6' COMPOSER_FLAGS='--prefer-stable'
+      env: LARAVEL='5.5.*' TESTBENCH='^3.5.5' PHPUNIT='>=6.5' COMPOSER_FLAGS='--prefer-stable'
     - php: 7.1
-      env: LARAVEL='5.5.*' TESTBENCH='^3.5.4' PHPUNIT='>=6' COMPOSER_FLAGS='--prefer-lowest'
+      env: LARAVEL='5.5.*' TESTBENCH='^3.5.5' PHPUNIT='>=6.5' COMPOSER_FLAGS='--prefer-lowest'
     - php: 7.1
-      env: LARAVEL='5.5.*' TESTBENCH='^3.5.4' PHPUNIT='>=6' COMPOSER_FLAGS='--prefer-stable'
+      env: LARAVEL='5.5.*' TESTBENCH='^3.5.5' PHPUNIT='>=6.5' COMPOSER_FLAGS='--prefer-stable'
     - php: 7.2
-      env: LARAVEL='5.5.*' TESTBENCH='^3.5.4' PHPUNIT='>=6' COMPOSER_FLAGS='--prefer-lowest'
+      env: LARAVEL='5.5.*' TESTBENCH='^3.5.5' PHPUNIT='>=6.5' COMPOSER_FLAGS='--prefer-lowest'
     - php: 7.2
-      env: LARAVEL='5.5.*' TESTBENCH='^3.5.4' PHPUNIT='>=6' COMPOSER_FLAGS='--prefer-stable'
+      env: LARAVEL='5.5.*' TESTBENCH='^3.5.5' PHPUNIT='>=6.5' COMPOSER_FLAGS='--prefer-stable'
     - php: 7.3
-      env: LARAVEL='5.5.*' TESTBENCH='^3.5.4' PHPUNIT='>=6' COMPOSER_FLAGS='--prefer-lowest'
+      env: LARAVEL='5.5.*' TESTBENCH='^3.5.5' PHPUNIT='>=6.5' COMPOSER_FLAGS='--prefer-lowest'
     - php: 7.3
-      env: LARAVEL='5.5.*' TESTBENCH='^3.5.4' PHPUNIT='>=6' COMPOSER_FLAGS='--prefer-stable'
+      env: LARAVEL='5.5.*' TESTBENCH='^3.5.5' PHPUNIT='>=6.5' COMPOSER_FLAGS='--prefer-stable'
 
     - php: 7.1
       env: LARAVEL='5.6.*' TESTBENCH='3.6.*' PHPUNIT='>=6' COMPOSER_FLAGS='--prefer-lowest'
