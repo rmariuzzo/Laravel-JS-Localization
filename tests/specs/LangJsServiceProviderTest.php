@@ -11,7 +11,7 @@ use Orchestra\Testbench\TestCase;
  */
 class LangJsServiceProviderTest extends TestCase
 {
-    protected function getPackageProviders($app = null)
+    protected function getPackageProviders($app)
     {
         return ['Mariuzzo\LaravelJsLocalization\LaravelJsLocalizationServiceProvider'];
     }
