@@ -26,7 +26,7 @@ return [
      * Use glob format. https://en.wikipedia.org/wiki/Glob_(programming)
      */
     'usageSearchFiles' => [
-        'public/**/.js',
+        'public/**/*.js',
         'resources/assets/**/*.js',
         'resources/views/**/*',
     ],

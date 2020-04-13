@@ -2,7 +2,6 @@
 
 namespace Mariuzzo\LaravelJsLocalization\Generators;
 
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use InvalidArgumentException;
 use Illuminate\Filesystem\Filesystem as File;
 use Illuminate\Support\Str;
@@ -42,7 +41,7 @@ class LangJsGenerator
      *
      * @var array
      */
-    protected $keepMessages = [];
+    public $keepMessages = [];
 
     /**
      * Name of the domain in which all string-translation should be stored under.
@@ -82,6 +81,7 @@ class LangJsGenerator
 
         $messages = $this->getMessages($options['no-sort']);
         if ($options['autodetect']) {
+            print_r($this->keepMessages);
             $this->filterKeepMessages($messages,$this->keepMessages);
         }
         $this->prepareTarget($target);
@@ -123,7 +123,7 @@ class LangJsGenerator
 
     /**
      * Returns array of filenames from input glob's.
-     * @param $globs Globs to parse
+     * @param array $globs Globs to parse
      * @return array
      */
     public function usageSearchFiles($globs)
@@ -137,7 +137,8 @@ class LangJsGenerator
 
     /**
      * Searches a file for Lang.get / Lang.has / Lang.choice etc. occurances.
-     * @param $file Absolute path of file to open
+     * Stores an occurence in $this->keepMessages;
+     * @param string $file Absolute path of file to open
      * @return void
      */
     public function usageSearch($file)
@@ -162,8 +163,8 @@ class LangJsGenerator
 
     /**
      * Recursively executes array_intersect_key($array1, $array2);
-     * @param $array1 Array of master keys
-     * @param $array2 Array to check keys against
+     * @param array $array1 Array of master keys
+     * @param array $array2 Array to check keys against
      * @see array_intersect_key()
      * @return array
      */
@@ -179,8 +180,8 @@ class LangJsGenerator
 
     /**
      * Filters language keys in $messages to only keep keys in $this->keepMessages;
-     * @param &$messages Array of master keys
-     * @param &$keep Array of keys to keep
+     * @param array &$messages Array of master keys
+     * @param array &$keep Array of keys to keep
      * @return void
      */
     protected function filterKeepMessages(&$messages, &$keep){
