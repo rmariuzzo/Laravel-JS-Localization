@@ -35,6 +35,14 @@ class LangJsGenerator
      */
     protected $messagesIncluded = [];
 
+
+    /**
+     * List of files/folders the autodetector should search through.
+     * TODO make protected
+     * @var array
+     */
+    public $keepMessages = [];
+
     /**
      * Name of the domain in which all string-translation should be stored under.
      * More about string-translation: https://laravel.com/docs/master/localization#retrieving-translation-strings
@@ -48,6 +56,7 @@ class LangJsGenerator
      *
      * @param File   $file       The file service instance.
      * @param string $sourcePath The source path of the language files.
+     * @param array $messagesIncluded List of messages should be included in build.
      */
     public function __construct(File $file, $sourcePath, $messagesIncluded = [])
     {
@@ -71,6 +80,9 @@ class LangJsGenerator
         }
 
         $messages = $this->getMessages($options['no-sort']);
+        if ($options['autodetect']) {
+            $messages = array_intersect_key($messages, $this->keepMessages);
+        }
         $this->prepareTarget($target);
 
         if ($options['no-lib']) {
@@ -105,6 +117,36 @@ class LangJsGenerator
             foreach ($messages as $key => &$value) {
                 $this->sortMessages($value);
             }
+        }
+    }
+
+    /**
+     * Search usage.
+     *
+     */
+    public function usageSearchFiles($globs)
+    {
+        $files = [];
+        foreach ($globs as $glob) {
+            $files += $this->file->glob($this->sourcePath.'../../'.$glob);
+        }
+        return $files;
+    }
+
+    public function usageSearch($file)
+    {
+        $matches = [];
+        $content = $this->file->get($file);
+        preg_match_all("/Lang\.(?:get|has|choice|trans|transChoice)\(['\"]([^'\"]+)/", $content, $matches);
+        foreach($matches as $match){
+            $chain = [];
+            $ref = &$chain;
+            foreach(explode(".",$match[1]) as $value){
+                $ref[$value]=[];
+                $ref = &$ref[$value];
+            }
+            $this->keepMessages = array_merge_recursive($this->keepMessages, $chain);
+            $this->keepMessages[$this->stringsDomain][] = $match[1];
         }
     }
 
