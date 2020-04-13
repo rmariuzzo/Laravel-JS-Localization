@@ -74,7 +74,6 @@ class LangJsCommand extends Command
         if ($options['autodetect']) {
             $this->info('Autodetect enabled... If this takes too long, edit the glob\'s in config/js-localization.php to be more specific');
             $usageSearchFiles = $this->generator->usageSearchFiles($this->getUsageSearchFiles());
-            $this->info(print_r($usageSearchFiles,true));
             $bar = $this->output->createProgressBar(count($usageSearchFiles));
             $bar->start();
             foreach ($usageSearchFiles as $file){
@@ -82,8 +81,7 @@ class LangJsCommand extends Command
                 $bar->advance();
             }
             $bar->finish();
-
-            $this->info(print_r($this->generator->keepMessages,true));
+            $this->info("\n");
         }
 
         if ($this->generator->generate($target, $options)) {
@@ -118,13 +116,17 @@ class LangJsCommand extends Command
     }
 
     /**
-     * Return the path to use when no path is specified.
+     * Return the glob's to search.
      *
-     * @return string
+     * @return array
      */
     protected function getUsageSearchFiles()
     {
-        return Config::get('localization-js.usageSearchFiles', []);
+        return Config::get('localization-js.usageSearchFiles', [
+            'public/**/*.js',
+            'resources/assets/**/*.js',
+            'resources/views/**/*',
+        ]);
     }
 
     /**

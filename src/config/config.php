@@ -22,12 +22,8 @@ return [
 
     /*
      * Specify the files you want the autodetector to search through.
-     * Use glob format.
-     *
-     * 'usageSearchFiles' => [
-     *     'validation',
-     *     'forum/thread',
-     * ],
+     * The autodetector looks for Lang.get / Lang.has / Lang.choice usages in your Javascript files.
+     * Use glob format. https://en.wikipedia.org/wiki/Glob_(programming)
      */
     'usageSearchFiles' => [
         'public/**/.js',
