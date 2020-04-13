@@ -81,7 +81,6 @@ class LangJsGenerator
 
         $messages = $this->getMessages($options['no-sort']);
         if ($options['autodetect']) {
-            print_r($this->keepMessages);
             $this->filterKeepMessages($messages,$this->keepMessages);
         }
         $this->prepareTarget($target);
