@@ -76,8 +76,7 @@ class LaravelJsLocalizationServiceProvider extends ServiceProvider
                 $langs = $app['path.base'].'/resources/lang';
             }
             $messages = $app['config']->get('localization-js.messages');
-            $usageSearchFiles = $app['config']->get('localization-js.usageSearchFiles');
-            $generator = new Generators\LangJsGenerator($files, $langs, $messages, $usageSearchFiles);
+            $generator = new Generators\LangJsGenerator($files, $langs, $messages);
 
             return new Commands\LangJsCommand($generator);
         });
