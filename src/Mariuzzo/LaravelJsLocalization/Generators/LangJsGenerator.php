@@ -152,8 +152,12 @@ class LangJsGenerator
                     $ref[$value] = [];
                     $ref = &$ref[$value];
                 }
-                $this->keepMessages = array_merge_recursive($this->keepMessages, $chain);
-                $this->keepMessages[$this->stringsDomain][$match] = "";
+                if(array_key_exists($this->stringsDomain,$chain)){
+                    $this->keepMessages[$this->stringsDomain][substr($match, strlen($this->stringsDomain)+1)] = "";
+                }else {
+                    $this->keepMessages = array_merge_recursive($this->keepMessages, $chain);
+                    $this->keepMessages[$this->stringsDomain][$match] = "";
+                }
             }
         } catch (\Exception $exception) {
             return;
