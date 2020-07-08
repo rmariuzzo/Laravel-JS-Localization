@@ -28,7 +28,7 @@ class LaravelJsLocalizationServiceProvider extends ServiceProvider
     public function __constructor()
     {
         parent::__constructor();
-        $this->configPath = $this->app['path.config'].DIRECTORY_SEPARATOR;
+        $this->configPath = $this->app['path.config'] . DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -36,7 +36,7 @@ class LaravelJsLocalizationServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $configPath = __DIR__.'/../../config/config.php';
+        $configPath = __DIR__ . '/../../config/config.php';
         $configKey = 'localization-js';
 
         // Determines Laravel major version.
@@ -53,7 +53,8 @@ class LaravelJsLocalizationServiceProvider extends ServiceProvider
                 $configPath => config_path("$configKey.php"),
             ]);
             $this->mergeConfigFrom(
-                $configPath, $configKey
+                $configPath,
+                $configKey
             );
         }
     }
@@ -71,9 +72,9 @@ class LaravelJsLocalizationServiceProvider extends ServiceProvider
             $files = $app['files'];
 
             if ($laravelMajorVersion === 4) {
-                $langs = $app['path.base'].'/app/lang';
+                $langs = $app['path.base'] . '/app/lang';
             } elseif ($laravelMajorVersion >= 5) {
-                $langs = $app['path.base'].'/resources/lang';
+                $langs = $app['path.base'] . '/resources/lang';
             }
             $messages = $app['config']->get('localization-js.messages');
             $generator = new Generators\LangJsGenerator($files, $langs, $messages);
