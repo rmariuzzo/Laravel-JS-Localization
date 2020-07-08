@@ -70,16 +70,16 @@ class LangJsGenerator
             $this->sourcePath = $options['source'];
         }
 
-        $messages = $this->getMessages($options['no-sort']);
+        $messages = $this->getMessages($options['no-sort'], $options['path']);
         $this->prepareTarget($target);
 
         if ($options['no-lib']) {
-            $template = $this->file->get(__DIR__.'/Templates/messages.js');
-        } else if ($options['json']) {
-            $template = $this->file->get(__DIR__.'/Templates/messages.json');
+            $template = $this->file->get(__DIR__ . '/Templates/messages.js');
+        } elseif ($options['json']) {
+            $template = $this->file->get(__DIR__ . '/Templates/messages.json');
         } else {
-            $template = $this->file->get(__DIR__.'/Templates/langjs_with_messages.js');
-            $langjs = $this->file->get(__DIR__.'/../../../../lib/lang.min.js');
+            $template = $this->file->get(__DIR__ . '/Templates/langjs_with_messages.js');
+            $langjs = $this->file->get(__DIR__ . '/../../../../lib/lang.min.js');
             $template = str_replace('\'{ langjs }\';', $langjs, $template);
         }
 
@@ -112,11 +112,12 @@ class LangJsGenerator
      * Return all language messages.
      *
      * @param bool $noSort Whether sorting of the messages should be skipped.
+     * @param bool $targetPath The target path where get the messages from.
      * @return array
      *
      * @throws \Exception
      */
-    protected function getMessages($noSort)
+    protected function getMessages($noSort, $targetPath)
     {
         $messages = [];
         $path = $this->sourcePath;
@@ -127,7 +128,13 @@ class LangJsGenerator
 
         foreach ($this->file->allFiles($path) as $file) {
             $pathName = $file->getRelativePathName();
+
+            if ($targetPath && !($this->containsTargetPath($pathName, $targetPath))) {
+                continue;
+            }
+
             $extension = $this->file->extension($pathName);
+
             if ($extension != 'php' && $extension != 'json') {
                 continue;
             }
@@ -144,11 +151,11 @@ class LangJsGenerator
                 $key = $this->getVendorKey($key);
             }
 
-            $fullPath = $path.DIRECTORY_SEPARATOR.$pathName;
+            $fullPath = $path . DIRECTORY_SEPARATOR . $pathName;
             if ($extension == 'php') {
                 $messages[$key] = include $fullPath;
             } else {
-                $key = $key.$this->stringsDomain;
+                $key = $key . $this->stringsDomain;
                 $fileContent = file_get_contents($fullPath);
                 $messages[$key] = json_decode($fileContent, true);
 
@@ -158,8 +165,7 @@ class LangJsGenerator
             }
         }
 
-        if (!$noSort)
-        {
+        if (!$noSort) {
             $this->sortMessages($messages);
         }
 
@@ -178,6 +184,25 @@ class LangJsGenerator
         if (!$this->file->exists($dirname)) {
             $this->file->makeDirectory($dirname, 0755, true);
         }
+    }
+
+    /**
+     * If path name contains the target path param.
+     *
+     * @param string $filePath
+     * @param string $targetPath
+     *
+     * @return bool
+     */
+    protected function containsTargetPath($filePath, $targetPath)
+    {
+        $filePath = str_replace(DIRECTORY_SEPARATOR, '/', $filePath);
+
+        $localeDirSeparatorPosition = strpos($filePath, '/');
+        $filePath = substr($filePath, $localeDirSeparatorPosition);
+        $filePath = ltrim($filePath, '/');
+
+        return strpos($filePath, $targetPath) === 0;
     }
 
     /**
@@ -212,6 +237,6 @@ class LangJsGenerator
         $keyParts = explode('.', $key, 4);
         unset($keyParts[0]);
 
-        return $keyParts[2] .'.'. $keyParts[1] . '::' . $keyParts[3];
+        return $keyParts[2] . '.' . $keyParts[1] . '::' . $keyParts[3];
     }
 }
