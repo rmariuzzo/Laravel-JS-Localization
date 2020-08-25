@@ -6,6 +6,7 @@ use InvalidArgumentException;
 use Illuminate\Filesystem\Filesystem as File;
 use Illuminate\Support\Str;
 use JShrink\Minifier;
+use Illuminate\Support\Arr;
 
 /**
  * The LangJsGenerator class.
@@ -36,6 +37,12 @@ class LangJsGenerator
     protected $messagesIncluded = [];
 
     /**
+     * List of namespace index of packages language folder
+     * @var array
+     */
+    protected $packagesMessages = [];
+
+    /**
      * Name of the domain in which all string-translation should be stored under.
      * More about string-translation: https://laravel.com/docs/master/localization#retrieving-translation-strings
      *
@@ -46,14 +53,17 @@ class LangJsGenerator
     /**
      * Construct a new LangJsGenerator instance.
      *
-     * @param File   $file       The file service instance.
+     * @param File $file The file service instance.
      * @param string $sourcePath The source path of the language files.
+     * @param array $messagesIncluded
+     * @param array $packagesMessages
      */
-    public function __construct(File $file, $sourcePath, $messagesIncluded = [])
+    public function __construct(File $file, $sourcePath, $messagesIncluded = [], $packagesMessages = [])
     {
         $this->file = $file;
         $this->sourcePath = $sourcePath;
         $this->messagesIncluded = $messagesIncluded;
+        $this->packagesMessages = $packagesMessages;
     }
 
     /**
@@ -125,37 +135,17 @@ class LangJsGenerator
             throw new \Exception("${path} doesn't exists!");
         }
 
-        foreach ($this->file->allFiles($path) as $file) {
-            $pathName = $file->getRelativePathName();
-            $extension = $this->file->extension($pathName);
-            if ($extension != 'php' && $extension != 'json') {
-                continue;
+        foreach($this->packagesMessages as $namespace => $langPath)
+        {
+            foreach ($this->file->allFiles($langPath) as $file)
+            {
+                $this->processFile($messages, $file, $namespace);
             }
+        }
 
-            if ($this->isMessagesExcluded($pathName)) {
-                continue;
-            }
-
-            $key = substr($pathName, 0, -4);
-            $key = str_replace('\\', '.', $key);
-            $key = str_replace('/', '.', $key);
-
-            if (Str::startsWith($key, 'vendor')) {
-                $key = $this->getVendorKey($key);
-            }
-
-            $fullPath = $path.DIRECTORY_SEPARATOR.$pathName;
-            if ($extension == 'php') {
-                $messages[$key] = include $fullPath;
-            } else {
-                $key = $key.$this->stringsDomain;
-                $fileContent = file_get_contents($fullPath);
-                $messages[$key] = json_decode($fileContent, true);
-
-                if (json_last_error() !== JSON_ERROR_NONE) {
-                    throw new InvalidArgumentException('Error while decode ' . basename($fullPath) . ': ' . json_last_error_msg());
-                }
-            }
+        foreach ($this->file->allFiles($path) as $file)
+        {
+            $this->processFile($messages, $file);
         }
 
         if (!$noSort)
@@ -213,5 +203,44 @@ class LangJsGenerator
         unset($keyParts[0]);
 
         return $keyParts[2] .'.'. $keyParts[1] . '::' . $keyParts[3];
+    }
+
+    private function processFile(&$messages, $file, $namespace = null)
+    {
+        $pathName = $file->getRelativePathName();
+        $extension = $file->getExtension();
+        if ($extension != 'php' && $extension != 'json') {
+            return;
+        }
+
+        if ($this->isMessagesExcluded($pathName)) {
+            return;
+        }
+
+        $key = substr($pathName, 0, -4);
+        $key = str_replace('\\', '.', $key);
+        $key = str_replace('/', '.', $key);
+
+        if ($namespace !== null)
+        {
+            $key = 'vendor.' . $namespace . '.'. $key;
+        }
+
+        if (Str::startsWith($key, 'vendor')) {
+            $key = $this->getVendorKey($key);
+        }
+
+        $fullPath = $file->getRealPath();
+        if ($extension == 'php') {
+            $messages[$key] = array_merge(Arr::get($messages,$key,[]), include $fullPath);
+        } else {
+            $key = $key.$this->stringsDomain;
+            $fileContent = file_get_contents($fullPath);
+            $messages[$key] = json_decode($fileContent, true);
+
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new InvalidArgumentException('Error while decode ' . basename($fullPath) . ': ' . json_last_error_msg());
+            }
+        }
     }
 }

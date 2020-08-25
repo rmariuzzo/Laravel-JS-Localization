@@ -165,6 +165,37 @@ class LangJsCommandTest extends TestCase
 
     /**
      */
+    public function testPackageFilesShouldBeConverted()
+    {
+        $langPath = "{$this->testPath}/fixtures/resources/lang";
+        $packageFiles = ["nonameinc" => "{$this->testPath}/fixtures/packages/nonameinc/lang"];
+
+        $generator = new LangJsGenerator(new File(), $langPath, [], $packageFiles);
+
+        $command = new LangJsCommand($generator);
+        $command->setLaravel($this->app);
+
+        $code = $this->runCommand($command, ['target' => $this->outputFilePath]);
+        $this->assertRunsWithSuccess($code);
+        $this->assertFileExists($this->outputFilePath);
+
+        $contents = file_get_contents($this->outputFilePath);
+
+        $this->_assertStringContainsString('gm8ft2hrrlq1u6m54we9udi', $contents);
+
+        $this->_assertStringNotContainsString('vendor.nonameinc.en.messages', $contents);
+
+        $this->_assertStringContainsString('en.nonameinc::messages', $contents);
+
+        $this->_assertStringContainsString('should have replaced packages value for this key', $contents);
+        $this->_assertStringContainsString('this is a new key added ontop of the packages', $contents);
+        $this->_assertStringContainsString('another_important_data', $contents);
+
+        $this->cleanupOutputDirectory();
+    }
+
+    /**
+     */
     public function testFilesSelectedInConfigShouldBeConverted()
     {
         $generator = new LangJsGenerator(new File(), $this->langPath, ['messages']);
@@ -240,7 +271,7 @@ class LangJsCommandTest extends TestCase
         $code = $this->runCommand($command, ['target' => $this->outputFilePath]);
         $this->assertRunsWithSuccess($code);
         $this->assertFileExists($this->outputFilePath);
-        $this->assertFileNotExists($customOutputFilePath);
+        $this->assertFileDoesNotExist($customOutputFilePath);
 
         $template = "$this->rootPath/src/Mariuzzo/LaravelJsLocalization/Generators/Templates/langjs_with_messages.js";
         $this->assertFileExists($template);
