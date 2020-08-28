@@ -183,6 +183,9 @@ class LangJsCommandTest extends TestCase
 
         $this->_assertStringContainsString('gm8ft2hrrlq1u6m54we9udi', $contents);
 
+        # do not reindex error codes.
+        $this->_assertStringContainsString('"1119":"should still be error code 1119"', $contents);
+
         $this->_assertStringNotContainsString('vendor.nonameinc.en.messages', $contents);
 
         $this->_assertStringContainsString('en.nonameinc::messages', $contents);

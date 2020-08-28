@@ -232,7 +232,7 @@ class LangJsGenerator
 
         $fullPath = $file->getRealPath();
         if ($extension == 'php') {
-            $messages[$key] = array_merge(Arr::get($messages,$key,[]), include $fullPath);
+            $messages[$key] = array_replace(Arr::get($messages,$key,[]), include $fullPath);
         } else {
             $key = $key.$this->stringsDomain;
             $fileContent = file_get_contents($fullPath);
