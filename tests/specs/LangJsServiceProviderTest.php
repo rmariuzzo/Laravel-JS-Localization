@@ -76,7 +76,7 @@ class LangJsServiceProviderTest extends TestCase
 
         $expected = '"en.nonameinc::messages":{"another_important_data":"this is from the package lang","important_data":"should have replaced packages value for this key","new_key":"this is a new key added ontop of the packages"}';
         $result = file_get_contents($this->outputFilePath);
-        $this->assertStringContainsString($expected, $result);
+        $this->_assertStringContainsString($expected, $result);
 
         $this->cleanupOutputDirectory();
 
@@ -91,5 +91,14 @@ class LangJsServiceProviderTest extends TestCase
         foreach ($files as $file) {
             FileFacade::delete($file);
         }
+    }
+
+    public function _assertStringContainsString($needle, $haystack)
+    {
+        if (method_exists(get_parent_class($this), 'assertStringContainsString')) {
+            return $this->assertStringContainsString($needle, $haystack);
+        }
+
+        return $this->assertContains($needle, $haystack);
     }
 }
