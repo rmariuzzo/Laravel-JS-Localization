@@ -240,7 +240,7 @@ class LangJsCommandTest extends TestCase
         $code = $this->runCommand($command, ['target' => $this->outputFilePath]);
         $this->assertRunsWithSuccess($code);
         $this->assertFileExists($this->outputFilePath);
-        $this->assertFileDoesNotExist($customOutputFilePath);
+        $this->assertFileNotExists($customOutputFilePath);
 
         $template = "$this->rootPath/src/Mariuzzo/LaravelJsLocalization/Generators/Templates/langjs_with_messages.js";
         $this->assertFileExists($template);
