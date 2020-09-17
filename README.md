@@ -1,4 +1,4 @@
-![Laravel JS Localization - Convert you Laravel messages and use them in the front-end!](banner.svg)
+# ![Laravel JS Localization - Convert you Laravel messages and use them in the front-end!](.github/assets/banner.svg)
 
 ![Laravel 5.5](https://img.shields.io/badge/Laravel-5.5-f4645f.svg)
 ![Laravel 4.2](https://img.shields.io/badge/Laravel-4.2-f4645f.svg)
