@@ -12,5 +12,4 @@ return array(
     ),
     'plural' => 'one apple|a million apples',
     'random' => 'gm8ft2hrrlq1u6m54we9udi',
-    0x045F => 'should still be error code 1119'
 );
