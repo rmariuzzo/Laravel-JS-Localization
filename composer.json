@@ -52,7 +52,7 @@
         "source": "https://github.com/rmariuzzo/laravel-js-localization"
     },
     "require": {
-        "php": "^5.4 || ^7.0",
+        "php": "^5.4 || ^7.0 || ^8.0",
         "illuminate/config": "^4.2 || ^5.0 || ^6.0 || ^7.0 || ^8.0",
         "illuminate/console": "^4.2 || ^5.0 || ^6.0 || ^7.0 || ^8.0",
         "illuminate/filesystem": "^4.2 || ^5.0 || ^6.0 || ^7.0 || ^8.0",
