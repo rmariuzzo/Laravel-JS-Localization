@@ -67,7 +67,22 @@ class LangJsCommand extends Command
             'no-lib' => $this->option('no-lib'),
             'source' => $this->option('source'),
             'no-sort' => $this->option('no-sort'),
+            'autodetect' => $this->option('autodetect'),
         ];
+
+
+        if ($options['autodetect']) {
+            $this->info('Autodetect enabled... If this takes too long, edit the glob\'s in config/js-localization.php to be more specific');
+            $usageSearchFiles = $this->generator->usageSearchFiles($this->getUsageSearchFiles());
+            $bar = $this->output->createProgressBar(count($usageSearchFiles));
+            $bar->start();
+            foreach ($usageSearchFiles as $file){
+                $this->generator->usageSearch($file);
+                $bar->advance();
+            }
+            $bar->finish();
+            $this->info("\n");
+        }
 
         if ($this->generator->generate($target, $options)) {
             $this->info("Created: {$target}");
@@ -101,6 +116,20 @@ class LangJsCommand extends Command
     }
 
     /**
+     * Return the glob's to search.
+     *
+     * @return array
+     */
+    protected function getUsageSearchFiles()
+    {
+        return Config::get('localization-js.usageSearchFiles', [
+            'public/**/*.js',
+            'resources/assets/**/*.js',
+            'resources/views/**/*',
+        ]);
+    }
+
+    /**
      * Return all command options.
      *
      * @return array
@@ -113,6 +142,7 @@ class LangJsCommand extends Command
             ['json', 'j', InputOption::VALUE_NONE, 'Only output the messages json.', null],
             ['source', 's', InputOption::VALUE_REQUIRED, 'Specifying a custom source folder', null],
             ['no-sort', 'ns', InputOption::VALUE_NONE, 'Do not sort the messages', null],
+            ['autodetect', 'a', InputOption::VALUE_NONE, 'Autodetect which messages to include', null],
         ];
     }
 }
