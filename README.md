@@ -1,4 +1,4 @@
-![Laravel JS Localization - Convert you Laravel messages and use them in the front-end!](banner.svg)
+# ![Laravel JS Localization - Convert you Laravel messages and use them in the front-end!](.github/assets/banner.svg)
 
 ![Laravel 5.5](https://img.shields.io/badge/Laravel-5.5-f4645f.svg)
 ![Laravel 4.2](https://img.shields.io/badge/Laravel-4.2-f4645f.svg)
@@ -10,7 +10,7 @@ This package convert all your localization messages from your Laravel app to Jav
 
 ## Features
 
- - Support Laravel 4.2, 5.0, 5.1, 5.2, 5.3, 5.4 and 5.5.
+ - Support Laravel 4.2, 5.0, 5.1, 5.2, 5.3, 5.4, 5.5, 6.x, 7.x and 8.x!
  - Includes [Lang.js](https://github.com/rmariuzzo/lang.js) (a thin library highly inspired on Laravel's [`Translator`](https://laravel.com/api/5.4/Illuminate/Translation/Translator.html) class).
  - Allow to specify desired lang files to be converted to JS.
  - Lang.js API is based on Laravel's [`Translator`](https://laravel.com/api/5.4/Illuminate/Translation/Translator.html) class. No need to learn a whole API.
