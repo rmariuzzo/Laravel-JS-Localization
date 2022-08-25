@@ -80,6 +80,7 @@ The configuration will be published to `config/localization-js.php`.
 
 You may edit this file to define the messages you need in your Javascript code. Just edit the `messages` array in the config file. **Empty messages array will include all the language files in build**.
 
+
 To make only `pagination.php` and `validation.php` files to be included in build process:
 
 ```php
@@ -92,6 +93,10 @@ return [
     ],
 ];
 ```
+
+### Specifying the path to your language folder
+
+Out of the box, this package points to `/app/lang` in Laravel 4 or the `resources/lang` in Laravel >= 5 but you can specify where yours exists by editing the `lang_path` key in the config file.
 
 ### Using [gulp](http://gulpjs.com/) (optional)
 
