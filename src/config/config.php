@@ -19,9 +19,4 @@ return [
      * The default path to use for the generated javascript.
      */
     'path' => public_path('messages.js'),
-
-    /*
-     * The path for your laravel lang folder
-     */
-    'lang_path' => '',
 ];
