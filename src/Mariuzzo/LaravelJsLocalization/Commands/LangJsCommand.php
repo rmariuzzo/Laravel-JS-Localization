@@ -2,6 +2,7 @@
 
 namespace Mariuzzo\LaravelJsLocalization\Commands;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Console\Command;
 use Mariuzzo\LaravelJsLocalization\Generators\LangJsGenerator;
@@ -30,35 +31,17 @@ class LangJsCommand extends Command
     protected $description = 'Generate JS lang files.';
 
     /**
-     * The generator instance.
-     *
-     * @var LangJsGenerator
-     */
-    protected $generator;
-
-    /**
-     * Construct a new LangJsCommand.
-     *
-     * @param LangJsGenerator $generator The generator.
-     */
-    public function __construct(LangJsGenerator $generator)
-    {
-        $this->generator = $generator;
-        parent::__construct();
-    }
-
-    /**
      * Fire the command. (Compatibility for < 5.0)
      */
     public function fire()
     {
-        $this->handle();
+        $this->handle(App::make(LangJsGenerator::class));
     }
 
     /**
      * Handle the command.
      */
-    public function handle()
+    public function handle(LangJsGenerator $generator)
     {
         $target = $this->argument('target');
         $options = [
@@ -69,7 +52,7 @@ class LangJsCommand extends Command
             'no-sort' => $this->option('no-sort'),
         ];
 
-        if ($this->generator->generate($target, $options)) {
+        if ($generator->generate($target, $options)) {
             $this->info("Created: {$target}");
 
             return;
