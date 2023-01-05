@@ -23,5 +23,6 @@ class LangJsServiceProviderTest extends TestCase
     {
         // TODO: Add some assertions. (however, this already test if this
         // package can be provided with the method: getPackageProviders).
+        $this->assertTrue(true); // Add empty assert to remove warning
     }
 }
