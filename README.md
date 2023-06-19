@@ -93,6 +93,10 @@ return [
 ];
 ```
 
+### Specifying the path to your language folder
+
+Out of the box, this package points to `/app/lang` in Laravel 4 or the `resources/lang` in Laravel >= 5 but you can specify where yours exists by editing the `lang_path` key in the config file.
+
 ### Using [gulp](http://gulpjs.com/) (optional)
 
 Install [`gulp-shell`](https://github.com/sun-zheng-an/gulp-shell) and then run it directly in your `gulpfile.js`:
