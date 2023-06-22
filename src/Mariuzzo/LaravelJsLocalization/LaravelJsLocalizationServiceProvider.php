@@ -2,6 +2,7 @@
 
 namespace Mariuzzo\LaravelJsLocalization;
 
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -63,26 +64,16 @@ class LaravelJsLocalizationServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // Bind the Laravel JS Localization command into the app IOC.
-        $this->app->singleton('localization.js', function ($app) {
-            $app = $this->app;
-            $laravelMajorVersion = (int) $app::VERSION;
-
-            $files = $app['files'];
-
-            if ($laravelMajorVersion === 4) {
-                $langs = $app['path.base'].'/app/lang';
-            } elseif ($laravelMajorVersion >= 5) {
-                $langs = $app['path.base'].'/resources/lang';
-            }
-            $messages = $app['config']->get('localization-js.messages');
-            $generator = new Generators\LangJsGenerator($files, $langs, $messages);
-
-            return new Commands\LangJsCommand($generator);
-        });
+        // Bind the Laravel JS Localization Generator into the app IOC.
+        $this->app->when(Generators\LangJsGenerator::class)->needs('$sourcePath')
+            ->give(static function(Application $app) {
+                return $app::VERSION < 5 ? base_path('/app/lang') : base_path('/resources/lang');
+            });
+        $this->app->when(Generators\LangJsGenerator::class)->needs('$messagesIncluded')
+            ->giveConfig('localization-js.messages');
 
         // Bind the Laravel JS Localization command into Laravel Artisan.
-        $this->commands('localization.js');
+        $this->commands(Commands\LangJsCommand::class);
     }
 
     /**
