@@ -83,7 +83,7 @@ class LangJsGenerator
             $template = str_replace('\'{ langjs }\';', $langjs, $template);
         }
 
-        $template = str_replace('\'{ messages }\'', json_encode($messages), $template);
+        $template = str_replace('\'{ messages }\'', json_encode($messages, JSON_UNESCAPED_UNICODE), $template);
 
         if ($options['compress']) {
             $template = Minifier::minify($template);
