@@ -68,6 +68,7 @@ class LaravelJsLocalizationServiceProvider extends ServiceProvider
             $app = $this->app;
             $laravelMajorVersion = (int) $app::VERSION;
 
+            $translator = $app->make('Illuminate\Translation\Translator');
             $files = $app['files'];
 
             if ($laravelMajorVersion === 4) {
@@ -77,8 +78,9 @@ class LaravelJsLocalizationServiceProvider extends ServiceProvider
             } elseif ($laravelMajorVersion >= 9) {
                 $langs = $app['path.base'].'/lang';
             }
-            $messages = $app['config']->get('localization-js.messages');
-            $generator = new Generators\LangJsGenerator($files, $langs, $messages);
+            $messages = $app['config']->get('localization-js.messages', []);
+            $packagesLanguages = $translator->getLoader()->namespaces();
+            $generator = new Generators\LangJsGenerator($files, $langs, $messages, $packagesLanguages);
 
             return new Commands\LangJsCommand($generator);
         });
