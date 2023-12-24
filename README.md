@@ -135,18 +135,18 @@ elixir(function(mix) {
 
 ### Using [Laravel's Mix](https://laravel.com/docs/5.4/mix) with Laravel 5.4+ (optional)
 
-Add "[webpack-shell-plugin](https://www.npmjs.com/package/webpack-shell-plugin)" to package.json's "devDependencies" section.
+Add "[webpack-shell-plugin-next](https://www.npmjs.com/package/webpack-shell-plugin-next)" to package.json's "devDependencies" section.
 
 Add the following to webpack.mix.js:
 
 ```js
-const WebpackShellPlugin = require('webpack-shell-plugin');
+const WebpackShellPluginNext = require('webpack-shell-plugin-next');
 
 // Add shell command plugin configured to create JavaScript language file
 mix.webpackConfig({
     plugins:
     [
-        new WebpackShellPlugin({onBuildStart:['php artisan lang:js --quiet'], onBuildEnd:[]})
+        new WebpackShellPluginNext({onBuildStart:['php artisan lang:js --quiet'], onBuildEnd:[]})
     ]
 });
 ```
