@@ -74,7 +74,11 @@ class LangJsGenerator
         $this->prepareTarget($target);
 
         if ($options['no-lib']) {
-            $template = $this->file->get(__DIR__.'/Templates/messages.js');
+            if ($options['module']) {
+                $template = $this->file->get(__DIR__.'/Templates/messages.mjs');
+            } else {
+                $template = $this->file->get(__DIR__.'/Templates/messages.cjs');
+            }
         } else if ($options['json']) {
             $template = $this->file->get(__DIR__.'/Templates/messages.json');
         } else {

@@ -254,7 +254,7 @@ class LangJsCommandTest extends TestCase
      * */
     public function testShouldTemplateMessagesHasHandlebars()
     {
-        $template = "$this->rootPath/src/Mariuzzo/LaravelJsLocalization/Generators/Templates/messages.js";
+        $template = "$this->rootPath/src/Mariuzzo/LaravelJsLocalization/Generators/Templates/messages.cjs";
         $this->assertFileExists($template);
 
         $contents = file_get_contents($template);
@@ -276,6 +276,27 @@ class LangJsCommandTest extends TestCase
         $this->assertFileExists($this->outputFilePath);
 
         $contents = file_get_contents($this->outputFilePath);
+        $this->assertNotEmpty($contents);
+        $this->assertHasNotHandlebars('messages', $contents);
+        $this->cleanupOutputDirectory();
+    }
+
+    /*
+     * test command with option --module
+     * */
+    public function testEsModuleOutputExported()
+    {
+        $generator = new LangJsGenerator(new File(), $this->langPath);
+        $command   = new LangJsCommand($generator);
+        $command->setLaravel($this->app);
+
+        $code = $this->runCommand($command, ['target' => $this->outputFilePath, '--module' => true]);
+        $this->assertRunsWithSuccess($code);
+        $this->assertFileExists($this->outputFilePath);
+
+        $contents = file_get_contents($this->outputFilePath);
+        $this->_assertStringContainsString('export default', $contents);
+
         $this->assertNotEmpty($contents);
         $this->assertHasNotHandlebars('messages', $contents);
         $this->cleanupOutputDirectory();
