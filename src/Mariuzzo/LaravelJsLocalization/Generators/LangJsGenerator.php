@@ -35,6 +35,14 @@ class LangJsGenerator
      */
     protected $messagesIncluded = [];
 
+
+    /**
+     * List of files/folders the autodetector should search through.
+     *
+     * @var array
+     */
+    public $keepMessages = [];
+
     /**
      * Name of the domain in which all string-translation should be stored under.
      * More about string-translation: https://laravel.com/docs/master/localization#retrieving-translation-strings
@@ -48,6 +56,7 @@ class LangJsGenerator
      *
      * @param File   $file       The file service instance.
      * @param string $sourcePath The source path of the language files.
+     * @param array $messagesIncluded List of messages should be included in build.
      */
     public function __construct(File $file, $sourcePath, $messagesIncluded = [])
     {
@@ -71,6 +80,9 @@ class LangJsGenerator
         }
 
         $messages = $this->getMessages($options['no-sort']);
+        if ($options['autodetect']) {
+            $this->filterKeepMessages($messages,$this->keepMessages);
+        }
         $this->prepareTarget($target);
 
         if ($options['no-lib']) {
@@ -105,6 +117,86 @@ class LangJsGenerator
             foreach ($messages as $key => &$value) {
                 $this->sortMessages($value);
             }
+        }
+    }
+
+    /**
+     * Returns array of filenames from input glob's.
+     * @param array $globs Globs to parse
+     * @return array
+     */
+    public function usageSearchFiles($globs)
+    {
+        $files = [];
+        foreach ($globs as $glob) {
+            $files += $this->file->glob($this->sourcePath.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.$glob);
+        }
+        return $files;
+    }
+
+    /**
+     * Searches a file for Lang.get / Lang.has / Lang.choice etc. occurances.
+     * Stores an occurence in $this->keepMessages;
+     * @param string $file Absolute path of file to open
+     * @return void
+     */
+    public function usageSearch($file)
+    {
+        try {
+            $content = $this->file->get($file);
+            preg_match_all("/Lang\.(?:get|has|choice|trans|transChoice)\(['\"]([^'\"]+)/", $content, $matches);
+            foreach ($matches[1] as $match) {
+                $chain = [];
+                $ref = &$chain;
+                foreach (explode(".", $match) as $value) {
+                    $ref[$value] = [];
+                    $ref = &$ref[$value];
+                }
+                if(array_key_exists($this->stringsDomain,$chain)){
+                    $this->keepMessages[$this->stringsDomain][substr($match, strlen($this->stringsDomain)+1)] = "";
+                }else {
+                    $this->keepMessages = array_merge_recursive($this->keepMessages, $chain);
+                    $this->keepMessages[$this->stringsDomain][$match] = "";
+                }
+            }
+        } catch (\Exception $exception) {
+            return;
+        }
+    }
+
+    /**
+     * Recursively executes array_intersect_key($array1, $array2);
+     * @param array $array1 Array of master keys
+     * @param array $array2 Array to check keys against
+     * @see array_intersect_key()
+     * @return array
+     */
+    protected function array_intersect_key_recursive( $array1, $array2 ) {
+        $array1 = array_intersect_key( $array1, $array2 );
+        foreach ( $array1 as $key => $value ) {
+            if ( is_array( $value ) && is_array( $array2[ $key ] ) ) {
+                $array1[ $key ] = $this->array_intersect_key_recursive( $value, $array2[ $key ] );
+            }
+        }
+        return $array1;
+    }
+
+    /**
+     * Filters language keys in $messages to only keep keys in $this->keepMessages;
+     * @param array &$messages Array of master keys
+     * @param array &$keep Array of keys to keep
+     * @return void
+     */
+    protected function filterKeepMessages(&$messages, &$keep){
+        $messages = array_filter($messages,function($key) use ($keep) {
+            if(array_key_exists($key,$keep)||array_key_exists(substr(strstr($key, '.'),1),$keep)){
+                return true;
+            }
+            return false;
+        },ARRAY_FILTER_USE_KEY);
+        foreach($messages as $key=>$array){
+            $skey = substr(strstr($key, '.'),1);
+            $messages[$key] = $this->array_intersect_key_recursive($array,$keep[$skey]);
         }
     }
 
