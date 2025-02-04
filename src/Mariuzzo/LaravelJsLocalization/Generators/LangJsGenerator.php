@@ -6,6 +6,7 @@ use InvalidArgumentException;
 use Illuminate\Filesystem\Filesystem as File;
 use Illuminate\Support\Str;
 use JShrink\Minifier;
+use Illuminate\Support\Arr;
 
 /**
  * The LangJsGenerator class.
@@ -146,7 +147,7 @@ class LangJsGenerator
 
             $fullPath = $path.DIRECTORY_SEPARATOR.$pathName;
             if ($extension == 'php') {
-                $messages[$key] = include $fullPath;
+               Arr::set($messages, $key, include $fullPath);
             } else {
                 $key = $key.$this->stringsDomain;
                 $fileContent = file_get_contents($fullPath);
