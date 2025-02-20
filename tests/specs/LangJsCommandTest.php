@@ -47,12 +47,9 @@ class LangJsCommandTest extends TestCase
      */
     private $langPath;
 
-    /**
-     * LangJsCommandTest constructor.
-     */
-    public function __construct()
+    protected function setUp(): void
     {
-        parent::__construct();
+        parent::setUp();
 
         $this->testPath       = __DIR__ . '/..';
         $this->rootPath       = __DIR__ . '/../..';
@@ -240,7 +237,7 @@ class LangJsCommandTest extends TestCase
         $code = $this->runCommand($command, ['target' => $this->outputFilePath]);
         $this->assertRunsWithSuccess($code);
         $this->assertFileExists($this->outputFilePath);
-        $this->assertFileNotExists($customOutputFilePath);
+        $this->assertFileDoesNotExist($customOutputFilePath);
 
         $template = "$this->rootPath/src/Mariuzzo/LaravelJsLocalization/Generators/Templates/langjs_with_messages.js";
         $this->assertFileExists($template);
