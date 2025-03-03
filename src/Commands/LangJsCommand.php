@@ -13,8 +13,7 @@ use Symfony\Component\Console\Input\InputOption;
  *
  * @author  Rubens Mariuzzo <rubens@mariuzzo.com>
  */
-class LangJsCommand extends Command
-{
+class LangJsCommand extends Command {
     /**
      * The command name.
      *
@@ -30,36 +29,9 @@ class LangJsCommand extends Command
     protected $description = 'Generate JS lang files.';
 
     /**
-     * The generator instance.
-     *
-     * @var LangJsGenerator
-     */
-    protected $generator;
-
-    /**
-     * Construct a new LangJsCommand.
-     *
-     * @param LangJsGenerator $generator The generator.
-     */
-    public function __construct(LangJsGenerator $generator)
-    {
-        $this->generator = $generator;
-        parent::__construct();
-    }
-
-    /**
-     * Fire the command. (Compatibility for < 5.0)
-     */
-    public function fire()
-    {
-        $this->handle();
-    }
-
-    /**
      * Handle the command.
      */
-    public function handle()
-    {
+    public function handle(LangJsGenerator $generator) {
         $target = $this->argument('target');
         $options = [
             'compress' => $this->option('compress'),
@@ -69,7 +41,7 @@ class LangJsCommand extends Command
             'no-sort' => $this->option('no-sort'),
         ];
 
-        if ($this->generator->generate($target, $options)) {
+        if ($generator->generate($target, $options)) {
             $this->info("Created: {$target}");
 
             return;
@@ -83,8 +55,7 @@ class LangJsCommand extends Command
      *
      * @return array
      */
-    protected function getArguments()
-    {
+    protected function getArguments() {
         return [
             ['target', InputArgument::OPTIONAL, 'Target path.', $this->getDefaultPath()],
         ];
@@ -95,8 +66,7 @@ class LangJsCommand extends Command
      *
      * @return string
      */
-    protected function getDefaultPath()
-    {
+    protected function getDefaultPath() {
         return Config::get('localization-js.path', public_path('messages.js'));
     }
 
@@ -105,8 +75,7 @@ class LangJsCommand extends Command
      *
      * @return array
      */
-    protected function getOptions()
-    {
+    protected function getOptions() {
         return [
             ['compress', 'c', InputOption::VALUE_NONE, 'Compress the JavaScript file.', null],
             ['no-lib', 'nl', InputOption::VALUE_NONE, 'Do not include the lang.js library.', null],

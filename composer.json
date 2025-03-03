@@ -4,7 +4,7 @@
     "type": "library",
     "keywords": [
         "laravel",
-        "laravel 5",
+        "laravel 12",
         "localization",
         "i18n",
         "javascript",
@@ -52,24 +52,24 @@
         "source": "https://github.com/rmariuzzo/laravel-js-localization"
     },
     "require": {
-        "php": "^5.4 || ^7.0 || ^8.0",
-        "illuminate/config": "^4.2 || ^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0",
-        "illuminate/console": "^4.2 || ^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0",
-        "illuminate/filesystem": "^4.2 || ^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0",
+        "php": "^8.2",
+        "illuminate/console": "^11.0|^12.0",
+        "illuminate/filesystem": "^11.0|^12.0",
+        "illuminate/support": "^11.0|^12.0",
+        "laravel/framework": "^11.0|^12.0",
         "tedivm/jshrink": "~1.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^2.2 || ^3.0 || ^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0",
-        "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0"
+        "phpunit/phpunit": "^11.0"
     },
     "autoload": {
         "psr-4": {
-            "Mariuzzo\\LaravelJsLocalization\\": "src/Mariuzzo/LaravelJsLocalization/"
+            "Mariuzzo\\LaravelJsLocalization\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Mariuzzo\\LaravelJsLocalization\\": "tests/specs"
+            "Mariuzzo\\LaravelJsLocalization\\Tests\\": "tests"
         }
     },
     "minimum-stability": "stable",
