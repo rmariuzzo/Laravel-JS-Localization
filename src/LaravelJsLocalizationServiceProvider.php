@@ -35,7 +35,7 @@ class LaravelJsLocalizationServiceProvider extends ServiceProvider implements De
      */
     public function register() {
         $this->registerConfig();
-        $this->registerLangJsCommand();
+        $this->registerLangJsGenerator();
     }
 
     protected function registerConfig(): void {
@@ -54,17 +54,15 @@ class LaravelJsLocalizationServiceProvider extends ServiceProvider implements De
         ], 'localization-js-config');
     }
 
-    protected function registerLangJsCommand(): void {
-        $this->app->singleton(LangJsCommand::class, function ($app) {
+    protected function registerLangJsGenerator(): void {
+        $this->app->singleton(LangJsGenerator::class, function ($app) {
             $app = $this->app;
 
             $files = $app['files'];
             $langs = $app['path.base'] . '/lang';
 
             $messages = $app['config']->get('localization-js.messages');
-            $generator = new LangJsGenerator($files, $langs, $messages);
-
-            return new LangJsCommand($generator);
+            return new LangJsGenerator($files, $langs, $messages);
         });
     }
 
