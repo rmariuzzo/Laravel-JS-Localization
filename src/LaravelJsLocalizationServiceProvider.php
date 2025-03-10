@@ -59,7 +59,7 @@ class LaravelJsLocalizationServiceProvider extends ServiceProvider implements De
             $app = $this->app;
 
             $files = $app['files'];
-            $langs = $app['path.base'] . '/lang';
+            $langs = $app->langPath();
 
             $messages = $app['config']->get('localization-js.messages');
             return new LangJsGenerator($files, $langs, $messages);
