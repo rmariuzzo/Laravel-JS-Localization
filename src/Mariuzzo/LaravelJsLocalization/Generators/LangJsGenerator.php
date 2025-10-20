@@ -132,7 +132,7 @@ class LangJsGenerator
         $path = $this->sourcePath;
 
         if (!$this->file->exists($path)) {
-            throw new \Exception("${path} doesn't exists!");
+            throw new \Exception("{$path} doesn't exists!");
         }
 
         foreach($this->packagesMessages as $namespace => $langPath)
