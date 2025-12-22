@@ -33,6 +33,9 @@ In your Laravel app go to `config/app.php` and add the following service provide
 ```php
 Mariuzzo\LaravelJsLocalization\LaravelJsLocalizationServiceProvider::class
 ```
+> [!IMPORTANT]
+> In Laravel 11, the providers array in config/app.php has been removed. 
+> Instead, service providers should be registered in the `bootstrap/providers.php` file.
 
 ## Usage
 
