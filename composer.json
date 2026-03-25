@@ -5,6 +5,7 @@
     "keywords": [
         "laravel",
         "laravel 12",
+        "laravel 13",
         "localization",
         "i18n",
         "javascript",
@@ -53,14 +54,14 @@
     },
     "require": {
         "php": "^8.2",
-        "illuminate/config": "*",
-        "illuminate/console": "^11.0|^12.0",
-        "illuminate/filesystem": "^11.0|^12.0",
+        "illuminate/config": "^11.0|^12.0|^13.0",
+        "illuminate/console": "^11.0|^12.0|^13.0",
+        "illuminate/filesystem": "^11.0|^12.0|^13.0",
         "tedivm/jshrink": "~1.0"
     },
     "require-dev": {
-        "pestphp/pest": "^3.7",
-        "orchestra/testbench": "^9.0|^10.0"
+        "pestphp/pest": "^3.7|^4.0",
+        "orchestra/testbench": "^9.0|^10.0|^11.0"
     },
     "autoload": {
         "psr-4": {
