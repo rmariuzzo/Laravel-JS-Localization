@@ -1,7 +1,8 @@
 # ![Laravel JS Localization - Convert you Laravel messages and use them in the front-end!](.github/assets/banner.svg)
 
-![Laravel 5.5](https://img.shields.io/badge/Laravel-5.5-f4645f.svg)
-![Laravel 4.2](https://img.shields.io/badge/Laravel-4.2-f4645f.svg)
+![Laravel 9.x](https://img.shields.io/badge/Laravel-9.x-f4645f.svg)
+![Laravel 10.x](https://img.shields.io/badge/Laravel-10.x-f4645f.svg)
+![Laravel 11.x](https://img.shields.io/badge/Laravel-11.x-f4645f.svg)
 [![Latest Stable Version](https://poser.pugx.org/mariuzzo/laravel-js-localization/v/stable.svg)](https://packagist.org/packages/mariuzzo/laravel-js-localization)
 [![Total Downloads](https://poser.pugx.org/mariuzzo/laravel-js-localization/downloads.svg)](https://packagist.org/packages/mariuzzo/laravel-js-localization)
 [![License](https://poser.pugx.org/mariuzzo/laravel-js-localization/license.svg)](https://packagist.org/packages/mariuzzo/laravel-js-localization)
@@ -10,7 +11,7 @@ This package convert all your localization messages from your Laravel app to Jav
 
 ## Features
 
- - Support Laravel 4.2, 5.0, 5.1, 5.2, 5.3, 5.4, 5.5, 6.x, 7.x and 8.x!
+ - Support Laravel 4.2, 5.x, 6.x, 7.x, 8.x, 9.x, 10.x and 11.x!
  - Includes [Lang.js](https://github.com/rmariuzzo/lang.js) (a thin library highly inspired on Laravel's [`Translator`](https://laravel.com/api/5.4/Illuminate/Translation/Translator.html) class).
  - Allow to specify desired lang files to be converted to JS.
  - Lang.js API is based on Laravel's [`Translator`](https://laravel.com/api/5.4/Illuminate/Translation/Translator.html) class. No need to learn a whole API.
@@ -28,15 +29,21 @@ This package convert all your localization messages from your Laravel app to Jav
 composer require mariuzzo/laravel-js-localization
 ```
 
-In your Laravel app go to `config/app.php` and add the following service provider:
-
-```php
-Mariuzzo\LaravelJsLocalization\LaravelJsLocalizationServiceProvider::class
-```
+> **Note:** Laravel 5.5+ supports package auto-discovery — no manual registration needed. For Laravel 4.x only, add the following to `config/app.php`:
+>
+> ```php
+> Mariuzzo\LaravelJsLocalization\LaravelJsLocalizationServiceProvider::class
+> ```
 
 ## Usage
 
-The `Laravel-JS-Localization` package provides a command that generate the JavaScript version of all your messages found at: `app/lang` (Laravel 4) or `resources/lang` (Laravel 5) directory. The resulting JavaScript file will contain all your messages plus [Lang.js](https://github.com/rmariuzzo/lang.js) (a thin library highly inspired on Laravel's [`Translator`](https://laravel.com/api/5.4/Illuminate/Translation/Translator.html) class).
+The `Laravel-JS-Localization` package provides a command that generates the JavaScript version of all your messages. It looks for lang files in the following locations depending on your Laravel version:
+
+- **Laravel 4:** `app/lang`
+- **Laravel 5–8:** `resources/lang`
+- **Laravel 9+:** `lang/` (project root) or `resources/lang`
+
+The resulting JavaScript file will contain all your messages plus [Lang.js](https://github.com/rmariuzzo/lang.js) (a thin library highly inspired on Laravel's [`Translator`](https://laravel.com/api/5.4/Illuminate/Translation/Translator.html) class).
 
 ### Generating JS messages
 
@@ -93,47 +100,7 @@ return [
 ];
 ```
 
-### Using [gulp](http://gulpjs.com/) (optional)
-
-Install [`gulp-shell`](https://github.com/sun-zheng-an/gulp-shell) and then run it directly in your `gulpfile.js`:
-
-```js
-var shell = require('gulp-shell');
-
-gulp.task('langjs', shell.task('php artisan lang:js -c public/js/messages.js'));
-```
-
-### Using [Laravel's elixir](http://laravel.com/docs/elixir) (optional)
-Before Elixir 4.0:
-
-```js
-elixir.extend('langjs', function(path) {
-    gulp.task('langjs', function() {
-        gulp.src('').pipe(shell('php artisan lang:js ' + (path || 'public/js/messages.js')));
-    });
-
-    return this.queueTask('langjs');
-});
-```
-Elixir 4.0+:
-```js
-var Task = elixir.Task;
-elixir.extend('langjs', function(path) {
-    new Task('langjs', function() {
-        gulp.src('').pipe(shell('php artisan lang:js ' + (path || 'public/js/messages.js')));
-    });
-});
-```
-
-And use it like this:
-
-```js
-elixir(function(mix) {
-    mix.langjs();
-});
-```
-
-### Using [Laravel's Mix](https://laravel.com/docs/5.4/mix) with Laravel 5.4+ (optional)
+### Using [Laravel's Mix](https://laravel.com/docs/mix) with Laravel 5.4+ (optional)
 
 Add "[webpack-shell-plugin-next](https://www.npmjs.com/package/webpack-shell-plugin-next)" to package.json's "devDependencies" section.
 
@@ -155,7 +122,7 @@ mix.webpackConfig({
 
 This is a quick documentation regarding [Lang.js](https://github.com/rmariuzzo/lang.js) (the thin JavaScript library included by `Laravel-JS-Localization`). The [Lang.js](https://github.com/rmariuzzo/lang.js) (a thin library highly inspired on Laravel's [`Translator`](https://laravel.com/api/5.3/Illuminate/Translation/Translator.html) class).
 
- > 💁 Go to [Lang.js documentation]([Lang.js](https://github.com/rmariuzzo/lang.js)) to see all available methods.
+ > 💁 Go to [Lang.js documentation](https://github.com/rmariuzzo/lang.js) to see all available methods.
 
 ### Getting a message
 
@@ -193,7 +160,7 @@ Lang.choice('messages.apples', 10);
 Lang.choice('messages.apples', 10, { name: 'Joe' });
 ```
 
-> 💁 Go to [Lang.js documentation]([Lang.js](https://github.com/rmariuzzo/lang.js)) to see all available methods.
+> 💁 Go to [Lang.js documentation](https://github.com/rmariuzzo/lang.js) to see all available methods.
 
 ## Want to contribute?
 
@@ -206,7 +173,7 @@ Lang.choice('messages.apples', 10, { name: 'Joe' });
 You will need to have installed the following softwares.
 
  - Composer.
- - PHP 5.5+.
+ - PHP 8.0+.
 
 ### Development setup
 
